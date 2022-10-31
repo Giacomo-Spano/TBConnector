@@ -78,15 +78,13 @@ public class TopicSubscriber implements Runnable {
 							"\nReceived a Message!" + "\n\tTime:    " + time + "\n\tTopic:   " + topic + "\n\tMessage: "
 									+ new String(message.getPayload()) + "\n\tQoS:     " + message.getQos() + "\n");
 
-					String publishtopic = configuration.getThingsboardMQTTPublishTopic();//"v1/devices/me/telemetry";
-					String publishmsg = "{\"power\":\"" + new String(message.getPayload()) + "\"}";
-
 					Iterator<Device> deviceIterator = configuration.devices.iterator();
 					while (deviceIterator.hasNext()) {
 						Device device = deviceIterator.next();
 						if (topic.equals(device.getPowertopic())) {
 
-							try {
+							device.receiveMessage(topic,new String(message.getPayload()));
+							/*try {
 								TopicPublisher publisher = new TopicPublisher();
 								publisher.createConnection(configuration.getThingsboardMQTThost(), device.getToken(),"");
 								publisher.publishMessage(publishtopic, publishmsg);
@@ -94,8 +92,8 @@ public class TopicSubscriber implements Runnable {
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							}
-							break;
+							}*/
+							//break;
 						}
 					}
 				}
@@ -159,8 +157,10 @@ public class TopicSubscriber implements Runnable {
 		// unrecognized fields
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+		System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
 		mapper.findAndRegisterModules();
-		configuration = mapper.readValue(new File("c:\\scratch\\configuration.yaml"), Configuration.class);
+		configuration = mapper.readValue(new File("config/configuration.yaml"), Configuration.class);
 
 		TopicSubscriber ts = new TopicSubscriber();
 		ts.start();

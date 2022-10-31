@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="TBConnector:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TBConnector_jar</output-path>
+    <root id="root">
+      <element id="archive" name="TBConnector.jar">
+        <element id="module-output" name="TBConnector" />
+      </element>
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.2" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.2" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.2" />
+      <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
+      <element id="library" level="project" name="Maven: org.json:json:20220924" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.2" />
+      <element id="library" level="project" name="Maven: org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.14.0-rc3" />
+      <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.27" />
+      <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
+    </root>
+  </artifact>
+</component>

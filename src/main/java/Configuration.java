@@ -2,14 +2,15 @@
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Configuration {
-	private String deviceMQTThost;
-	private String deviceMQTTuser;
-	private String deviceMQTTpassword;
-	private String thingsboardMQTThost;
-	private String thingsboardMQTTPublishTopic;
+	private static String deviceMQTThost;
+	private static String deviceMQTTuser;
+	private static String deviceMQTTpassword;
+	private static String thingsboardMQTThost;
+	private static String thingsboardMQTTPublishTopic;
 	
    /* private String orderNo;
     private LocalDate date;
@@ -55,7 +56,7 @@ public class Configuration {
 		this.deviceMQTTpassword = deviceMQTTpassword;
 	}
 
-	public String getThingsboardMQTThost() {
+	public static String getThingsboardMQTThost() {
 		return thingsboardMQTThost;
 	}
 
@@ -63,7 +64,7 @@ public class Configuration {
 		this.thingsboardMQTThost = thingsboardMQTThost;
 	}
 
-	public String getThingsboardMQTTPublishTopic() {
+	public static String getThingsboardMQTTPublishTopic() {
 		return thingsboardMQTTPublishTopic;
 	}
 
@@ -106,7 +107,22 @@ public class Configuration {
         if (devices == null) {
         	devices = new ArrayList<>();
         }
-        this.devices = devices;
+
+        //this.devices = devices;
+		this.devices = new ArrayList<>();
+		Iterator<Device> deviceIterator = devices.iterator();
+		while (deviceIterator.hasNext()) {
+			Device device = deviceIterator.next();
+			if (device.getType().equals("shelly25")) {
+				Shelly25 newDevice = new Shelly25(device);
+				this.devices.add(newDevice);
+			} else if (device.getType().equals("Shelly4PMPRO")) {
+				Shelly4PMPRO newDevice = new Shelly4PMPRO(device);
+				this.devices.add(newDevice);
+			} else {
+				System.out.println("Error: Unknown device type: " + device.getType());
+			}
+		}
     }
 
     @Override

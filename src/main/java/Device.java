@@ -15,6 +15,14 @@ public class Device {
         
     }
 
+	public Device(Device device) {
+		this.name = device.name;
+		this.type = device.type;
+		this.id = device.id;
+		this.token = device.token;
+		this.powertopic = device.powertopic;
+	}
+
     public Device(String name, String type, String token) {
         super();
         this.name = name;
@@ -66,4 +74,8 @@ public class Device {
     public String toString() {
         return "Devicee [name=" + name + ", type=" + type + ", token=" + token + "]";
     }
+
+	public void receiveMessage(String topic, String message) {
+
+	}
 }
