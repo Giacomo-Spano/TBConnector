@@ -1,2 +1,7 @@
 docker build -t japp .
 docker run -it --rm japp
+
+
+C:\Users\giaco\IdeaProjects\TBConnector\src\main\java> docker cp "C:\Users\giaco\IdeaProjects\TBConnector\out\artifacts\TBConnector_jar\TBConnector.jar" 2929aca3f540:"app/TBConnector/TBConnector.jar"
+
+docker cp configuration.yaml 2929aca3f540:"configuration.yaml"
