@@ -1,4 +1,5 @@
 FROM eclipse-temurin:18
+RUN apt-get update && apt-get install -y systemd
 RUN mkdir /app
 RUN mkdir /app/TBConnector
 COPY /TBConnector/*.jar /app/TBConnector

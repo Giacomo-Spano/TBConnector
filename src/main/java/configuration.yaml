@@ -44,3 +44,8 @@ devices:
       id: 3a443250-5871-11ed-87e1-8393729a37a1
       token: 9fOjfFAl0wH6pvbfAqPu
       powertopic: ShellyPro4PM-84CCA87F1660/status/switch:3
+    - name: computer
+      type: Shelly1PM
+      id: 52dff030-5c20-11ed-8397-8393729a37a1
+      token: FPWUAGX2hjqfb6uCIcac
+      powertopic: shellies/shelly1pm-box/relay/0/power

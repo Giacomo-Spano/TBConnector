@@ -116,6 +116,9 @@ public class Configuration {
 			if (device.getType().equals("shelly25")) {
 				Shelly25 newDevice = new Shelly25(device);
 				this.devices.add(newDevice);
+			} else if (device.getType().equals("Shelly1PM")) {
+				Shelly1PM newDevice = new Shelly1PM(device);
+				this.devices.add(newDevice);
 			} else if (device.getType().equals("Shelly4PMPRO")) {
 				Shelly4PMPRO newDevice = new Shelly4PMPRO(device);
 				this.devices.add(newDevice);
