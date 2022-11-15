@@ -1,3 +1,5 @@
+package exporter;
+
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
@@ -13,7 +15,8 @@ public class Shelly4PMPRO extends Device {
         //Last measured instantaneous active power (in Watts) delivered to the attached load
         // (shown if applicable)Last measured instantaneous active power (in Watts) delivered
         // to the attached load (shown if applicable)
-        String power = jo.get("apower").toString();
+        String strpower = jo.get("apower").toString();
+        double power = Double.valueOf(strpower);
 
         //Last measured voltage in Volts (shown if applicable)
         String voltage = jo.get("voltage").toString();
@@ -23,7 +26,7 @@ public class Shelly4PMPRO extends Device {
 
         //PostgresPublisher postgresPublisher = new PostgresPublisher();
         //postgresPublisher.publish(getId(),getName(),Float.valueOf(power));
-        publishPowerMessage(localDateTime, message);
+        publishPowerMessage(localDateTime, power);
 
 
         /*try {

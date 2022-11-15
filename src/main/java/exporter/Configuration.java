@@ -1,6 +1,5 @@
-//package com.baeldung.jackson.yaml; XXXXXX
+package exporter;//package com.baeldung.jackson.yaml; XXXXXX
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

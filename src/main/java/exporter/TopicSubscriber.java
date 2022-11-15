@@ -1,12 +1,10 @@
-//  aaa
+package exporter;//  aaa
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -155,7 +153,8 @@ public class TopicSubscriber implements Runnable {
 		running.set(false);
 	}
 
-	public static void main(String[] args) throws IOException {
+	//public static void main(String[] args) throws IOException {
+	public  void init()  {
 
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		// configuring the objectMapper to ignore the error in case we have some
@@ -165,7 +164,11 @@ public class TopicSubscriber implements Runnable {
 		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 
 		mapper.findAndRegisterModules();
-		configuration = mapper.readValue(new File("config/configuration.yaml"), Configuration.class);
+		try {
+			configuration = mapper.readValue(new File("config/configuration.yaml"), Configuration.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		TopicSubscriber ts = new TopicSubscriber();
 		ts.start();

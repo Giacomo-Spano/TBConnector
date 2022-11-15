@@ -1,18 +1,23 @@
+package exporter;
+
 import java.time.LocalDateTime;
 
-public class Shelly25 extends Device  {
 
 
+public class Shelly1PM extends Device  {
 
-    public Shelly25(Device device) {
+    public Shelly1PM(Device device) {
         super(device);
     }
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
 
-        String power = message;
+        //String power = message;
+        double power = Double.valueOf(message);
+
+
 
         //PostgresPublisher postgresPublisher = new PostgresPublisher();
-        //postgresPublisher.publish(getId(),getName(),Float.valueOf(message));
+        //postgresPublisher.publish(getId(), getName(), Float.valueOf(message));
         publishPowerMessage(localDateTime, power);
 
 

@@ -1,8 +1,7 @@
-//package com.baeldung.jackson.yaml;
+package exporter;//package com.baeldung.jackson.yaml;
 
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Device {
@@ -82,15 +81,17 @@ public class Device {
 
 	}
 
-	public void publishPowerMessage(LocalDateTime localDateTime, String power) {
+	public void publishPowerMessage(LocalDateTime localDateTime, double power) {
 
 		JSONObject jo = new JSONObject();
 		jo.put("time", localDateTime.toString());
-		jo.put("power", Double.valueOf(power));
+		jo.put("power", power);
 
-		publishPostgresPowerMessage(localDateTime,power);
+		//publishPostgresPowerMessage(localDateTime,power);
 
-		publishMQTTPowerMessage(localDateTime,power);
+		//publishMQTTPowerMessage(localDateTime,power);
+
+		PrometheusPublisher.publishPowerMetric(localDateTime,power);
 	}
 
 	public void publishPostgresPowerMessage(LocalDateTime localDateTime, String power) {
@@ -111,5 +112,9 @@ public class Device {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void publishPrometheus(LocalDateTime localDateTime, String power) {
+
 	}
 }

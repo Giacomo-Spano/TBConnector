@@ -1,10 +1,9 @@
+package exporter;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.ZoneId;
 
 public class PostgresPublisher {

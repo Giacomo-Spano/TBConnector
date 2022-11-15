@@ -1,3 +1,18 @@
 Manifest-Version: 1.0
-Main-Class: TopicSubscriber
+Main-Class: exporter.Main
+Class-Path: org.eclipse.paho.client.mqttv3-1.2.5.jar simpleclient_tracer
+ _common-0.16.0.jar riddley-0.1.12.jar simpleclient_httpserver-0.16.0.ja
+ r httpcore-4.4.11.jar clj-tuple-0.2.2.jar snakeyaml-1.31.jar slingshot-
+ 0.12.2.jar json-20220924.jar clometheus-pushgateway-0.1.0.jar tools.log
+ ging-1.1.0.jar clometheus-0.2.0.jar jackson-annotations-2.14.0-rc3.jar 
+ httpasyncclient-4.1.4.jar simpleclient_common-0.16.0.jar simpleclient_t
+ racer_otel_agent-0.16.0.jar httpmime-4.5.8.jar jackson-dataformat-yaml-
+ 2.13.4.jar checker-qual-3.5.0.jar jackson-datatype-jsr310-2.13.4.jar ja
+ ckson-databind-2.13.4.2.jar jackson-core-2.13.4.jar clojure-1.10.3.jar 
+ at-at-1.2.0.jar core.specs.alpha-0.2.56.jar jackson-core-asl-1.9.13.jar
+  potemkin-0.4.5.jar httpclient-cache-4.5.8.jar commons-logging-1.2.jar 
+ spec.alpha-0.2.194.jar commons-codec-1.12.jar postgresql-42.5.0.jar clj
+ -http-3.10.0.jar httpcore-nio-4.4.10.jar simpleclient-0.16.0.jar simple
+ client_tracer_otel-0.16.0.jar httpclient-4.5.8.jar jackson-mapper-asl-1
+ .9.13.jar simpleclient_hotspot-0.16.0.jar commons-io-2.6.jar
 
