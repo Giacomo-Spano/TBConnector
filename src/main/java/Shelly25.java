@@ -1,10 +1,22 @@
+import java.time.LocalDateTime;
+
 public class Shelly25 extends Device  {
+
+
 
     public Shelly25(Device device) {
         super(device);
     }
-    public void receiveMessage(String topic, String message) {
-        try {
+    public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
+
+        String power = message;
+
+        //PostgresPublisher postgresPublisher = new PostgresPublisher();
+        //postgresPublisher.publish(getId(),getName(),Float.valueOf(message));
+        publishPowerMessage(localDateTime, power);
+
+
+        /*try {
             String publishTopic = Configuration.getThingsboardMQTTPublishTopic();//"v1/devices/me/telemetry";
             String publishMsg = "{\"power\":\"" + message + "\"}";
 
@@ -15,6 +27,6 @@ public class Shelly25 extends Device  {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
     }
 }

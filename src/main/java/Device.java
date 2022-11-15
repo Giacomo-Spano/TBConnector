@@ -1,6 +1,9 @@
 //package com.baeldung.jackson.yaml;
 
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Device {
     
@@ -75,7 +78,38 @@ public class Device {
         return "Devicee [name=" + name + ", type=" + type + ", token=" + token + "]";
     }
 
-	public void receiveMessage(String topic, String message) {
+	public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
 
+	}
+
+	public void publishPowerMessage(LocalDateTime localDateTime, String power) {
+
+		JSONObject jo = new JSONObject();
+		jo.put("time", localDateTime.toString());
+		jo.put("power", Double.valueOf(power));
+
+		publishPostgresPowerMessage(localDateTime,power);
+
+		publishMQTTPowerMessage(localDateTime,power);
+	}
+
+	public void publishPostgresPowerMessage(LocalDateTime localDateTime, String power) {
+		PostgresPublisher postgresPublisher = new PostgresPublisher();
+		postgresPublisher.publish(localDateTime, getId(), getName(), Float.valueOf(power));
+	}
+
+	public void publishMQTTPowerMessage(LocalDateTime localDateTime, String power) {
+		try {
+			String publishTopic = Configuration.getThingsboardMQTTPublishTopic();//"v1/devices/me/telemetry";
+			String publishMsg = "{\"power\":\"" + power + "\"}";
+
+			TopicPublisher publisher = new TopicPublisher();
+			publisher.createConnection(Configuration.getThingsboardMQTThost(), getToken(),"");
+			publisher.publishMessage(publishTopic, publishMsg);
+			publisher.closeConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

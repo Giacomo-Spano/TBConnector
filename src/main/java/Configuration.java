@@ -6,24 +6,41 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Configuration {
+
+	// device MQTT setting
 	private static String deviceMQTThost;
 	private static String deviceMQTTuser;
 	private static String deviceMQTTpassword;
+
+	// ThihngsBoard settings
 	private static String thingsboardMQTThost;
 	private static String thingsboardMQTTPublishTopic;
-	
-   /* private String orderNo;
-    private LocalDate date;
-    private String customerName;*/
+
+	// PostGres settings
+	private static String postgresURL;
+
+	private static String postgresDBName;
+
+	private static String postgresPort;
+	private static String postgresUser;
+	private static String postgresPassword;
+
+    // Devices settings
     List<Device> devices;
 
     public Configuration() {
 
     }
 
-    public Configuration(String deviceMQTThost, String deviceMQTTuser, String deviceMQTTpassword, String thingsboardMQTThost,
-    					String thingsboardMQTTPublishTopic, List<Device> devices) {
+    public Configuration(String postgresURL, String postgresPort, String postgresDBName, String postgresUser, String postgresPassword,
+						 	String deviceMQTThost, String deviceMQTTuser, String deviceMQTTpassword, String thingsboardMQTThost,
+    						String thingsboardMQTTPublishTopic, List<Device> devices) {
         super();
+		this.postgresURL = postgresURL;
+		this.postgresPort = postgresPort;
+		this.postgresDBName = postgresDBName;
+		this.postgresUser = postgresUser;
+		this.postgresPassword = postgresPassword;
         this.deviceMQTThost = deviceMQTThost;
         this.deviceMQTTuser = deviceMQTTuser;
         this.deviceMQTTpassword = deviceMQTTpassword;
@@ -70,6 +87,46 @@ public class Configuration {
 
 	public void setThingsboardMQTTPublishTopic(String thingsboardMQTTPublishTopic) {
 		this.thingsboardMQTTPublishTopic = thingsboardMQTTPublishTopic;
+	}
+
+	public static String getPostgresURL() {
+		return postgresURL;
+	}
+
+	public void setPostgresURL(String postgresURL) {
+		this.postgresURL = postgresURL;
+	}
+
+	public static String getPostgresDBName() {
+		return postgresDBName;
+	}
+
+	public void setPostgresDBName(String postgresDBName) {
+		this.postgresDBName = postgresDBName;
+	}
+
+	public static String getPostgresPort() {
+		return postgresPort;
+	}
+
+	public void setPostgresPort(String postgresPort) {
+		this.postgresPort = postgresPort;
+	}
+
+	public static String getPostgresUser() {
+		return postgresUser;
+	}
+
+	public void setPostgresUser(String postgresUser) {
+		this.postgresUser = postgresUser;
+	}
+
+	public static String getPostgresPassword() {
+		return postgresPassword;
+	}
+
+	public void setPostgresPassword(String postgresPassword) {
+		this.postgresPassword = postgresPassword;
 	}
 
 	/*public String getOrderNo() {

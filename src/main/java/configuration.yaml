@@ -1,3 +1,9 @@
+postgresURL: 192.168.1.209
+postgresPort: 5432
+postgresDBName: postgres
+postgresUser: postgres
+postgresPassword: docker
+
 deviceMQTThost: giacomocasa.duckdns.org:1883
 deviceMQTTuser: giacomo
 deviceMQTTpassword: giacomo

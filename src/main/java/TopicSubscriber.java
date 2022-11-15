@@ -2,6 +2,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Scanner;
@@ -73,9 +75,12 @@ public class TopicSubscriber implements Runnable {
 				public void messageArrived(String topic, MqttMessage message) throws Exception {
 					// Called when a message arrives from the server that
 					// matches any subscription made by the client
+					LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
+					System.out.println(localDateTime);
+
 					String time = new Timestamp(System.currentTimeMillis()).toString();
 					System.out.println(
-							"\nReceived a Message!" + "\n\tTime:    " + time + "\n\tTopic:   " + topic + "\n\tMessage: "
+							"\nReceived a Message!" + "\n\tTime:    " + localDateTime/*time*/ + "\n\tTopic:   " + topic + "\n\tMessage: "
 									+ new String(message.getPayload()) + "\n\tQoS:     " + message.getQos() + "\n");
 
 					Iterator<Device> deviceIterator = configuration.devices.iterator();
@@ -83,7 +88,7 @@ public class TopicSubscriber implements Runnable {
 						Device device = deviceIterator.next();
 						if (topic.equals(device.getPowertopic())) {
 
-							device.receiveMessage(topic,new String(message.getPayload()));
+							device.receiveMessage(localDateTime, topic,new String(message.getPayload()));
 							/*try {
 								TopicPublisher publisher = new TopicPublisher();
 								publisher.createConnection(configuration.getThingsboardMQTThost(), device.getToken(),"");
@@ -135,7 +140,7 @@ public class TopicSubscriber implements Runnable {
 
 			// Disconnect the client
 			mqttClient.disconnect();
-			System.out.println("Exiting--");
+			//System.out.println("Exiting--");
 			
 
 			//System.exit(0);

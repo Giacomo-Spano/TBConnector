@@ -1,10 +1,12 @@
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+
 public class Shelly4PMPRO extends Device {
     public Shelly4PMPRO(Device device) {
         super(device);
     }
-    public void receiveMessage(String topic, String message) {
+    public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
         //https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Switch/
 
         JSONObject jo = new JSONObject(message);
@@ -19,8 +21,12 @@ public class Shelly4PMPRO extends Device {
         // Last measured current in Amperes (shown if applicable)
         String current = jo.get("current").toString();
 
+        //PostgresPublisher postgresPublisher = new PostgresPublisher();
+        //postgresPublisher.publish(getId(),getName(),Float.valueOf(power));
+        publishPowerMessage(localDateTime, message);
 
-        try {
+
+        /*try {
             String publishTopic = Configuration.getThingsboardMQTTPublishTopic();//"v1/devices/me/telemetry";
             String publishMsg = "{\"power\":\"" + power + "\"}";
 
@@ -31,7 +37,7 @@ public class Shelly4PMPRO extends Device {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
 
 
 
