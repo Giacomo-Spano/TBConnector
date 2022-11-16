@@ -165,7 +165,7 @@ public class TopicSubscriber implements Runnable {
 
 		mapper.findAndRegisterModules();
 		try {
-			configuration = mapper.readValue(new File("config/configuration.yaml"), Configuration.class);
+			configuration = mapper.readValue(new File("./config/configuration.yaml"), Configuration.class);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

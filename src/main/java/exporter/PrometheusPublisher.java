@@ -10,10 +10,16 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 public final class PrometheusPublisher {
-    static Counter counter = Counter.build().namespace("java").name("my_counter").help("This is my counter").register();
-    static Gauge gauge = Gauge.build().namespace("java").name("my_gauge").help("This is my gauge").register();
-    static Histogram histogram = Histogram.build().namespace("java").name("my_histogram").help("This is my histogram").register();
-    static Summary summary = Summary.build().namespace("java").name("my_summary").help("This is my summary").register();
+    static Counter counter = Counter.build().namespace("energydashboard").name("my_counter").help("This is my counter").register();
+    static Gauge powerGauge = Gauge.build().namespace("energydashboard").name("power").help("This is power gauge").labelNames("name", "type").register();
+    static Histogram histogram = Histogram.build().namespace("energydashboard").name("my_histogram").help("This is my histogram").register();
+    static Summary summary = Summary.build().namespace("energydashboard").name("my_summary").help("This is my summary").register();
+
+    void processRequest() {
+        powerGauge.inc();
+        // Your code here.
+        powerGauge.dec();
+    }
 
     public static void init() {
 
@@ -29,11 +35,11 @@ public final class PrometheusPublisher {
         return min + (Math.random() * (max - min));
     }
 
-    public static void publishPowerMetric(LocalDateTime localDateTime, double power) {
+    public static void publishPowerMetric(String name, String type, LocalDateTime localDateTime, double power) {
 
         try {
             counter.inc(rand(0, 5));
-            gauge.set(power);
+            powerGauge.labels(name, type).set(power);
             histogram.observe(rand(0, 5));
             summary.observe(rand(0, 5));
 

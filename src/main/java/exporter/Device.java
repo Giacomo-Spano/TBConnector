@@ -91,7 +91,7 @@ public class Device {
 
 		//publishMQTTPowerMessage(localDateTime,power);
 
-		PrometheusPublisher.publishPowerMetric(localDateTime,power);
+		PrometheusPublisher.publishPowerMetric(name, type, localDateTime,power);
 	}
 
 	public void publishPostgresPowerMessage(LocalDateTime localDateTime, String power) {
