@@ -1,0 +1,15 @@
+name: prova
+mqtthost: giacomocasa.duckdns.org:1883
+mqttuser: giacomo
+mqttpassword: giacomo
+jobs:
+  - name: lane1xxx
+    type: lane
+    topic: "xxx/yyy1"
+    start: "0 46 17 1/1 * ? *"
+    shutdown: "0 47 17 1/1 * ? *"
+  - name: lane2
+    type: lane
+    topic: "xxx/yyy2"
+    start: "0 47 14 1/1 * ? *"
+    shutdown: "0 45 14 1/1 * ? *"

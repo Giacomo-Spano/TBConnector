@@ -1,6 +1,7 @@
 package exporter;
 
 import io.prometheus.client.exporter.HTTPServer;
+import scheduler.MyScheduler;
 
 import java.io.IOException;
 
@@ -30,6 +31,9 @@ public class Main {
             }
         });
         bgThread.start();*/
+
+        MyScheduler myScheduler = new MyScheduler();
+        myScheduler.init();
 
         PrometheusPublisher.init();
 

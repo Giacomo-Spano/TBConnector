@@ -55,3 +55,8 @@ devices:
       id: 52dff030-5c20-11ed-8397-8393729a37a1
       token: FPWUAGX2hjqfb6uCIcac
       powertopic: shellies/shelly1pm-box/relay/0/power
+
+agent:
+    - mqtthost: giacomocasa.duckdns.org:1883
+      mqttuser: giacomo
+      mqttpassword: giacomo
