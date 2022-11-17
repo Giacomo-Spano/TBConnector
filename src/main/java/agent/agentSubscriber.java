@@ -3,8 +3,7 @@ package agent;//  aaa
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import exporter.Configuration;
-import exporter.Device;
+import config.Configuration;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.io.File;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -45,9 +43,9 @@ public class agentSubscriber implements Runnable {
 
 		System.out.println("TopicSubscriber initializing...");
 
-		String host = "tcp://" + configuration.getDeviceMQTThost();// "tcp://giacomocasa.duckdns.org:1883";
-		String username = configuration.getDeviceMQTTuser();// "giacomo";
-		String password = configuration.getDeviceMQTTpassword();// "giacomo";
+		String host = "";//configuration.getDeviceMQTThost();// "tcp://giacomocasa.duckdns.org:1883";
+		String username = "";//configuration.getDeviceMQTTuser();// "giacomo";
+		String password = "";//configuration.getDeviceMQTTpassword();// "giacomo";
 
 		try {
 			// Create an Mqtt client
@@ -77,24 +75,16 @@ public class agentSubscriber implements Runnable {
 							"\nReceived a Message!" + "\n\tTime:    " + localDateTime/*time*/ + "\n\tTopic:   " + topic + "\n\tMessage: "
 									+ new String(message.getPayload()) + "\n\tQoS:     " + message.getQos() + "\n");
 
-					Iterator<Device> deviceIterator = configuration.devices.iterator();
+					/*Iterator<Device> deviceIterator = configuration.devices.iterator();
 					while (deviceIterator.hasNext()) {
 						Device device = deviceIterator.next();
 						if (topic.equals(device.getPowertopic())) {
 
 							device.receiveMessage(localDateTime, topic,new String(message.getPayload()));
-							/*try {
-								TopicPublisher publisher = new TopicPublisher();
-								publisher.createConnection(configuration.getThingsboardMQTThost(), device.getToken(),"");
-								publisher.publishMessage(publishtopic, publishmsg);
-								publisher.closeConnection();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}*/
+
 							//break;
 						}
-					}
+					}*/
 				}
 
 				public void connectionLost(Throwable cause) {
@@ -107,7 +97,7 @@ public class agentSubscriber implements Runnable {
 
 			});
 
-			if (configuration.devices.size() == 0)
+			/*if (configuration.devices.size() == 0)
 				return;
 
 			for (int i = 0; i < configuration.devices.size(); i++) {
@@ -117,7 +107,7 @@ public class agentSubscriber implements Runnable {
 				System.out.println("Subscribing client to topic: " + powertopic);
 				mqttClient.subscribe(powertopic, 0);
 
-			}
+			}*/
 			System.out.println("Subscribed. Wait for the message to be received");
 
 			// Wait for the message to be received

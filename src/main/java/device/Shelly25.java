@@ -1,8 +1,10 @@
-package exporter;
+package device;
+
+import device.Device;
 
 import java.time.LocalDateTime;
 
-public class Shelly25 extends Device  {
+public class Shelly25 extends Device {
 
 
 

@@ -1,20 +1,20 @@
 Manifest-Version: 1.0
-Main-Class: exporter.Main
-Class-Path: jackson-mapper-asl-1.9.13.jar core.specs.alpha-0.2.56.jar ht
- tpcore-4.4.11.jar tools.logging-1.1.0.jar jackson-annotations-2.14.0-rc
- 3.jar clojure-1.10.3.jar httpcore-nio-4.4.10.jar commons-io-2.6.jar htt
- pasyncclient-4.1.4.jar clj-http-3.10.0.jar clometheus-0.2.0.jar simplec
- lient_httpserver-0.16.0.jar HikariCP-java7-2.4.13.jar json-20220924.jar
-  c3p0-0.9.5.4.jar at-at-1.2.0.jar jackson-datatype-jsr310-2.13.4.jar si
- mpleclient_hotspot-0.16.0.jar checker-qual-3.5.0.jar commons-codec-1.12
- .jar clj-tuple-0.2.2.jar clometheus-pushgateway-0.1.0.jar riddley-0.1.1
- 2.jar jackson-core-asl-1.9.13.jar potemkin-0.4.5.jar org.eclipse.paho.c
- lient.mqttv3-1.2.5.jar simpleclient_common-0.16.0.jar httpclient-4.5.8.
- jar slf4j-api-1.7.7.jar spec.alpha-0.2.194.jar quartz-2.3.2.jar simplec
- lient_tracer_common-0.16.0.jar commons-logging-1.2.jar jackson-databind
- -2.13.4.2.jar httpmime-4.5.8.jar slingshot-0.12.2.jar simpleclient_trac
- er_otel-0.16.0.jar jackson-dataformat-yaml-2.13.4.jar jackson-core-2.13
- .4.jar snakeyaml-1.31.jar simpleclient_tracer_otel_agent-0.16.0.jar htt
- pclient-cache-4.5.8.jar mchange-commons-java-0.2.15.jar postgresql-42.5
- .0.jar simpleclient-0.16.0.jar
+Main-Class: Main
+Class-Path: commons-logging-1.2.jar c3p0-0.9.5.4.jar jackson-core-2.13.4
+ .jar httpclient-4.5.8.jar jackson-databind-2.13.4.2.jar jackson-annotat
+ ions-2.14.0-rc3.jar slf4j-api-1.7.7.jar simpleclient_tracer_otel_agent-
+ 0.16.0.jar postgresql-42.5.0.jar httpmime-4.5.8.jar riddley-0.1.12.jar 
+ mchange-commons-java-0.2.15.jar simpleclient_tracer_otel-0.16.0.jar sna
+ keyaml-1.31.jar simpleclient_hotspot-0.16.0.jar simpleclient_httpserver
+ -0.16.0.jar org.eclipse.paho.client.mqttv3-1.2.5.jar clj-tuple-0.2.2.ja
+ r jackson-mapper-asl-1.9.13.jar jackson-core-asl-1.9.13.jar quartz-2.3.
+ 2.jar simpleclient_common-0.16.0.jar commons-codec-1.12.jar at-at-1.2.0
+ .jar simpleclient_tracer_common-0.16.0.jar httpcore-nio-4.4.10.jar comm
+ ons-io-2.6.jar potemkin-0.4.5.jar jackson-dataformat-yaml-2.13.4.jar ht
+ tpasyncclient-4.1.4.jar simpleclient-0.16.0.jar tools.logging-1.1.0.jar
+  checker-qual-3.5.0.jar json-20220924.jar httpclient-cache-4.5.8.jar cl
+ j-http-3.10.0.jar HikariCP-java7-2.4.13.jar core.specs.alpha-0.2.56.jar
+  clometheus-0.2.0.jar clometheus-pushgateway-0.1.0.jar spec.alpha-0.2.1
+ 94.jar slingshot-0.12.2.jar clojure-1.10.3.jar httpcore-4.4.11.jar jack
+ son-datatype-jsr310-2.13.4.jar
 

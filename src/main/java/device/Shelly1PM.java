@@ -1,10 +1,12 @@
-package exporter;
+package device;
+
+import device.Device;
 
 import java.time.LocalDateTime;
 
 
 
-public class Shelly1PM extends Device  {
+public class Shelly1PM extends Device {
 
     public Shelly1PM(Device device) {
         super(device);

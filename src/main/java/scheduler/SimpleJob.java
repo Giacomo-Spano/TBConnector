@@ -1,7 +1,6 @@
 package scheduler;
 
-import exporter.Configuration;
-import exporter.TopicPublisher;
+import helper.MQTTTopicPublisher;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -18,7 +17,7 @@ public class SimpleJob implements Job {
         try {
             String publishMsg = command;
 
-            TopicPublisher publisher = new TopicPublisher();
+            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             publisher.createConnection(Schedule.getMQTThost(), Schedule.getMQTTuser(),Schedule.getMQTTpassword());
             publisher.publishMessage(topic, publishMsg);
             publisher.closeConnection();

@@ -1,6 +1,4 @@
-package exporter;//  aaa
-import java.io.File;
-import java.io.IOException;
+package importer;//  aaa
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -8,6 +6,8 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import config.Configuration;
+import device.Device;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -15,21 +15,19 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
 /**
  * A Mqtt topic subscriber
  *
  */
-public class TopicSubscriber implements Runnable {
+public class MQTTImporterTopicSubscriber implements Runnable {
 
 	private Thread worker;
 	private final static AtomicBoolean running = new AtomicBoolean(false);
 	private int interval;
 
-	static Configuration configuration;
+	private static String _host;
+	private static String _username;
+	private static String _password;
 
 	public void ControlSubThread(int sleepInterval) {
 		interval = sleepInterval;
@@ -49,9 +47,9 @@ public class TopicSubscriber implements Runnable {
 
 		System.out.println("TopicSubscriber initializing...");
 
-		String host = "tcp://" + configuration.getDeviceMQTThost();// "tcp://giacomocasa.duckdns.org:1883";
-		String username = configuration.getDeviceMQTTuser();// "giacomo";
-		String password = configuration.getDeviceMQTTpassword();// "giacomo";
+		String host =  "tcp://" + _host;//"tcp://giacomocasa.duckdns.org:1883";
+		String username = _username;//"giacomo";
+		String password = _password;//"giacomo";
 
 		try {
 			// Create an Mqtt client
@@ -81,7 +79,7 @@ public class TopicSubscriber implements Runnable {
 							"\nReceived a Message!" + "\n\tTime:    " + localDateTime/*time*/ + "\n\tTopic:   " + topic + "\n\tMessage: "
 									+ new String(message.getPayload()) + "\n\tQoS:     " + message.getQos() + "\n");
 
-					Iterator<Device> deviceIterator = configuration.devices.iterator();
+					Iterator<Device> deviceIterator = Configuration.getDevices().iterator();
 					while (deviceIterator.hasNext()) {
 						Device device = deviceIterator.next();
 						if (topic.equals(device.getPowertopic())) {
@@ -111,11 +109,11 @@ public class TopicSubscriber implements Runnable {
 
 			});
 
-			if (configuration.devices.size() == 0)
+			if (Configuration.getDevices().size() == 0)
 				return;
 
-			for (int i = 0; i < configuration.devices.size(); i++) {
-				Device device = configuration.devices.get(i);
+			for (int i = 0; i < Configuration.getDevices().size(); i++) {
+				Device device = Configuration.getDevices().get(i);
 				String powertopic = device.getPowertopic();
 
 				System.out.println("Subscribing client to topic: " + powertopic);
@@ -154,23 +152,13 @@ public class TopicSubscriber implements Runnable {
 	}
 
 	//public static void main(String[] args) throws IOException {
-	public  void init()  {
+	public  void init(String host, String username, String password)  {
 
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		// configuring the objectMapper to ignore the error in case we have some
-		// unrecognized fields
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		this._host = host;
+		this._username = username;
+		this._password = password;
 
-		System.out.println("Working Directory = " + System.getProperty("user.dir"));
-
-		mapper.findAndRegisterModules();
-		try {
-			configuration = mapper.readValue(new File("./config/configuration.yaml"), Configuration.class);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		TopicSubscriber ts = new TopicSubscriber();
+		MQTTImporterTopicSubscriber ts = new MQTTImporterTopicSubscriber();
 		ts.start();
 		
 		try {

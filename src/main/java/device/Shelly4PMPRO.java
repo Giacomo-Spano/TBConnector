@@ -1,5 +1,6 @@
-package exporter;
+package device;
 
+import device.Device;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
