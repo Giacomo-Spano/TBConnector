@@ -73,9 +73,5 @@ agent:
     mqtthost: giacomocasa.duckdns.org:1883
     mqttuser: giacomo
     mqttpassword: giacomo
-  - name: configurazione2
-    mqtthost: giacomocasa.duckdns.org:1883
-    mqttuser: giacomo
-    mqttpassword: giacomo
 
 

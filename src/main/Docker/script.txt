@@ -2,6 +2,30 @@ docker build -t japp .
 docker run -it --rm japp
 
 
-C:\Users\giaco\IdeaProjects\TBConnector\src\main\java> docker cp "C:\Users\giaco\IdeaProjects\TBConnector\out\artifacts\TBConnector_jar\TBConnector.jar" 2929aca3f540:"app/TBConnector/TBConnector.jar"
+C:\Users\giaco\IdeaProjects\TBConnector\src\main\java> docker cp "C:\Users\giaco\IdeaProjects\TBConnector\out\artifacts\TBConnector_jar\TBConnector.jar" 02c783f9f421:"app/TBConnector/TBConnector.jar"
 
 docker cp configuration.yaml 2929aca3f540:"configuration.yaml"
+
+
+
+docker cp C:\Users\giaco\IdeaProjects\TBConnector\out\artifacts\config\configuration.yaml 02c783f9f421:"app/config/configuration.yaml"
+docker cp "home/giacomo/TBConnector/*.jar" 02c783f9f421:"app/TBConnector/*.jar"
+docker cp "home/giacomo/TBConnector/config/*.yaml" 02c783f9f421:"app/TBConnector/config/*.yaml"
+
+
+copy full directory
+sudo docker cp /home/giacomo/TBConnector/. 02c783f9f421:/app/TBConnector/
+
+single file
+sudo docker cp /home/giacomo/TBConnector/config/configuration.yaml 02c783f9f421:/app/TBConnector/config/configuration.yaml
+sudo docker cp /home/giacomo/TBConnector/TBConnector.jar 02c783f9f421:/app/TBConnector/TBConnector.jar
+
+
+// Build and run Dockerfile
+sudo docker build -t tbconnector .
+sudo docker run -dp 8080:8080 tbconnector
+
+
+
+// docker bash
+docker exec -it <mycontainer> bash

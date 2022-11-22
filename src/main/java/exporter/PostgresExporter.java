@@ -12,6 +12,9 @@ import java.time.ZoneId;
 public class PostgresExporter extends Exporter {
     public PostgresExporter(Exporter exporter) {
         this.setName(exporter.getName());
+        this.setThost(exporter.gethost());
+        this.setDBname(exporter.getDBname());
+        this.setPort(exporter.getPort());
     }
 
     public void publishPowerMetric(String name, String type, String token, LocalDateTime localDateTime, double power) {
@@ -51,5 +54,9 @@ public class PostgresExporter extends Exporter {
             System.err.println(e.getClass().getName()+": "+e.getMessage());
             //System.exit(0);
         }
+    }
+
+    public  void init() {
+
     }
 }

@@ -83,14 +83,19 @@ public class Device {
 
 	public void publishPowerMessage(LocalDateTime localDateTime, double power) {
 
-		/*JSONObject jo = new JSONObject();
-		jo.put("time", localDateTime.toString());
-		jo.put("power", power);*/
-
 		Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 		while (exporterIterator.hasNext()) {
 			Exporter exporter = exporterIterator.next();
 			exporter.publishPowerMetric(name, type, getToken(), localDateTime, power);
+		}
+	}
+
+	public void publishStatusMessage(LocalDateTime localDateTime, double status) {
+
+		Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
+		while (exporterIterator.hasNext()) {
+			Exporter exporter = exporterIterator.next();
+			exporter.publishStatusMetric(name, type, localDateTime, status);
 		}
 	}
 }

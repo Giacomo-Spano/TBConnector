@@ -1,16 +1,21 @@
 package device;
 
 import device.Device;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 
 public class Shelly4PMPRO extends Device {
+    private static final Logger LOGGER = LogManager.getLogger(Shelly4PMPRO.class);
     public Shelly4PMPRO(Device device) {
         super(device);
     }
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
         //https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Switch/
+
+        LOGGER.info("receive message topic: " + topic + ", message" + message);
 
         JSONObject jo = new JSONObject(message);
         //Last measured instantaneous active power (in Watts) delivered to the attached load

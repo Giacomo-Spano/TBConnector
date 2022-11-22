@@ -1,9 +1,8 @@
 package config;//package com.baeldung.jackson.yaml; XXXXXX
 
-import device.Device;
-import device.Shelly1PM;
-import device.Shelly25;
-import device.Shelly4PMPRO;
+import agent.Agent;
+import agent.LaneAgent;
+import device.*;
 import exporter.*;
 import importer.Importer;
 import importer.MQTTImporter;
@@ -17,7 +16,7 @@ public class Configuration {
     // Devices settings
 	private static List<Device> devices;
 
-	private static List<AgentConfiguration> agent;
+	private static List<Agent> agents;
 
 	private static List<Exporter> exporters;
 
@@ -28,11 +27,11 @@ public class Configuration {
 
     }
 
-    public Configuration(String thingsboardMQTThost, String thingsboardMQTTPublishTopic, List<Device> devices, List<AgentConfiguration> agent, Exporter exporter) {
+    public Configuration(String thingsboardMQTThost, String thingsboardMQTTPublishTopic, List<Device> devices, List<Agent> agents, Exporter exporter) {
         super();
 
         this.devices = devices;
-		this.agent = agent;
+		this.agents = agents;
     }
 
     public static List<Device> getDevices() {
@@ -61,29 +60,39 @@ public class Configuration {
 			} else if (device.getType().equals("Shelly4PMPRO")) {
 				Shelly4PMPRO newDevice = new Shelly4PMPRO(device);
 				Configuration.devices.add(newDevice);
+			} else if (device.getType().equals("laneagent")) {
+				LaneAgentDevice newDevice = new LaneAgentDevice(device);
+				Configuration.devices.add(newDevice);
 			} else {
 				System.out.println("Error: Unknown device type: " + device.getType());
 			}
 		}
     }
 
-	public static List<AgentConfiguration> getAgent() {
-		if (agent == null) {
-			agent = new ArrayList<>();
+	public static List<Agent> getAgents() {
+		if (agents == null) {
+			agents = new ArrayList<>();
 		}
-		return agent;
+		return agents;
 	}
 
-	public void setAgent(List<AgentConfiguration> agent) {
-		if (agent == null) {
-			agent = new ArrayList<>();
+	public void setAgents(List<Agent> agents) {
+		if (agents == null) {
+			agents = new ArrayList<>();
 		}
-		Configuration.agent = new ArrayList<>();
-		Iterator<AgentConfiguration> agentconfIterator = agent.iterator();
+		Configuration.agents = new ArrayList<>();
+		Iterator<Agent> agentconfIterator = agents.iterator();
 		while (agentconfIterator.hasNext()) {
-			AgentConfiguration agentConfiguration = agentconfIterator.next();
-			AgentConfiguration newac = new AgentConfiguration(agentConfiguration);
-			this.agent.add(newac);
+			Agent agent = agentconfIterator.next();
+			if (agent.geType().equals("lane")) {
+				LaneAgent newAgent = new LaneAgent(agent);
+				Configuration.agents.add(newAgent);
+			} else {
+				System.out.println("Error: Unknown device type: " + agent.getName());
+			}
+
+			//AgentConfiguration newac = new AgentConfiguration(agentConfiguration);
+			//this.agents.add(newac);
 
 		}
 	}

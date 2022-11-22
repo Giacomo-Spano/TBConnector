@@ -99,10 +99,13 @@ public class Exporter {
     }
 
 
-    public void init() {
+    public  void init() {
     }
 
     public void publishPowerMetric(String name, String type, String token, LocalDateTime localDateTime, double power) {
 
+    }
+
+    public void publishStatusMetric(String name, String type, LocalDateTime localDateTime, double status) {
     }
 }

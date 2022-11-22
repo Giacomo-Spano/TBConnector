@@ -2,10 +2,16 @@ package scheduler;
 
 public class Job {
     private String name;
-    private String type;
+    private String jobtype;
+    private String command;
+    private String crontrigger;
     private String topic;
-    private String start;
-    private String shutdown;
+
+
+    private String macaddress;
+
+    private String ipaddress;
+
 
     public Job() {
 
@@ -14,19 +20,23 @@ public class Job {
 
     public Job(Job job) {
         this.name = job.name;
-        this.start = job.start;
-        this.shutdown = job.shutdown;
-        this.type = job.type;
+        this.jobtype = job.jobtype;
+        this.command = job.command;
+        this.crontrigger = job.crontrigger;
         this.topic = job.topic;
+        this.macaddress = job.macaddress;
+        this.ipaddress = job.ipaddress;
     }
 
-    public Job(String name, String start, String shutdown) {
+    public Job(String name, String jobtype, String command, String crontrigger, String topic, String MACAddress, String ipaddress) {
         super();
         this.name = name;
-        this.start = start;
-        this.shutdown = shutdown;
-        this.type = type;
+        this.jobtype = jobtype;
+        this.command = command;
+        this.crontrigger = crontrigger;
         this.topic = topic;
+        this.macaddress = macaddress;
+        this.ipaddress = ipaddress;
     }
 
     public String getName() {
@@ -37,20 +47,20 @@ public class Job {
         this.name = name;
     }
 
-    public String getStart() {
-        return start;
+    public String getJobType() {
+        return jobtype;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setJobtype(String jobtype) {
+        this.jobtype = jobtype;
     }
 
-    public String getShutdown() {
-        return shutdown;
+    public String getCommand() {
+        return command;
     }
 
-    public void setShutdown(String shutdown) {
-        this.shutdown = shutdown;
+    public void setCommand(String command) {
+        this.command = command;
     }
 
     public String getTopic() {
@@ -61,11 +71,32 @@ public class Job {
         this.topic = topic;
     }
 
-    public String getType() {
-        return type;
+    public String getCrontrigger() {
+        return crontrigger;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCrontrigger(String crontrigger) {
+        this.crontrigger = crontrigger;
+    }
+
+
+    public String getIpaddress() {
+        return ipaddress;
+    }
+
+    public void setIpaddress(String ipaddress) {
+        this.ipaddress = ipaddress;
+    }
+
+    public String getJobtype() {
+        return jobtype;
+    }
+
+    public String getMacaddress() {
+        return macaddress;
+    }
+
+    public void setMacaddress(String macaddress) {
+        this.macaddress = macaddress;
     }
 }

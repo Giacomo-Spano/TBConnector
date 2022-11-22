@@ -1,4 +1,13 @@
-package importer;//  aaa
+package agent;//  aaa
+
+import config.Configuration;
+import device.Device;
+import importer.MQTTImporterTopicSubscriber;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.eclipse.paho.client.mqttv3.*;
+import scheduler.LaneCommandJob;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -6,32 +15,23 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import config.Configuration;
-import device.Device;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-
 /**
  * A Mqtt topic subscriber
  *
  */
-public class MQTTImporterTopicSubscriber implements Runnable {
-
-	private static final Logger LOGGER = LogManager.getLogger(MQTTImporterTopicSubscriber.class);
+public class LaneAgentTopicSubscriber implements Runnable {
+	private static final Logger LOGGER = LogManager.getLogger(LaneAgentTopicSubscriber.class);
 
 	private Thread worker;
 	private final static AtomicBoolean running = new AtomicBoolean(false);
 	private int interval;
 
+	private static String _name;
 	private static String _host;
 	private static String _username;
 	private static String _password;
+
+	private static String _topic;
 
 	public void ControlSubThread(int sleepInterval) {
 		interval = sleepInterval;
@@ -51,9 +51,10 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 
 		System.out.println("TopicSubscriber initializing...");
 
-		String host =  "tcp://" + _host;//"tcp://giacomocasa.duckdns.org:1883";
-		String username = _username;//"giacomo";
-		String password = _password;//"giacomo";
+		String host =  "tcp://" + _host;
+		String username = _username;
+		String password = _password;
+		String topic = _topic + "/" + _name;
 
 		try {
 			// Create an Mqtt client
@@ -77,32 +78,35 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 				public void messageArrived(String topic, MqttMessage message) throws Exception {
 					// Called when a message arrives from the server that
 					// matches any subscription made by the client
-					LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
-					System.out.println(localDateTime);
-
-					String time = new Timestamp(System.currentTimeMillis()).toString();
 					LOGGER.info(
-							"\nReceived a Message!" + "\n\tTime:    " + localDateTime/*time*/ + "\n\tTopic:   " + topic + "\n\tMessage: "
+							"\nReceived a Message!"  + "\n\tTopic:   " + topic + "\n\tMessage: "
 									+ new String(message.getPayload()) + "\n\tQoS:     " + message.getQos() + "\n");
 
-					Iterator<Device> deviceIterator = Configuration.getDevices().iterator();
-					while (deviceIterator.hasNext()) {
-						Device device = deviceIterator.next();
-						if (topic.equals(device.getPowertopic())) {
+					String strMessage = new String(message.getPayload());
 
-							device.receiveMessage(localDateTime, topic,new String(message.getPayload()));
-							/*try {
-								TopicPublisher publisher = new TopicPublisher();
-								publisher.createConnection(configuration.getThingsboardMQTThost(), device.getToken(),"");
-								publisher.publishMessage(publishtopic, publishmsg);
-								publisher.closeConnection();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}*/
-							//break;
-						}
+					if (strMessage.equals("sleep")) {
+						LOGGER.info("received command sleep");
+						Runtime r=Runtime.getRuntime();
+						Runtime.getRuntime().exec("Rundll32.exe powrprof.dll,SetSuspendState Sleep");
+
+					} else if (message.equals("shutdown")) {
+
+					} else if (message.equals("start")) {
+
+					} else if (message.equals("restart")) {
+
+					} else {
+						LOGGER.error("received unknown command");
 					}
+					// Create Runtime object
+					//Runtime r=Runtime.getRuntime();
+
+					// Shutdown system
+					//r.exec("shutdown -h");
+					//Runtime.getRuntime().exec("Shutdown.exe -s -t 00");
+					//Runtime.getRuntime().exec("Rundll32.exe powrprof.dll,SetSuspendState Sleep");
+					//Runtime.getRuntime().exec("Rundll32.exe user32.dll,LockWorkStation");
+
 				}
 
 				public void connectionLost(Throwable cause) {
@@ -115,20 +119,11 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 
 			});
 
-			if (Configuration.getDevices().size() == 0) {
-				LOGGER.info("no devices found");
-				return;
-			}
 
-			for (int i = 0; i < Configuration.getDevices().size(); i++) {
-				Device device = Configuration.getDevices().get(i);
-				String powertopic = device.getPowertopic();
-				LOGGER.info("device: " + device.getName());
-				LOGGER.info("Subscribing client to topic: " + powertopic);
-				mqttClient.subscribe(powertopic, 0);
+			LOGGER.info("Subscribing client to topic: " + topic);
+			mqttClient.subscribe(topic, 0);
 
-			}
-			LOGGER.info("Subscribed. Wait for the message to be received");
+			LOGGER.info("Lane agent Subscribed. Wait for the message to be received");
 
 			// Wait for the message to be received
 			running.set(true);
@@ -137,14 +132,14 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 					Thread.sleep(interval);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
-					LOGGER.error("Thread was interrupted, Failed to complete operation");
+					LOGGER.info("Thread was interrupted, Failed to complete operation");
 				}
 				// do something here
 			}
 
 			// Disconnect the client
 			mqttClient.disconnect();
-			LOGGER.info("Exiting--");
+			//System.out.println("Exiting--");
 			
 
 			//System.exit(0);
@@ -160,13 +155,15 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 	}
 
 	//public static void main(String[] args) throws IOException {
-	public  void init(String host, String username, String password)  {
+	public  void init(String name, String host, String username, String password, String topic)  {
 
+		this._name = name;
 		this._host = host;
 		this._username = username;
 		this._password = password;
+		this._topic = topic;
 
-		MQTTImporterTopicSubscriber ts = new MQTTImporterTopicSubscriber();
+		LaneAgentTopicSubscriber ts = new LaneAgentTopicSubscriber();
 		ts.start();
 		
 		try {
@@ -176,10 +173,8 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
 	}
 }

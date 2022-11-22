@@ -26,6 +26,8 @@ public class MQTTTopicPublisher {
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
             connOpts.setUserName(user);
+            connOpts.setPassword(password.toCharArray());
+            connOpts.setAutomaticReconnect(true);
             
             // Connect the client
             System.out.println("Connecting to " + host);
