@@ -6,11 +6,10 @@ import config.Configuration;
 import exporter.Exporter;
 import importer.Importer;
 
-import org.apache.http.util.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import scheduler.MyScheduler;
+import scheduler.JobScheduler;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,8 +58,8 @@ public class Main {
         }
 
         // start scheduler
-        MyScheduler myScheduler = new MyScheduler();
-        myScheduler.init();
+        JobScheduler jobScheduler = new JobScheduler();
+        jobScheduler.init();
 
 
         // start importer

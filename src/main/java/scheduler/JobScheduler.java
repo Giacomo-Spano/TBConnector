@@ -1,6 +1,5 @@
 package scheduler;
 
-import agent.LaneAgentTopicSubscriber;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -15,9 +14,9 @@ import java.util.Iterator;
 
 import static org.quartz.JobBuilder.newJob;
 
-public class MyScheduler {
+public class JobScheduler {
 
-    private static final Logger LOGGER = LogManager.getLogger(MyScheduler.class);
+    private static final Logger LOGGER = LogManager.getLogger(JobScheduler.class);
 
     static Schedule schedule;
 
