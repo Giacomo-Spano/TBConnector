@@ -1,7 +1,9 @@
 package agent;
 
+import device.LaneAgentDevice;
 import helper.MQTTTopicPublisher;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import scheduler.JobScheduler;
 import scheduler.Schedule;
 
@@ -9,9 +11,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LaneAgent extends Agent {
-
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(JobScheduler.class);
+public class LaneAgent extends Agent { //
+    private static final Logger LOGGER = LogManager.getLogger(LaneAgent.class);
 
     public LaneAgent(Agent agent) {
         super(agent);
