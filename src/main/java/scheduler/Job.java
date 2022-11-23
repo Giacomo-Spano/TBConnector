@@ -4,7 +4,7 @@ import org.quartz.JobDetail;
 
 import static org.quartz.JobBuilder.newJob;
 
-public class Job {
+public class Job { //
     private String name;
     private String jobtype;
     private String command;
