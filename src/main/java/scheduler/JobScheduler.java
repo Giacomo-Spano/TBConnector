@@ -34,26 +34,32 @@ public class JobScheduler {
             // and start it off
             scheduler.start();
 
-
-
             Iterator<Job> jobIterator = schedule.getJobs().iterator();
             while (jobIterator.hasNext()) {
                 Job j = jobIterator.next();
 
 
-                if (j.getJobType().equals("lanecommand")) {
-                    JobDetail job = newJob(LaneCommandJob.class)
+                if (j.getJobType().equals("mqttcommand")) {
+                    JobDetail job = newJob(MQTTCommandJob.class)
                             .withIdentity(j.getName() + "-" + "start", "group1")
-                            .usingJobData("jobtype", j.getJobType())
-                            .usingJobData("command", "start")
                             .usingJobData("topic", j.getTopic())
-                            .usingJobData("MACAddress", j.getMacaddress())
-                            .usingJobData("ipaddress", j.getIpaddress())
-
+                            .usingJobData("message", j.getMessage())
                             .build();
 
                     // 0 0 12 * * ?  Fire at 12pm (noon) every day
+                    CronTrigger cronTrigger = TriggerBuilder.newTrigger()
+                            .withIdentity(j.getName() + "starttrigger", "group1")
+                            .withSchedule(CronScheduleBuilder.cronSchedule(j.getCrontrigger()))
+                            //.forJob("myJob", "group1")
+                            .build();
+                    scheduler.scheduleJob(job, cronTrigger);
+                } else if (j.getJobType().equals("runscriptcommand")) {
+                    JobDetail job = newJob(RunScriptCommandJob.class)
+                            .withIdentity(j.getName() + "-" + "start", "group1")
+                            .usingJobData("script", j.getScript())
+                            .build();
 
+                    // 0 0 12 * * ?  Fire at 12pm (noon) every day
                     CronTrigger cronTrigger = TriggerBuilder.newTrigger()
                             .withIdentity(j.getName() + "starttrigger", "group1")
                             .withSchedule(CronScheduleBuilder.cronSchedule(j.getCrontrigger()))
@@ -63,9 +69,6 @@ public class JobScheduler {
                 } else if (j.getJobType().equals("wolcommand")) {
                     JobDetail job = newJob(WakeUpOnLanCommandJob.class)
                             .withIdentity(j.getName() + "-" + "start", "group1")
-                            .usingJobData("jobtype", j.getJobType())
-                            .usingJobData("command", "start")
-                            .usingJobData("topic", j.getTopic())
                             .usingJobData("macaddress", j.getMacaddress())
                             .usingJobData("ipaddress", j.getIpaddress())
 
@@ -80,40 +83,8 @@ public class JobScheduler {
                             .build();
                     scheduler.scheduleJob(job, cronTrigger);
                 }
-
-                    // schedule start
-                /*JobDetail startjob = newJob(SimpleJob.class)
-                        .withIdentity(j.getName() + "-" + "start", "group1")
-                        .usingJobData("topic", j.getTopic())
-                        .usingJobData("type", j.getType())
-                        .usingJobData("command", "start")
-                        .build();
-                CronTrigger startCronTrigger = TriggerBuilder.newTrigger()
-                        .withIdentity(j.getName() + "starttrigger", "group1")
-                        .withSchedule(CronScheduleBuilder.cronSchedule(j.getStart()))
-                        //.forJob("myJob", "group1")
-                        .build();*/
-                //scheduler.scheduleJob(startjob, startCronTrigger);
-
-                // schedule shutdown
-                /*JobDetail shutdownjob = newJob(SimpleJob.class)
-                        .withIdentity(j.getName() + "-" + "shutdown", "group1")
-                        .usingJobData("topic", j.getTopic())
-                        .usingJobData("type", j.getType())
-                        .usingJobData("command", "shutdown")
-                        .build();
-                CronTrigger shutdownCronTrigger = TriggerBuilder.newTrigger()
-                        .withIdentity(j.getName() + "shutdowntrigger", "group1")
-                        .withSchedule(CronScheduleBuilder.cronSchedule(j.getShutdown()))
-                        //.forJob("myJob", "group1")
-                        .build();*/
-
-                //scheduler.scheduleJob(startjob, startCronTrigger);
-                //scheduler.scheduleJob(shutdownjob, shutdownCronTrigger);
-
             }
-
-             //scheduler.shutdown();
+            //scheduler.shutdown();
 
         } catch (SchedulerException se) {
             se.printStackTrace();

@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Schedule {
 
-	// schedule plan
-	private static String name;
+    // schedule plan
+    private static String name;
     private static String mqtthost;
     private static String mqttuser;
     private static String mqttpassword;
-	// Devices settings
+    // Devices settings
     List<Job> jobs;
 
     public Schedule() {
@@ -20,20 +20,20 @@ public class Schedule {
 
     public Schedule(String name, String mqtthost, String mqttuser, String mqttpassword, List<Job> jobs) {
         super();
-		this.name = name;
-		this.jobs = jobs;
+        this.name = name;
+        this.jobs = jobs;
         this.mqtthost = mqtthost;
         this.mqttuser = mqttuser;
         this.mqttpassword = mqttpassword;
     }
-    
-    public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public static String getMQTThost() {
         return mqtthost;
@@ -68,15 +68,15 @@ public class Schedule {
 
     public void setJobs(List<Job> jobs) {
         if (jobs == null) {
-        	jobs = new ArrayList<>();
+            jobs = new ArrayList<>();
         }
 
         this.jobs = new ArrayList<>();
-		Iterator<Job> jobIterator = jobs.iterator();
-		while (jobIterator.hasNext()) {
-			Job job = jobIterator.next();
-			Job newjob = new Job(job);
-			this.jobs.add(newjob);
+        Iterator<Job> jobIterator = jobs.iterator();
+        while (jobIterator.hasNext()) {
+            Job job = jobIterator.next();
+            Job newjob = new Job(job);
+            this.jobs.add(newjob);
 			/*if (job.getType().equals("shelly25")) {
 				Shelly25 newDevice = new Shelly25(device);
 				this.devices.add(newDevice);
@@ -89,7 +89,7 @@ public class Schedule {
 			} else {
 				System.out.println("Error: Unknown device type: " + device.getType());
 			}*/
-		}
+        }
     }
 
     @Override

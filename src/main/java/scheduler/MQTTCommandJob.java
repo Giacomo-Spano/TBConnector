@@ -1,6 +1,5 @@
 package scheduler;
 
-import agent.LaneAgentTopicSubscriber;
 import helper.MQTTTopicPublisher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,31 +8,25 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class LaneCommandJob implements Job {
-    private static final Logger LOGGER = LogManager.getLogger(LaneCommandJob.class);
+public class MQTTCommandJob implements Job {
+    private static final Logger LOGGER = LogManager.getLogger(MQTTCommandJob.class);
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 
         String topic = dataMap.getString("topic");
-        String jobtype = dataMap.getString("jobtype");
-        String command = dataMap.getString("command");
+        String message = dataMap.getString("message");
 
-        LOGGER.info("execute job " + "topic: " + topic + "jobtype: " + jobtype + "command: " + command);
+        LOGGER.info("execute job " + "topic: " + topic + "message: " + message);
 
         try {
-            String publishMsg = command;
             MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             publisher.createConnection(Schedule.getMQTThost(), Schedule.getMQTTuser(),Schedule.getMQTTpassword());
-            if (topic == null || publishMsg == null) {
-                LOGGER.error("topic null");
+            if (topic == null || message == null) {
+                LOGGER.error("topic or  message is null");
                 return;
             }
-            if (publishMsg == null) {
-                LOGGER.error("publishMsg null");
-                return;
-            }
-            publisher.publishMessage(topic, publishMsg);
+            publisher.publishMessage(topic, message);
             publisher.closeConnection();
         } catch (Exception e) {
             // TODO Auto-generated catch block

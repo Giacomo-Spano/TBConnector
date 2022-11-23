@@ -3,10 +3,8 @@ package scheduler;
 import helper.MQTTTopicPublisher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.quartz.*;
 import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 
 import java.io.IOException;
 
@@ -21,6 +19,8 @@ import java.lang.StringBuffer;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
+import static org.quartz.JobBuilder.newJob;
 
 public class WakeUpOnLanCommandJob implements Job {
 
@@ -37,16 +37,14 @@ public class WakeUpOnLanCommandJob implements Job {
 
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 
-        String jobtype = dataMap.getString("jobtype");
-        String command = dataMap.getString("command");
         String ipaddress = dataMap.getString("ipaddress");
         String MACAddress = dataMap.getString("macaddress");
 
-        LOGGER.info("execute job " + "MACaddress: " + MACAddress + "ipaddress: " + ipaddress + "jobtype: " + jobtype + "command: " + command);
+        LOGGER.info("execute job " + "MACaddress: " + MACAddress + "ipaddress: " + ipaddress);
 
         try	{
             MACAddress = this.cleanMac(MACAddress);
-            LOGGER.info("Sending to: "+MACAddress);
+            LOGGER.info("Sending magic packet to: "+MACAddress);
             this.send(MACAddress, ipaddress);
         }
         catch(IllegalArgumentException e) {

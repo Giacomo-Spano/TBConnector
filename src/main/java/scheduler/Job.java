@@ -1,22 +1,23 @@
 package scheduler;
 
+import org.quartz.JobDetail;
+
+import static org.quartz.JobBuilder.newJob;
+
 public class Job {
     private String name;
     private String jobtype;
     private String command;
     private String crontrigger;
     private String topic;
-
-
+    private String message;
+    private String script;
     private String macaddress;
-
     private String ipaddress;
-
 
     public Job() {
 
     }
-
 
     public Job(Job job) {
         this.name = job.name;
@@ -24,18 +25,22 @@ public class Job {
         this.command = job.command;
         this.crontrigger = job.crontrigger;
         this.topic = job.topic;
+        this.message = job.message;
+        this.script = job.script;
         this.macaddress = job.macaddress;
         this.ipaddress = job.ipaddress;
     }
 
-    public Job(String name, String jobtype, String command, String crontrigger, String topic, String MACAddress, String ipaddress) {
+    public Job(String name, String jobtype, String command, String crontrigger, String topic, String message, String script, String MACAddress, String ipaddress) {
         super();
         this.name = name;
         this.jobtype = jobtype;
         this.command = command;
         this.crontrigger = crontrigger;
         this.topic = topic;
-        this.macaddress = macaddress;
+        this.message = message;
+        this.script = script;
+        this.macaddress = MACAddress;
         this.ipaddress = ipaddress;
     }
 
@@ -70,6 +75,20 @@ public class Job {
     public void setTopic(String topic) {
         this.topic = topic;
     }
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    public String getScript() {
+        return script;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
+    }
 
     public String getCrontrigger() {
         return crontrigger;
@@ -86,10 +105,6 @@ public class Job {
 
     public void setIpaddress(String ipaddress) {
         this.ipaddress = ipaddress;
-    }
-
-    public String getJobtype() {
-        return jobtype;
     }
 
     public String getMacaddress() {
