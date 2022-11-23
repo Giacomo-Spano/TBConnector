@@ -1,17 +1,9 @@
 package agent;//  aaa
 
-import config.Configuration;
-import device.Device;
-import importer.MQTTImporterTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
-import scheduler.LaneCommandJob;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
