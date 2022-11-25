@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
 
         LOGGER.info("");
-        LOGGER.info("** VERSION .05");
+        LOGGER.info("** VERSION .07");
         LOGGER.info("");
         LOGGER.debug("This is a debug message");
         LOGGER.info("This is an info message");

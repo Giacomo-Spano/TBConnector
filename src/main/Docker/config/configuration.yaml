@@ -1,15 +1,30 @@
-postgresURL: localhost
-postgresPort: 5432
-postgresDBName: postgres
-postgresUser: postgres
-postgresPassword: docker
+importers:
+  - importer: mqtt
+    name: MQTT importer
+    host: giacomocasa.duckdns.org:1883
+    user: giacomo
+    password: giacomo
 
-deviceMQTThost: giacomocasa.duckdns.org:1883
-deviceMQTTuser: giacomo
-deviceMQTTpassword: giacomo
-thingsboardMQTThost: giacomocasa.duckdns.org:1884 
-thingsboardMQTTPublishTopic: v1/devices/me/telemetry
+exporters:
+#  - exporter: postgres
+#    name: postgres exporter
+#    host: 192.168.1.209:5432
+#    port: 5432
+#    DBName: postgres
+#    user: postgres
+#    password: docker
+#  - exporter: thingsboard
+#    name: Thingsboard exporter
+#    host: giacomocasa.duckdns.org:1884
+#    topic: v1/devices/me/telemetry
+  - exporter: prometheus
+    name: Prometheus exporter
+    port: 8080
+
 devices:
+    - name: desktop-pc
+      type: laneagent
+      powertopic: laneagents/statusupdate/lane1
     - name: cucina
       type: shelly25
       id: a88d78d0-5528-11ed-87e1-8393729a37a1
@@ -55,3 +70,13 @@ devices:
       id: 52dff030-5c20-11ed-8397-8393729a37a1
       token: FPWUAGX2hjqfb6uCIcac
       powertopic: shellies/shelly1pm-box/relay/0/power
+
+agents:
+  - name: lane2
+    type: lane
+    host: giacomocasa.duckdns.org:1883
+    user: giacomo
+    password: giacomo
+    topic: laneagents/command
+    publishtopic: laneagents/statusupdate
+

@@ -1,9 +1,9 @@
 importers:
   - importer: mqtt
     name: MQTT importer
-    host: giacomocasa.duckdns.org:1883
-    user: giacomo
-    password: giacomo
+    host: 153.77.136.201:1883
+    user: ""
+    password: ""
 
 exporters:
 #  - exporter: postgres
@@ -19,9 +19,14 @@ exporters:
 #    topic: v1/devices/me/telemetry
   - exporter: prometheus
     name: Prometheus exporter
-    port: 8080
+    port: 8081
 
 devices:
+    - name: plugsncr
+      type: shelly25
+      id: 111
+      token: pA81M4iPMwnVTL6lxwAVxxx
+      powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
     - name: desktop-pc
       type: laneagent
       powertopic: laneagents/statusupdate/lane1
