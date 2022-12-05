@@ -1,21 +1,31 @@
 Manifest-Version: 1.0
 Main-Class: Main
-Class-Path: postgresql-42.5.0.jar clj-http-3.10.0.jar simpleclient_hotsp
- ot-0.16.0.jar slingshot-0.12.2.jar simpleclient_tracer_otel_agent-0.16.
- 0.jar httpcore-nio-4.4.10.jar simpleclient_httpserver-0.16.0.jar jackso
- n-annotations-2.14.0-rc3.jar json-20220924.jar snakeyaml-1.31.jar clj-t
- uple-0.2.2.jar clojure-1.10.3.jar log4j-core-2.19.0.jar commons-io-2.6.
- jar tools.logging-1.1.0.jar quartz-2.3.2.jar potemkin-0.4.5.jar commons
- -logging-1.2.jar simpleclient-0.16.0.jar core.specs.alpha-0.2.56.jar at
- -at-1.2.0.jar httpclient-4.5.8.jar jackson-databind-2.13.4.2.jar checke
- r-qual-3.5.0.jar jackson-dataformat-yaml-2.13.4.jar clometheus-pushgate
- way-0.1.0.jar jackson-core-2.13.4.jar spec.alpha-0.2.194.jar HikariCP-j
- ava7-2.4.13.jar simpleclient_tracer_otel-0.16.0.jar httpclient-cache-4.
- 5.8.jar simpleclient_tracer_common-0.16.0.jar org.eclipse.paho.client.m
- qttv3-1.2.5.jar jackson-datatype-jsr310-2.13.4.jar httpcore-4.4.11.jar 
- mchange-commons-java-0.2.15.jar httpmime-4.5.8.jar clometheus-0.2.0.jar
-  httpasyncclient-4.1.4.jar jackson-mapper-asl-1.9.13.jar commons-codec-
- 1.12.jar jackson-core-asl-1.9.13.jar slf4j-api-1.7.7.jar riddley-0.1.12
- .jar log4j-api-2.19.0.jar simpleclient_common-0.16.0.jar c3p0-0.9.5.4.j
- ar
+Class-Path: spec.alpha-0.2.194.jar httpasyncclient-4.1.5.jar httpclient-
+ cache-4.5.13.jar spring-beans-6.0.2.jar simpleclient_tracer_common-0.16
+ .0.jar clojure-1.10.3.jar micrometer-observation-1.10.2.jar riddley-0.1
+ .12.jar log4j-api-2.19.0.jar spring-boot-3.0.0.jar clj-http-3.10.0.jar 
+ tomcat-embed-websocket-10.1.1.jar potemkin-0.4.5.jar jackson-module-par
+ ameter-names-2.14.1.jar simpleclient_hotspot-0.16.0.jar snakeyaml-1.33.
+ jar jackson-mapper-asl-1.9.13.jar httpcore-nio-4.4.15.jar checker-qual-
+ 3.5.0.jar spring-web-6.0.2.jar jackson-core-asl-1.9.13.jar spring-aop-6
+ .0.2.jar httpcore-4.4.15.jar spring-core-6.0.2.jar tomcat-embed-el-10.1
+ .1.jar httpclient-4.5.13.jar simpleclient_tracer_otel-0.16.0.jar spring
+ -boot-starter-tomcat-3.0.0.jar spring-boot-starter-3.0.0.jar spring-exp
+ ression-6.0.2.jar at-at-1.2.0.jar slingshot-0.12.2.jar clometheus-0.2.0
+ .jar httpmime-4.5.13.jar jackson-core-2.13.4.jar tomcat-embed-core-10.1
+ .1.jar logback-classic-1.4.5.jar core.specs.alpha-0.2.56.jar spring-boo
+ t-starter-web-3.0.0.jar clometheus-pushgateway-0.1.0.jar quartz-2.3.2.j
+ ar postgresql-42.5.0.jar jackson-datatype-jsr310-2.13.4.jar jackson-dat
+ aformat-yaml-2.13.4.jar spring-boot-starter-json-3.0.0.jar simpleclient
+ _httpserver-0.16.0.jar clj-tuple-0.2.2.jar mchange-commons-java-0.2.15.
+ jar spring-boot-autoconfigure-3.0.0.jar jakarta.annotation-api-2.1.1.ja
+ r simpleclient_tracer_otel_agent-0.16.0.jar commons-io-2.6.jar commons-
+ codec-1.15.jar simpleclient-0.16.0.jar json-20220924.jar jackson-dataty
+ pe-jdk8-2.14.1.jar spring-jcl-6.0.2.jar commons-logging-1.2.jar logback
+ -core-1.4.5.jar log4j-to-slf4j-2.19.0.jar tools.logging-1.1.0.jar org.e
+ clipse.paho.client.mqttv3-1.2.5.jar spring-webmvc-6.0.2.jar simpleclien
+ t_common-0.16.0.jar log4j-core-2.19.0.jar jackson-annotations-2.14.0-rc
+ 3.jar jul-to-slf4j-2.0.4.jar micrometer-commons-1.10.2.jar jackson-data
+ bind-2.13.4.2.jar spring-boot-starter-logging-3.0.0.jar spring-context-
+ 6.0.2.jar slf4j-api-2.0.4.jar
 

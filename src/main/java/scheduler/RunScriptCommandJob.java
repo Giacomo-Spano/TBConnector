@@ -2,10 +2,10 @@ package scheduler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.quartz.*;
 import org.quartz.Job;
-
-import java.io.IOException;
+import command.RunScriptCommand;
 
 import static org.quartz.JobBuilder.newJob;
 
@@ -19,12 +19,10 @@ public class RunScriptCommandJob implements Job {
 
         LOGGER.info("execute script " + script);
 
-        //String path="cmd /c start d:\\sample\\sample.bat";
-        Runtime rn=Runtime.getRuntime();
-        try {
-            Process pr=rn.exec(script);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        JSONObject json = new JSONObject();
+        json.put("script", script);
+
+        RunScriptCommand command = new RunScriptCommand();
+        command.execute(json);
     }
 }

@@ -77,18 +77,6 @@ public class Schedule {
             Job job = jobIterator.next();
             Job newjob = new Job(job);
             this.jobs.add(newjob);
-			/*if (job.getType().equals("shelly25")) {
-				Shelly25 newDevice = new Shelly25(device);
-				this.devices.add(newDevice);
-			} else if (device.getType().equals("Shelly1PM")) {
-				Shelly1PM newDevice = new Shelly1PM(device);
-				this.devices.add(newDevice);
-			} else if (device.getType().equals("Shelly4PMPRO")) {
-				Shelly4PMPRO newDevice = new Shelly4PMPRO(device);
-				this.devices.add(newDevice);
-			} else {
-				System.out.println("Error: Unknown device type: " + device.getType());
-			}*/
         }
     }
 

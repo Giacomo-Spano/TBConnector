@@ -1,12 +1,13 @@
 package scheduler;
 
-import helper.MQTTTopicPublisher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import command.MQTTCommand;
 
 public class MQTTCommandJob implements Job {
     private static final Logger LOGGER = LogManager.getLogger(MQTTCommandJob.class);
@@ -19,19 +20,11 @@ public class MQTTCommandJob implements Job {
 
         LOGGER.info("execute job " + "topic: " + topic + "message: " + message);
 
-        try {
-            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
-            publisher.createConnection(Schedule.getMQTThost(), Schedule.getMQTTuser(),Schedule.getMQTTpassword());
-            if (topic == null || message == null) {
-                LOGGER.error("topic or  message is null");
-                return;
-            }
-            publisher.publishMessage(topic, message);
-            publisher.closeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        JSONObject json = new JSONObject();
+        json.put("topic", topic);
+        json.put("message", message);
 
+        MQTTCommand command = new MQTTCommand();
+        command.execute(json);
     }
 }
