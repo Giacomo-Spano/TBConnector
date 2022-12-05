@@ -21,22 +21,27 @@ public class PrometheusExporter extends Exporter {
     public PrometheusExporter(Exporter exporter) {
         this.setName(exporter.getName());
         this.setPort(exporter.getPort());
+        this.setNamespace(exporter.getNamespace());
+
+        powerGauge  = Gauge.build().namespace(getNamespace()).name("power").help("This is power gauge").labelNames("name", "type").register();
+        counter = Counter.build().namespace(getNamespace()).name("my_counter").help("This is my counter").register();
+        statusGauge = Gauge.build().namespace(getNamespace()).name("status").help("This is status gauge").labelNames("name", "type").register();
+        histogram = Histogram.build().namespace(getNamespace()).name("my_histogram").help("This is my histogram").register();
+        summary = Summary.build().namespace(getNamespace()).name("my_summary").help("This is my summary").register();
+
     }
 
-    static Counter counter = Counter.build().namespace("energydashboard").name("my_counter").help("This is my counter").register();
-    static Gauge powerGauge = Gauge.build().namespace("energydashboard").name("power").help("This is power gauge").labelNames("name", "type").register();
+    private Counter counter;// = Counter.build().namespace(getNamespace()).name("my_counter").help("This is my counter").register();
+    private Gauge powerGauge;//  = Gauge.build().namespace("energydashboard").name("power").help("This is power gauge").labelNames("name", "type").register();
+    private Gauge statusGauge;//  = Gauge.build().namespace("energydashboard").name("status").help("This is status gauge").labelNames("name", "type").register();
+    private Histogram histogram;//  = Histogram.build().namespace("energydashboard").name("my_histogram").help("This is my histogram").register();
+    Summary summary;//  = Summary.build().namespace("energydashboard").name("my_summary").help("This is my summary").register();
 
-    static Gauge statusGauge = Gauge.build().namespace("energydashboard").name("status").help("This is status gauge").labelNames("name", "type").register();
-    static Histogram histogram = Histogram.build().namespace("energydashboard").name("my_histogram").help("This is my histogram").register();
-    static Summary summary = Summary.build().namespace("energydashboard").name("my_summary").help("This is my summary").register();
-
-    static
-
-    void processRequest() {
+    /*static void processRequest() {
         powerGauge.inc();
         // Your code here.
         powerGauge.dec();
-    }
+    }*/
 
     public  void init() {
         try {

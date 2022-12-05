@@ -6,6 +6,8 @@ public class Exporter {
     private String name;
     private String exporter;
 
+    private String namespace;
+
     private String host;
     private String user;
     private String password;
@@ -24,6 +26,7 @@ public class Exporter {
         this.host = exporter.host;
         this.user = exporter.user;
         this.password = exporter.password;
+        this.namespace = exporter.namespace;
 
     }
 
@@ -96,6 +99,14 @@ public class Exporter {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 
 

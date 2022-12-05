@@ -1,9 +1,14 @@
 importers:
   - importer: mqtt
     name: MQTT importer
-    host: 153.77.136.201:1883
-    user: ""
-    password: ""
+    host: giacomocasa.duckdns.org:1883
+    user: "giacomo"
+    password: "giacomo"
+#  - importer: mqtt
+#    name: MQTT importer
+#    host: 153.77.136.201:1883
+#    user: ""
+#    password: ""
 
 exporters:
 #  - exporter: postgres
@@ -19,8 +24,12 @@ exporters:
 #    topic: v1/devices/me/telemetry
   - exporter: prometheus
     name: Prometheus exporter
+    port: 8080
+    namespace: energydashboard
+  - exporter: prometheus
+    name: Prometheus exporter2
     port: 8081
-
+    namespace: energydashboard2
 devices:
     - name: plugsncr
       type: shelly25
