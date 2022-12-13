@@ -4,11 +4,11 @@ importers:
     host: giacomocasa.duckdns.org:1883
     user: "giacomo"
     password: "giacomo"
-#  - importer: mqtt
-#    name: MQTT importer
-#    host: 153.77.136.201:1883
-#    user: ""
-#    password: ""
+  - importer: mqtt
+    name: MQTT importer
+    host: 153.77.136.201:1883
+    user: ""
+    password: ""
 
 exporters:
 #  - exporter: postgres

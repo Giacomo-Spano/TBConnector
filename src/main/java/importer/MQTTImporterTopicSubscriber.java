@@ -29,9 +29,9 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 	private final static AtomicBoolean running = new AtomicBoolean(false);
 	private int interval;
 
-	private  String _host;
-	private  String _username;
-	private  String _password;
+	private  String host;
+	private  String username;
+	private  String password;
 
 	public void ControlSubThread(int sleepInterval) {
 		interval = sleepInterval;
@@ -46,14 +46,22 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 		running.set(false);
 	}
 
+	public MQTTImporterTopicSubscriber(String host, String username, String password) {
+		this.host = host;
+		this.username = username;
+		this.password = password;
+	}
 	@Override
 	public void run() {
 
 		System.out.println("TopicSubscriber initializing...");
+		LOGGER.info("_host:" + this.host);
+		LOGGER.info("_username:" + this.username);
+		LOGGER.info("_password:" + this.host);
 
-		String host =  "tcp://" + _host;//"tcp://giacomocasa.duckdns.org:1883";
-		String username = _username;//"giacomo";
-		String password = _password;//"giacomo";
+		String host =  "tcp://" + this.host;//"tcp://giacomocasa.duckdns.org:1883";
+		String username = this.username;//"giacomo";
+		String password = this.password;//"giacomo";
 
 		try {
 			// Create an Mqtt client
@@ -162,11 +170,11 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 	//public static void main(String[] args) throws IOException {
 	public  void init(String host, String username, String password)  {
 
-		this._host = host;
+		/*this._host = host;
 		this._username = username;
-		this._password = password;
+		this._password = password;*/
 
-		MQTTImporterTopicSubscriber ts = new MQTTImporterTopicSubscriber();
+		MQTTImporterTopicSubscriber ts = new MQTTImporterTopicSubscriber(host, username, password);
 		ts.start();
 		
 		try {
