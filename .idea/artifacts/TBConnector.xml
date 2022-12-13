@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact name="TBConnector">
-    <output-path>$PROJECT_DIR$/out/artifacts/TBConnector</output-path>
-    <root id="root">
-      <element id="directory" name="config" />
-    </root>
-  </artifact>
-</component>

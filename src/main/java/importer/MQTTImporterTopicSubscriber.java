@@ -29,9 +29,9 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 	private final static AtomicBoolean running = new AtomicBoolean(false);
 	private int interval;
 
-	private static String _host;
-	private static String _username;
-	private static String _password;
+	private  String _host;
+	private  String _username;
+	private  String _password;
 
 	public void ControlSubThread(int sleepInterval) {
 		interval = sleepInterval;
