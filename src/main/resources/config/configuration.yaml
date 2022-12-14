@@ -1,14 +1,59 @@
 importers:
+# - importer: mqtt
+#    name: MQTT importer
+#    host: giacomocasa.duckdns.org:1883
+#    user: "giacomo"
+#    password: "giacomo"
+#    devices:
+#      - name: desktop-pc
+#        type: laneagent
+#        powertopic: laneagents/statusupdate/lane1
+#      - name: cucina
+#        type: shelly25
+#        powertopic: shellies/shellyswitch25-cucina/relay/0/power
+#      - name: soggiorno
+#        type: shelly25
+#        powertopic: shellies/shellyswitch25-cucina/relay/1/power
+#      - name: camera
+#        type: shelly25
+#        powertopic: shellies/shellyswitch25-corridoio/relay/0/power
+#      - name: corridoio
+#        type: shelly25
+#        powertopic: shellies/shellyswitch25-corridoio/relay/1/power
+#      - name: contatore 0
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:0
+#      - name: contatore 1
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:1
+#      - name: contatore 2
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:2
+#      - name: contatore 3
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:3
+#      - name: computer
+#        type: Shelly1PM
+#        powertopic: shellies/shelly1pm-box/relay/0/power
   - importer: mqtt
     name: MQTT importer
-    host: giacomocasa.duckdns.org:1883
-    user: "giacomo"
-    password: "giacomo"
+    host: 153.77.137.163:8883
+    user: "smartplug"
+    password: "pass1"
+    devices:
+      - name: shelly 1pm atm
+        type: Shelly1PMPRO
+        powertopic: smart-plug/6175/0003/status/switch:0
   - importer: mqtt
     name: MQTT importer
     host: 153.77.136.201:1883
     user: ""
     password: ""
+    devices:
+      - name: plugsncr
+        type: shellyplugs
+        powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
+
 
 exporters:
 #  - exporter: postgres
@@ -26,64 +71,6 @@ exporters:
     name: Prometheus exporter
     port: 8080
     namespace: energydashboard
-  - exporter: prometheus
-    name: Prometheus exporter2
-    port: 8081
-    namespace: energydashboard2
-devices:
-    - name: plugsncr
-      type: shelly25
-      id: 111
-      token: pA81M4iPMwnVTL6lxwAVxxx
-      powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
-    - name: desktop-pc
-      type: laneagent
-      powertopic: laneagents/statusupdate/lane1
-    - name: cucina
-      type: shelly25
-      id: a88d78d0-5528-11ed-87e1-8393729a37a1
-      token: pLnfHQRRgJnhRwyeKKYc
-      powertopic: shellies/shellyswitch25-cucina/relay/0/power
-    - name: soggiorno
-      type: shelly25
-      id: 7d7c94b0-5612-11ed-87e1-8393729a37a1
-      token: pA81M4iPMwnVTL6lxwAV
-      powertopic: shellies/shellyswitch25-cucina/relay/1/power
-    - name: camera
-      type: shelly25
-      id: 66312410-5612-11ed-87e1-8393729a37a1
-      token: engglSiavNSuDRAJdsBm
-      powertopic: shellies/shellyswitch25-corridoio/relay/0/power
-    - name: corridoio
-      type: shelly25
-      id: 74489fb0-5612-11ed-87e1-8393729a37a1
-      token: jERFmjm22NrbeAKVBgqT
-      powertopic: shellies/shellyswitch25-corridoio/relay/1/power
-    - name: contatore 0
-      type: Shelly4PMPRO
-      id: 07f242e0-5616-11ed-87e1-8393729a37a1
-      token: ZtDW9vpuhUOSpxjis7KK
-      powertopic: ShellyPro4PM-84CCA87F1660/status/switch:0
-    - name: contatore 1
-      type: Shelly4PMPRO
-      id: 27d76650-5871-11ed-87e1-8393729a37a1
-      token: nj0MLa094uaSyHARq3TH
-      powertopic: ShellyPro4PM-84CCA87F1660/status/switch:1
-    - name: contatore 2
-      type: Shelly4PMPRO
-      id: 31c890d0-5871-11ed-87e1-8393729a37a1
-      token: pxKFvHZc0cVKP7SWioUH
-      powertopic: ShellyPro4PM-84CCA87F1660/status/switch:2
-    - name: contatore 3
-      type: Shelly4PMPRO
-      id: 3a443250-5871-11ed-87e1-8393729a37a1
-      token: 9fOjfFAl0wH6pvbfAqPu
-      powertopic: ShellyPro4PM-84CCA87F1660/status/switch:3
-    - name: computer
-      type: Shelly1PM
-      id: 52dff030-5c20-11ed-8397-8393729a37a1
-      token: FPWUAGX2hjqfb6uCIcac
-      powertopic: shellies/shelly1pm-box/relay/0/power
 
 agents:
   - name: lane2

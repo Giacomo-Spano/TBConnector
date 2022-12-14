@@ -3,6 +3,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -32,6 +33,7 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 	private  String host;
 	private  String username;
 	private  String password;
+	private List<Device> devices;
 
 	public void ControlSubThread(int sleepInterval) {
 		interval = sleepInterval;
@@ -46,22 +48,23 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 		running.set(false);
 	}
 
-	public MQTTImporterTopicSubscriber(String host, String username, String password) {
+	public MQTTImporterTopicSubscriber(String host, String username, String password, List<Device> devices) {
 		this.host = host;
 		this.username = username;
 		this.password = password;
+		this.devices = devices;
 	}
 	@Override
 	public void run() {
 
 		System.out.println("TopicSubscriber initializing...");
-		LOGGER.info("_host:" + this.host);
-		LOGGER.info("_username:" + this.username);
-		LOGGER.info("_password:" + this.host);
+		LOGGER.info("host:" + this.host);
+		LOGGER.info("username:" + this.username);
+		LOGGER.info("password:" + this.host);
 
-		String host =  "tcp://" + this.host;//"tcp://giacomocasa.duckdns.org:1883";
-		String username = this.username;//"giacomo";
-		String password = this.password;//"giacomo";
+		String host =  "tcp://" + this.host;
+		String username = this.username;
+		String password = this.password;
 
 		try {
 			// Create an Mqtt client
@@ -93,22 +96,12 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 							"\nReceived a Message!" + "\n\tTime:    " + localDateTime/*time*/ + "\n\tTopic:   " + topic + "\n\tMessage: "
 									+ new String(message.getPayload()) + "\n\tQoS:     " + message.getQos() + "\n");
 
-					Iterator<Device> deviceIterator = Configuration.getDevices().iterator();
+					Iterator<Device> deviceIterator = devices.iterator();
 					while (deviceIterator.hasNext()) {
 						Device device = deviceIterator.next();
 						if (topic.equals(device.getPowertopic())) {
 
 							device.receiveMessage(localDateTime, topic,new String(message.getPayload()));
-							/*try {
-								TopicPublisher publisher = new TopicPublisher();
-								publisher.createConnection(configuration.getThingsboardMQTThost(), device.getToken(),"");
-								publisher.publishMessage(publishtopic, publishmsg);
-								publisher.closeConnection();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}*/
-							//break;
 						}
 					}
 				}
@@ -123,20 +116,19 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 
 			});
 
-			if (Configuration.getDevices().size() == 0) {
+			if (this.devices == null || this.devices.size() == 0) {
 				LOGGER.info("no devices found");
 				return;
 			}
 
-			for (int i = 0; i < Configuration.getDevices().size(); i++) {
-				Device device = Configuration.getDevices().get(i);
+			for (int i = 0; i < this.devices.size(); i++) {
+				Device device = devices.get(i);
 				String powertopic = device.getPowertopic();
-				LOGGER.info("device: " + device.getName());
-				LOGGER.info("Subscribing client to topic: " + powertopic);
+				LOGGER.info("Device: " + device.getName());
+				LOGGER.info("subscribing client to topic: " + powertopic);
 				mqttClient.subscribe(powertopic, 0);
-
+				LOGGER.info("Subscribed. Wait for the message to be received");
 			}
-			LOGGER.info("Subscribed. Wait for the message to be received");
 
 			// Wait for the message to be received
 			running.set(true);
@@ -164,17 +156,12 @@ public class MQTTImporterTopicSubscriber implements Runnable {
 				LOGGER.error("Cause:       " + me.getCause());
 			me.printStackTrace();
 		}
-		running.set(false);
+		//running.set(false);
 	}
 
-	//public static void main(String[] args) throws IOException {
-	public  void init(String host, String username, String password)  {
+	public  void init()  {
 
-		/*this._host = host;
-		this._username = username;
-		this._password = password;*/
-
-		MQTTImporterTopicSubscriber ts = new MQTTImporterTopicSubscriber(host, username, password);
+		MQTTImporterTopicSubscriber ts = new MQTTImporterTopicSubscriber(host, username, password, devices);
 		ts.start();
 		
 		try {

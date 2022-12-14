@@ -7,7 +7,7 @@ public class MQTTImporter extends Importer {
     }
 
     public void init() {
-        MQTTImporterTopicSubscriber topicSubscriber = new MQTTImporterTopicSubscriber(gethost(),getUser(),getPassword());
-        topicSubscriber.init(gethost(),getUser(),getPassword());
+        MQTTImporterTopicSubscriber topicSubscriber = new MQTTImporterTopicSubscriber(gethost(),getUser(),getPassword(), getDevices());
+        topicSubscriber.init();
     }
 }

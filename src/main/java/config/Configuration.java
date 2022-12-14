@@ -27,46 +27,10 @@ public class Configuration {
 
     }
 
-    public Configuration(String thingsboardMQTThost, String thingsboardMQTTPublishTopic, List<Device> devices, List<Agent> agents, Exporter exporter) {
+    public Configuration(String thingsboardMQTThost, String thingsboardMQTTPublishTopic, List<Agent> agents, Exporter exporter) {
         super();
 
-        this.devices = devices;
 		this.agents = agents;
-    }
-
-    public static List<Device> getDevices() {
-        if (devices == null) {
-            devices = new ArrayList<>();
-        }
-        return devices;
-    }
-
-    public void setDevices(List<Device> devices) {
-        if (devices == null) {
-        	devices = new ArrayList<>();
-        }
-
-        //this.devices = devices;
-		Configuration.devices = new ArrayList<>();
-		Iterator<Device> deviceIterator = devices.iterator();
-		while (deviceIterator.hasNext()) {
-			Device device = deviceIterator.next();
-			if (device.getType().equals("shelly25")) {
-				Shelly25 newDevice = new Shelly25(device);
-				Configuration.devices.add(newDevice);
-			} else if (device.getType().equals("Shelly1PM")) {
-				Shelly1PM newDevice = new Shelly1PM(device);
-				Configuration.devices.add(newDevice);
-			} else if (device.getType().equals("Shelly4PMPRO")) {
-				Shelly4PMPRO newDevice = new Shelly4PMPRO(device);
-				Configuration.devices.add(newDevice);
-			} else if (device.getType().equals("laneagent")) {
-				LaneAgentDevice newDevice = new LaneAgentDevice(device);
-				Configuration.devices.add(newDevice);
-			} else {
-				System.out.println("Error: Unknown device type: " + device.getType());
-			}
-		}
     }
 
 	public static List<Agent> getAgents() {
