@@ -69,7 +69,7 @@ exporters:
 #    topic: v1/devices/me/telemetry
   - exporter: prometheus
     name: Prometheus exporter
-    port: 8080
+    port: 8081
     namespace: energydashboard
 
 agents:
