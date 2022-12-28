@@ -1,4 +1,4 @@
-package restservice;
+package command;
 
 
 import org.json.JSONObject;

@@ -11,7 +11,7 @@ public class Schedule {
     private static String mqtthost;
     private static String mqttuser;
     private static String mqttpassword;
-    // Devices settings
+    // device.Devices settings
     List<Job> jobs;
 
     public Schedule() {

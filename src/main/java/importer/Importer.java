@@ -1,9 +1,8 @@
 package importer;
 
-import config.Configuration;
 import device.*;
+import org.json.JSONObject;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +15,7 @@ public class Importer {
     private String password;
     private String port;
     private String DBname;
+    public DeviceList deviceList = new DeviceList();
 
     private static List<Device> devices;
 
@@ -94,11 +94,12 @@ public class Importer {
         this.DBname = DBname;
     }
 
-    public static List<Device> getDevices() {
-        if (devices == null) {
-            devices = new ArrayList<>();
-        }
-        return devices;
+    public DeviceList getDevicesList() {
+        return deviceList;
+    }
+
+    protected Device registerNewDevice(JSONObject json) {
+        return deviceList.registerNewDevice(json);
     }
 
     public void setDevices(List<Device> devices) {

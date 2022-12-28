@@ -51,7 +51,7 @@ public class LaneAgentTopicSubscriber implements Runnable {
 		try {
 			// Create an Mqtt client
 			MqttClient mqttClient = new MqttClient(host,
-					"TopicSubscriberdSub_" + UUID.randomUUID().toString().substring(0, 8));
+					"LaneAgentSub_" + UUID.randomUUID().toString().substring(0, 8));
 			MqttConnectOptions connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 			connOpts.setUserName(username);

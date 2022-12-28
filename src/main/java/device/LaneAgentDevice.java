@@ -1,10 +1,7 @@
 package device;
 
-import exporter.PrometheusExporter;
-import helper.MQTTTopicPublisher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import scheduler.Schedule;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,7 +22,7 @@ public class LaneAgentDevice extends Device {
         CHECKPeriodicStatusUpdate();
 
     }
-    public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
+    public void receiveMessage(String command, LocalDateTime localDateTime, String topic, String message) {
 
         LOGGER.info("receive message" + topic + ", " + message);
 

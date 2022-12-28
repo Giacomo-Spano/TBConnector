@@ -1,29 +1,19 @@
 importers:
-# - importer: mqtt
-#    name: MQTT importer
-#    host: giacomocasa.duckdns.org:1883
-#    user: "giacomo"
-#    password: "giacomo"
-#    devices:
+  - importer: shelliesmqtt
+    name: MQTT importer
+    host: giacomocasa.duckdns.org:1883
+    user: "giacomo"
+    password: "giacomo"
+    devices:
 #      - name: desktop-pc
 #        type: laneagent
 #        powertopic: laneagents/statusupdate/lane1
 #      - name: cucina
 #        type: shelly25
 #        powertopic: shellies/shellyswitch25-cucina/relay/0/power
-#      - name: soggiorno
-#        type: shelly25
-#        powertopic: shellies/shellyswitch25-cucina/relay/1/power
-#      - name: camera
-#        type: shelly25
-#        powertopic: shellies/shellyswitch25-corridoio/relay/0/power
-#      - name: corridoio
-#        type: shelly25
-#        powertopic: shellies/shellyswitch25-corridoio/relay/1/power
-#      - name: contatore 0
-#        type: Shelly4PMPRO
-#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:0
-#      - name: contatore 1
+#      - friendlyname: contatore 1
+#        name: ShellyPro4PM-84CCA87F1660
+#        id: 1
 #        type: Shelly4PMPRO
 #        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:1
 #      - name: contatore 2
@@ -32,27 +22,29 @@ importers:
 #      - name: contatore 3
 #        type: Shelly4PMPRO
 #        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:3
-#      - name: computer
+#      - friendlyname: computer
+#        name: shelly1pm-box
 #        type: Shelly1PM
+#        token: rFDjl7Fh0fx9PksH6PQJ
 #        powertopic: shellies/shelly1pm-box/relay/0/power
-  - importer: mqtt
-    name: MQTT importer
-    host: 153.77.137.163:8883
-    user: "smartplug"
-    password: "pass1"
-    devices:
-      - name: shelly 1pm atm
-        type: Shelly1PMPRO
-        powertopic: smart-plug/6175/0003/status/switch:0
-  - importer: mqtt
-    name: MQTT importer
-    host: 153.77.136.201:1883
-    user: ""
-    password: ""
-    devices:
-      - name: plugsncr
-        type: shellyplugs
-        powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
+#  - importer: mqtt
+#    name: MQTT importer
+#    host: 153.77.137.163:8883
+#    user: "smartplug"
+#    password: "pass1"
+#    devices:
+#      - name: shelly 1pm atm
+#        type: Shelly1PMPRO
+#        powertopic: smart-plug/6175/0003/status/switch:0
+#  - importer: mqtt
+#    name: MQTT importer
+#    host: 153.77.136.201:1883
+#    user: ""
+#    password: ""
+#    devices:
+#      - name: plugsncr
+#        type: shellyplugs
+#        powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
 
 
 exporters:
@@ -65,7 +57,7 @@ exporters:
 #    password: docker
 #  - exporter: thingsboard
 #    name: Thingsboard exporter
-#    host: giacomocasa.duckdns.org:1884
+#    host: localhost:1883
 #    topic: v1/devices/me/telemetry
   - exporter: prometheus
     name: Prometheus exporter
@@ -73,11 +65,11 @@ exporters:
     namespace: energydashboard
 
 agents:
-  - name: lane2
-    type: lane
-    host: giacomocasa.duckdns.org:1883
-    user: giacomo
-    password: giacomo
-    topic: laneagents/command
-    publishtopic: laneagents/statusupdate
+#  - name: lane2
+#    type: lane
+#    host: giacomocasa.duckdns.org:1883
+#    user: giacomo
+#    password: giacomo
+#    topic: laneagents/command
+#    publishtopic: laneagents/statusupdate
 

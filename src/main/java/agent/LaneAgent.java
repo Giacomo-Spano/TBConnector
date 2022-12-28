@@ -10,6 +10,7 @@ import scheduler.Schedule;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class LaneAgent extends Agent { //
     private static final Logger LOGGER = LogManager.getLogger(LaneAgent.class);
@@ -35,8 +36,7 @@ public class LaneAgent extends Agent { //
                 try {
                     String topic = getPublishtopic() + "/" + getName();
                     String publishMsg = "alive";
-                    MQTTTopicPublisher publisher = new MQTTTopicPublisher();
-                    publisher.createConnection(Schedule.getMQTThost(), Schedule.getMQTTuser(),Schedule.getMQTTpassword());
+
                     if (topic == null || publishMsg == null) {
                         LOGGER.error("topic null");
                         return;
@@ -45,9 +45,14 @@ public class LaneAgent extends Agent { //
                         LOGGER.error("publishMsg null");
                         return;
                     }
+                    MQTTTopicPublisher publisher = new MQTTTopicPublisher();
+                    String clientID = "HelloWorldPub_" + UUID.randomUUID().toString().substring(0,8);
+                    if (publisher.createConnection(Schedule.getMQTThost(), clientID, Schedule.getMQTTuser(),Schedule.getMQTTpassword())) {
+
                     publisher.publishMessage(topic, publishMsg);
                     publisher.closeConnection();
                     LOGGER.info("Message alive sent");
+                    }
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     LOGGER.error(e.getMessage());

@@ -1,4 +1,4 @@
-package restservice;
+package command;
 
 
 public class CommandResult {

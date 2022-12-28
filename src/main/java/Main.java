@@ -2,7 +2,10 @@ import agent.Agent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import command.Command;
+import CommandControllers.ThingsBoardCommandController;
 import config.Configuration;
+
 import exporter.Exporter;
 import importer.Importer;
 
@@ -10,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.springframework.boot.SpringApplication;
-import restservice.CommandApplication;
+import CommandControllers.HTTPCommandApplication;
 import scheduler.JobScheduler;
 
 import java.io.File;
@@ -49,6 +52,8 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        //Command cmd = new ThingsBoardCommandController();
+
         // start agent
         if (Configuration.getAgents() != null && Configuration.getAgents().size() > 0) {
             //Agent ag = Configuration.getAgents().get(0);
@@ -82,7 +87,15 @@ public class Main {
             }
         }
 
-        SpringApplication.run(CommandApplication.class, args);
+        SpringApplication.run(HTTPCommandApplication.class, args);
+
+
+
+        //MyKafkaProducer s = new MyKafkaProducer();
+
+        //s.sendMessage("aa", "bb");
 
     }
+
+
 }

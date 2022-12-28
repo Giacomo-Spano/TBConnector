@@ -17,12 +17,12 @@ public class MQTTTopicPublisher {
 	static boolean isShutdown = false;
 	MqttClient mqttClient;
     
-    public void createConnection(String host, String user, String password)  {
+    public boolean createConnection(String host, String clientId, String user, String password)  {
         System.out.println("TopicPublisher initializing...");
 
         try {
             // Create an Mqtt client
-            mqttClient = new MqttClient("tcp://" + host, "HelloWorldPub_" + UUID.randomUUID().toString().substring(0,8));
+            mqttClient = new MqttClient("tcp://" + host, clientId);
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
             connOpts.setUserName(user);
@@ -32,14 +32,16 @@ public class MQTTTopicPublisher {
             // Connect the client
             System.out.println("Connecting to " + host);
             mqttClient.connect(connOpts);
-            
+
         } catch (MqttException me) {
             System.out.println("Exception:   " + me);
             System.out.println("Reason Code: " + me.getReasonCode());
             System.out.println("Message:     " + me.getMessage());
             if (me.getCause() != null) System.out.println("Cause:       " + me.getCause());
             me.printStackTrace();
+            return false;
         }
+        return true;
     }
     
     public void publishMessage(String topic, String content)  {

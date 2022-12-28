@@ -1,4 +1,4 @@
-package restservice;
+package CommandControllers;
 
 public class UserDetailsRequestModel {
     private String firstName;

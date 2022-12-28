@@ -1,15 +1,14 @@
 package exporter;
 
-import importer.Importer;
-import importer.MQTTImporterTopicSubscriber;
+
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
-//import io.prometheus.client.;
 import io.prometheus.client.Histogram;
 import io.prometheus.client.Summary;
 import io.prometheus.client.exporter.HTTPServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -57,6 +56,26 @@ public class PrometheusExporter extends Exporter {
         return min + (Math.random() * (max - min));
     }
 
+    public void publishPowerMetric(JSONObject json) {
+        LOGGER.info("publishPowerMetric.");
+        String name = json.getString("name");
+        String type = json.getString("type");
+        Double power = json.getDouble("power");
+        LOGGER.info("publishPowerMetric. name: " + name);
+        LOGGER.info("publishPowerMetric. type " + type);
+        LOGGER.info("publishPowerMetric. power " + power);
+
+        try {
+            counter.inc(rand(0, 5));
+            powerGauge.labels(name, type).set(power);
+            histogram.observe(rand(0, 5));
+            summary.observe(rand(0, 5));
+
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     public void publishPowerMetric(String name, String type, String token, LocalDateTime localDateTime, double power) {
 
         LOGGER.info("Publish powwer metric: name=" + name + " powe=" + power);

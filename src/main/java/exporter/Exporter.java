@@ -1,5 +1,7 @@
 package exporter;
 
+import org.json.JSONObject;
+
 import java.time.LocalDateTime;
 
 public class Exporter {
@@ -27,7 +29,7 @@ public class Exporter {
         this.user = exporter.user;
         this.password = exporter.password;
         this.namespace = exporter.namespace;
-
+        this.topic = exporter.topic;
     }
 
     public Exporter(String name, String exporter) {
@@ -112,10 +114,18 @@ public class Exporter {
 
     public  void init() {
     }
-
-    public void publishPowerMetric(String name, String type, String token, LocalDateTime localDateTime, double power) {
+    public void publishAttributes(String deviceid, JSONObject json) {
 
     }
+
+    public void publishPowerMetric(String name, String type, String deviceid, LocalDateTime localDateTime, double power) {
+
+    }
+
+    public void publishPowerMetric(JSONObject json) {
+
+    }
+
 
     public void publishStatusMetric(String name, String type, LocalDateTime localDateTime, double status) {
     }

@@ -1,11 +1,12 @@
 package config;//package com.baeldung.jackson.yaml; XXXXXX
 
+import CommandControllers.CommandController;
 import agent.Agent;
 import agent.LaneAgent;
 import device.*;
 import exporter.*;
 import importer.Importer;
-import importer.MQTTImporter;
+import importer.ShelliesMQTTImporter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class Configuration {
 
-    // Devices settings
+    // device.Devices settings
 	private static List<Device> devices;
 
 	private static List<Agent> agents;
@@ -21,6 +22,8 @@ public class Configuration {
 	private static List<Exporter> exporters;
 
 	private static List<Importer> importers;
+
+	private static List<CommandController> controllers;
 
 
     public Configuration() {
@@ -110,8 +113,8 @@ public class Configuration {
 		while (importerIterator.hasNext()) {
 			Importer importer = importerIterator.next();
 
-			if (importer.getImporter().equals("mqtt")) {
-				MQTTImporter newImporter = new MQTTImporter(importer);
+			if (importer.getImporter().equals("shelliesmqtt")) {
+				ShelliesMQTTImporter newImporter = new ShelliesMQTTImporter(importer);
 				Configuration.importers.add(newImporter);
 			} else {
 				Importer newExporter = new Importer(importer);
