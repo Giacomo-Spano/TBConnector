@@ -26,12 +26,22 @@
 		private String powertopic;
 
 		public Device(JSONObject json) {
-			this.id = json.getString("mac");
-			this.name = json.getString("id");
-			this.type = json.getString("model");
-			this.mac = json.getString("mac");
-			this.new_fw = json.getBoolean("new_fw");
-			this.fw_ver = json.getString("fw_ver");
+			if (!json.has("mac") || !json.has("model")) {
+				throw new RuntimeException("missing required field");
+			} else {
+				this.id = json.getString("mac");
+				this.type = json.getString("model");
+
+			}
+
+			if (json.has("id"))
+				this.name = json.getString("id");
+			if (json.has("mac"))
+				this.mac = json.getString("mac");
+			if (json.has("new_fw"))
+				this.new_fw = json.getBoolean("new_fw");
+			if (json.has("fw_ver"))
+				this.fw_ver = json.getString("fw_ver");
 		}
 
 		public MqttCallback createCallback() {
@@ -131,7 +141,7 @@
 		}
 
 		public void publishAttributes(JSONObject json) {
-
+			LOGGER.info("publishAttributes");
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
@@ -139,21 +149,26 @@
 			}
 		}
 
-		public void publishPowerMessage(LocalDateTime localDateTime, double power) {
-
+		public void publishTelemetryMessage(LocalDateTime localDateTime, double power) {
+			LOGGER.info("publishTelemetry");
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
-				exporter.publishPowerMetric(name, type, getId(), localDateTime, power);
+				exporter.publishTelemetry(name, type, getId(), localDateTime, power);
 			}
 		}
 
-		public void publishPowerMessage(JSONObject json) {
-
+		public void publishTelemetryMessage(JSONObject json) {
+			LOGGER.info("publishTelemetry");
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
-				exporter.publishPowerMetric(json);
+
+				json.put("deviceid", getId());
+				json.put("name", getName());
+				json.put("model", getType());
+
+				exporter.publishTelemetry(json);
 			}
 		}
 

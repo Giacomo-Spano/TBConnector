@@ -2,8 +2,6 @@ package importer;//  aaa
 
 import device.Device;
 import exporter.MQTTExporter;
-import helper.MQTTTopicPublisher;
-import helper.MQTTTopicSubscriber;
 import helper.MQTTWebsocketTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,11 +31,7 @@ public class MQTTImporter extends Importer {
                 // matches any subscription made by the client
                 String msg = new String(message.getPayload());
                 JSONObject json = new JSONObject(msg);
-
-
                 String command = json.getString("command");
-
-
                 LOGGER.info("command: ", command);
                 if (command.equals("pushattributes")) {
                     LOGGER.info("command pushattribute found ");
@@ -51,11 +45,22 @@ public class MQTTImporter extends Importer {
                     }
                 } else if (command.equals("pushtelemetry")) {
                     LOGGER.info("command pushtelemetry found ");
+                    if (!json.has("deviceid") || !json.has("type")) {
+                        LOGGER.error("cannot create new device");
+                        return;
+                    }
                     String deviceid = json.getString("deviceid");
+                    String type = json.getString("type");
                     LOGGER.info("deviceid: ", deviceid);
                     Device device = getDeviceFromId(deviceid);
+                    if (device == null) {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("mac",deviceid );
+                        jsonObject.put("model",type );
+                        device = registerNewDevice(json);
+                    }
                     if (device != null) {
-                        device.publishPowerMessage(json);
+                        device.publishTelemetryMessage(json);
                     }
                 } else {
                     LOGGER.info("command not found ");

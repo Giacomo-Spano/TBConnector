@@ -31,14 +31,20 @@ public class DeviceList {
 	public void init() {
 	}
 	public Device registerNewDevice(JSONObject json) {
+		if (!json.has("id")) {
+			LOGGER.error("missing id - cannot create device");
+			return null;
+		}
+		if (!json.has("model")) {
+			LOGGER.error("missing model - cannot create device");
+			return null;
+		}
 		String id = json.getString("id");
 		String model = json.getString("model");
-		String mac = json.getString("mac");
+		/*String mac = json.getString("mac");
 		Boolean new_fw = json.getBoolean("new_fw");
-		String fw_ver = json.getString("fw_ver");
-
+		String fw_ver = json.getString("fw_ver");*/
 		Iterator<Device> deviceIterator = devices.iterator();
-
 		while (deviceIterator.hasNext()) {
 			Device device = deviceIterator.next();
 			if (device.getId().equals(id)) {
@@ -50,26 +56,20 @@ public class DeviceList {
 		if (model.equals("SHSW-1")) {
 			newDevice = new Shelly1(json);
 			addDevice(newDevice);
-
 		} else if (model.equals("SHSW-25")) {
 			newDevice = new Shelly25(json);
 			addDevice(newDevice);
-
 		} else if (model.equals("SHPLG-S")) {
 			newDevice = new Shelly1PM(json);
 			addDevice(newDevice);
-
 		} else if (model.equals("SHSW-PM")) {
 			newDevice = new Shelly1PM(json);
 			addDevice(newDevice);
-
 		}else {
 			LOGGER.error("cannot create device");
-
 			return null;
 		}
 		LOGGER.info("device created");
-
 		return newDevice;
 	}
 

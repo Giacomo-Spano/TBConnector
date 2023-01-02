@@ -13,6 +13,6 @@ public class ShellyPlugS extends Device {
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
         LOGGER.info("receive message topic: " + topic + ", message" + message);
         double power = Double.valueOf(message);
-        publishPowerMessage(localDateTime, power);
+        publishTelemetryMessage(localDateTime, power);
     }
 }

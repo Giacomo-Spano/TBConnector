@@ -34,14 +34,15 @@ public class MQTTExporter extends Exporter {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        LOGGER.info("attributes published");
     }
 
-    public void publishPowerMetric(JSONObject json) {
+    public void publishTelemetry(JSONObject json) {
         LOGGER.info("publish telemetry - json:" + json.toString());
         json.put("command","pushtelemetry");
         try {
             MQTTWebsocketTopicPublisher publisher = new MQTTWebsocketTopicPublisher();
-            String clientID = "HelloWorldPub_" + UUID.randomUUID().toString().substring(0,8);
+            String clientID = "pubTelemetry_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
                 publisher.publishMessage(topicTelemetryUploadAPI, json.toString());
                 publisher.closeConnection();
@@ -51,5 +52,6 @@ public class MQTTExporter extends Exporter {
             LOGGER.error("failed to publish telemetry" + e.toString());
             e.printStackTrace();
         }
+        LOGGER.info("telemetry published");
     }
 }

@@ -82,7 +82,7 @@
                     // Last measured current in Amperes (shown if applicable)
                     String current = jo.get("current").toString();
 
-                    publishPowerMessage(time, power);
+                    publishTelemetryMessage(time, power);
                 }
 
     }
