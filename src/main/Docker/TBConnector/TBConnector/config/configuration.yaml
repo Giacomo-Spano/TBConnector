@@ -1,32 +1,10 @@
 importers:
   - importer: shelliesmqtt
     name: MQTT importer
-    host: giacomocasa.duckdns.org:1883
-    user: "giacomo"
-    password: "giacomo"
+    host: 153.77.136.201:1883
+    user: ""
+    password: ""
     devices:
-#      - name: desktop-pc
-#        type: laneagent
-#        powertopic: laneagents/statusupdate/lane1
-#      - name: cucina
-#        type: shelly25
-#        powertopic: shellies/shellyswitch25-cucina/relay/0/power
-#      - friendlyname: contatore 1
-#        name: ShellyPro4PM-84CCA87F1660
-#        id: 1
-#        type: Shelly4PMPRO
-#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:1
-#      - name: contatore 2
-#        type: Shelly4PMPRO
-#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:2
-#      - name: contatore 3
-#        type: Shelly4PMPRO
-#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:3
-#      - friendlyname: computer
-#        name: shelly1pm-box
-#        type: Shelly1PM
-#        token: rFDjl7Fh0fx9PksH6PQJ
-#        powertopic: shellies/shelly1pm-box/relay/0/power
 #  - importer: mqtt
 #    name: MQTT importer
 #    host: 153.77.137.163:8883
@@ -59,10 +37,10 @@ exporters:
 #    name: Thingsboard exporter
 #    host: localhost:1883
 #    topic: v1/devices/me/telemetry
-  - exporter: prometheus
-    name: Prometheus exporter
-    port: 8081
-    namespace: energydashboard
+#  - exporter: prometheus
+#    name: Prometheus exporter
+#    port: 8081
+#    namespace: energydashboard
   - exporter: mqttwebsocket
     name: MQTT websocket exporter
     host: giacomocasa.duckdns.org:9001
