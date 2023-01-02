@@ -4,14 +4,15 @@ services:
     build: TBConnector
     ports:
       - 8081:8081
+      - 8090:8090
     restart: unless-stopped
-  mqtt_hivemq:
-    image: "hivemq/hivemq-ce:latest"
-    container_name: "system-mqtt"
-    hostname: "mqtt.system.htw"
-    restart: always
-    ports:
-      - 1883:1883
+#  mqtt_hivemq:
+#    image: "hivemq/hivemq-ce:latest"
+#    container_name: "system-mqtt"
+#    hostname: "mqtt.system.htw"
+#    restart: always
+#    ports:
+#      - 1883:1883
 
 
 
