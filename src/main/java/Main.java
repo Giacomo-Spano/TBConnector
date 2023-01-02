@@ -2,8 +2,6 @@ import agent.Agent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import command.Command;
-import CommandControllers.ThingsBoardCommandController;
 import config.Configuration;
 
 import exporter.Exporter;
@@ -94,6 +92,9 @@ public class Main {
         //MyKafkaProducer s = new MyKafkaProducer();
 
         //s.sendMessage("aa", "bb");
+        //_MQTTWSTopicPublisher tp = new _MQTTWSTopicPublisher();
+        //tp.prova();
+
 
     }
 

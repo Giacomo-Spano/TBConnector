@@ -28,7 +28,7 @@ public class HTTPCommandController extends CommandController {
         SimpleProducer p = new SimpleProducer();
         p.init();
         p.sendMessage("provatopic", "mesasagigio");
-        p.close();
+        //p.close();
         return new CommandResult(counter.incrementAndGet(), String.format(template, name));
     }
 

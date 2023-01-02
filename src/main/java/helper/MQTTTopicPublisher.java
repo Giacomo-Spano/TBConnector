@@ -2,6 +2,8 @@ package helper;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -13,12 +15,12 @@ import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
  *
  */
 public class MQTTTopicPublisher {
-	
+    private static final Logger LOGGER = LogManager.getLogger(MQTTTopicPublisher.class);
 	static boolean isShutdown = false;
 	MqttClient mqttClient;
     
     public boolean createConnection(String host, String clientId, String user, String password)  {
-        System.out.println("TopicPublisher initializing...");
+        LOGGER.info("TopicPublisher initializing...");
 
         try {
             // Create an Mqtt client
@@ -30,13 +32,13 @@ public class MQTTTopicPublisher {
             connOpts.setAutomaticReconnect(true);
             
             // Connect the client
-            System.out.println("Connecting to " + host);
+            LOGGER.info("Connecting to " + host);
             mqttClient.connect(connOpts);
 
         } catch (MqttException me) {
-            System.out.println("Exception:   " + me);
-            System.out.println("Reason Code: " + me.getReasonCode());
-            System.out.println("Message:     " + me.getMessage());
+            LOGGER.error("Exception:   " + me);
+            LOGGER.error("Reason Code: " + me.getReasonCode());
+            LOGGER.error("Message:     " + me.getMessage());
             if (me.getCause() != null) System.out.println("Cause:       " + me.getCause());
             me.printStackTrace();
             return false;
@@ -52,8 +54,8 @@ public class MQTTTopicPublisher {
 	            // Set the QoS on the Messages - 
 	            // Here we are using QoS of 0 (equivalent to Direct Messaging in Solace)
 	            message.setQos(0);
-	            
-	            System.out.println("Publishing message. topic: " + topic + " Mesessage:" + message);
+
+                LOGGER.info("Publishing message. topic: " + topic + " Mesessage:" + message);
 	            
 	            // Publish the message
 	            try {
@@ -61,11 +63,11 @@ public class MQTTTopicPublisher {
 				} catch (MqttPersistenceException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					System.out.println(e1.toString());
+                    LOGGER.error(e1.toString());
 				} catch (MqttException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					System.out.println(e1.toString());
+                    LOGGER.error(e1.toString());
 				}	            
     }
     
@@ -77,8 +79,8 @@ public class MQTTTopicPublisher {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            
-            System.out.println("Messages published.");
+
+            LOGGER.info("Messages published.");
 
     }
 

@@ -19,151 +19,130 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A Mqtt topic subscriber
- *
  */
 public class ShelliesMQTTImporter extends Importer {
 
-	private static final Logger LOGGER = LogManager.getLogger(ShelliesMQTTImporter.class);
+    private static final Logger LOGGER = LogManager.getLogger(ShelliesMQTTImporter.class);
 
-	public static String prefix = "shellies/";
+    public static String prefix = "shellies/";
 
-	public ShelliesMQTTImporter(Importer importer) {
-		super(importer);
-	}
+    public ShelliesMQTTImporter(Importer importer) {
+        super(importer);
+    }
 
-	public  void init()  {
+    public void init() {
 
-		MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shelliesimporter_", getUser(),getPassword(), "shellies/#", new MqttCallback() {
-			@Override
-			public void connectionLost(Throwable throwable) {
+        MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shelliesimporter_", getUser(), getPassword(), "shellies/#", new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable throwable) {
 
-			}
+            }
 
-			@Override
-			public void messageArrived(String topic, MqttMessage message) throws Exception {
-				// Called when a message arrives from the server that
-				// matches any subscription made by the client
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                // Called when a message arrives from the server that
+                // matches any subscription made by the client
+                LOGGER.info("Shellies, command received ");
+                LOGGER.info("topic: " + topic);
+                String msg = new String(message.getPayload());
+                LOGGER.info("message: " + msg);
 
+                String str = topic.replace(prefix, "");
+                int index = str.indexOf("/");
+                String deviceid = null;
+                if (index != -1) {
+                    deviceid = str.substring(0, index);
+                    String command = str.replace(deviceid + "/", "");
 
-				String str = topic.replace(prefix, "");
-				int index = str.indexOf("/");
-				String deviceid = null;
-				if (index != -1) {
-					deviceid = str.substring(0,index);
+                    LOGGER.info("command: ", command);
+                    if (command.equals("announce")) {
+                        LOGGER.info("command announce found ");
+                        LOGGER.info("receive message topic: " + topic + ", message" + msg);
+                        JSONObject json = new JSONObject(msg);
+                        registerNewDevice(json);
+                    }
 
-					String command = str.replace(deviceid + "/", "");
+                }
+            }
 
-					LOGGER.info("command: ", command);
-					if (command.equals("announce")) {
-						LOGGER.info("command announce found ");
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 
-						String msg = new String(message.getPayload());
-						LOGGER.info("receive message topic: " + topic + ", message" + msg);
+            }
+        });
+        Thread thread = new Thread(ts);
+        thread.start();
 
-						JSONObject json = new JSONObject(msg);
-						registerNewDevice(json);
-					}
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-						/*Iterator<Device> deviceIterator = getDevicesList().getDevices().iterator();
-						while (deviceIterator.hasNext()) {
-							Device device = deviceIterator.next();
-							if (device.getId().equals(deviceid)) {
-								device.receiveMessage(command, localDateTime, topic,new String(message.getPayload()));
-							} else {
-								LOGGER.info("device not found ");
-							}
-						}*/
-				}
-			}
+        publishAnnounce();
+    }
 
-			@Override
-			public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+    public void subscribeShelliesTopic(MqttClient mqttClient) {
+        LOGGER.info("subscribeAvailabilityTopic");
+        try {
+            mqttClient.subscribe("shellies/#", 0);
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-			}
-		});
-		Thread thread = new Thread(ts);
-		thread.start();
+    public void publishAnnounce() {
 
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+        try {
+            String publishTopic = "shellies/command";
+            String publishMsg = "announce";
 
-		/*while (!ts.getStarted()) {
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}*/
-		publishAnnounce();
+            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
+            String clientID = "HelloWorldPub_" + UUID.randomUUID().toString().substring(0, 8);
+            if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
+                publisher.publishMessage(publishTopic, publishMsg);
+                publisher.closeConnection();
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
+    protected Device registerNewDevice(JSONObject json) {
+        Device newDevice = super.registerNewDevice(json);
+        if (newDevice == null) {
+            LOGGER.error("Cannot create new device");
+            return null;
+        }
 
+        newDevice.publishAttributes(json);
 
-	}
+        MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shimporter" + newDevice.getId() + "_", getUser(), getPassword(), "shellies/" + newDevice.getName() + "/#", new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable throwable) {
 
-	public void subscribeShelliesTopic(MqttClient mqttClient) {
-		LOGGER.info("subscribeAvailabilityTopic");
-		try {
-			mqttClient.subscribe("shellies/#", 0);
-		} catch (MqttException e) {
-			throw new RuntimeException(e);
-		}
-	}
+            }
 
-	public void publishAnnounce() {
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
 
-		try {
-			String publishTopic = "shellies/command";
-			String publishMsg = "announce";
+                LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
+                System.out.println(localDateTime);
 
-			MQTTTopicPublisher publisher = new MQTTTopicPublisher();
-			String clientID = "HelloWorldPub_" + UUID.randomUUID().toString().substring(0,8);
-			if(publisher.createConnection(gethost(), clientID, getUser(),getPassword())) {
-				publisher.publishMessage(publishTopic, publishMsg);
-				publisher.closeConnection();
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+                String time = new Timestamp(System.currentTimeMillis()).toString();
 
-	protected Device registerNewDevice(JSONObject json) {
-		Device newDevice = super.registerNewDevice(json);
-		if (newDevice == null) {
-			LOGGER.error("Cannot create new device");
-			return null;
-		}
+                newDevice.receiveMessage(localDateTime, topic, new String(mqttMessage.getPayload()));
+            }
 
-		newDevice.publishAttributes(json);
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 
-		MQTTTopicSubscriber ts = new MQTTTopicSubscriber("giacomocasa.duckdns.org:1883", "shimporter" + newDevice.getId() + "_", "giacomo","giacomo", "shellies/"+newDevice.getName() + "/#", new MqttCallback() {
-			@Override
-			public void connectionLost(Throwable throwable) {
+            }
+        });
+        Thread thread = new Thread(ts);
+        thread.start();
 
-			}
-
-			@Override
-			public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-
-				LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
-				System.out.println(localDateTime);
-
-				String time = new Timestamp(System.currentTimeMillis()).toString();
-
-				newDevice.receiveMessage(localDateTime, topic,new String(mqttMessage.getPayload()));
-			}
-
-			@Override
-			public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
-			}
-		});
-		Thread thread = new Thread(ts);
-		thread.start();
-
-		return newDevice;
-	}
+        return newDevice;
+    }
 }

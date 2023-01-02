@@ -11,9 +11,7 @@ public class ShellyPlugS extends Device {
         super(device);
     }
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
-
         LOGGER.info("receive message topic: " + topic + ", message" + message);
-
         double power = Double.valueOf(message);
         publishPowerMessage(localDateTime, power);
     }

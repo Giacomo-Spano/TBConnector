@@ -17,8 +17,6 @@ public class Importer {
     private String DBname;
     public DeviceList deviceList = new DeviceList();
 
-    private static List<Device> devices;
-
     public Importer() {
 
     }
@@ -29,7 +27,6 @@ public class Importer {
         this.host = importer.host;
         this.user = importer.user;
         this.password = importer.password;
-        this.devices = importer.devices;
     }
 
     public Importer(String name, String importer) {
@@ -102,40 +99,18 @@ public class Importer {
         return deviceList.registerNewDevice(json);
     }
 
-    public void setDevices(List<Device> devices) {
-        if (devices == null) {
-            return;
-            //devices = new ArrayList<>();
-        }
-
-        this.devices = new ArrayList<>();
-        //Configuration.devices = new ArrayList<>();
-        Iterator<Device> deviceIterator = devices.iterator();
+    protected Device getDeviceFromId(String deviceId) {
+        Iterator<Device> deviceIterator = getDevicesList().getDevices().iterator();
         while (deviceIterator.hasNext()) {
             Device device = deviceIterator.next();
-            if (device.getType().equals("shelly25")) {
-                Shelly25 newDevice = new Shelly25(device);
-                this.devices.add(newDevice);
-            } else if (device.getType().equals("Shelly1PM")) {
-                Shelly1PM newDevice = new Shelly1PM(device);
-                this.devices.add(newDevice);
-            } else if (device.getType().equals("Shelly4PMPRO")) {
-                Shelly4PMPRO newDevice = new Shelly4PMPRO(device);
-                this.devices.add(newDevice);
-            } else if (device.getType().equals("Shelly1PMPRO")) {
-                Shelly1PMPRO newDevice = new Shelly1PMPRO(device);
-                this.devices.add(newDevice);
-            } else if (device.getType().equals("shellyplugs")) {
-                ShellyPlugS newDevice = new ShellyPlugS(device);
-                this.devices.add(newDevice);
-            } else if (device.getType().equals("laneagent")) {
-                LaneAgentDevice newDevice = new LaneAgentDevice(device);
-                this.devices.add(newDevice);
-            } else {
-                System.out.println("Error: Unknown device type: " + device.getType());
+            if (device.getId().equals(deviceId)) {
+                return device;
             }
         }
+        return null;
     }
+
+
 
     public void init() {
     }

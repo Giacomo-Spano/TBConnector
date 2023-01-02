@@ -6,6 +6,7 @@ import agent.LaneAgent;
 import device.*;
 import exporter.*;
 import importer.Importer;
+import importer.MQTTImporter;
 import importer.ShelliesMQTTImporter;
 
 import java.util.ArrayList;
@@ -89,6 +90,9 @@ public class Configuration {
 			} else if (exporter.getExporter().equals("prometheus")) {
 				PrometheusExporter newExporter = new PrometheusExporter(exporter);
 				Configuration.exporters.add(newExporter);
+			} else if (exporter.getExporter().equals("mqttwebsocket")) {
+				MQTTExporter newExporter = new MQTTExporter(exporter);
+				Configuration.exporters.add(newExporter);
 			} else {
 				Exporter newExporter = new Exporter(exporter);
 				Configuration.exporters.add(newExporter);
@@ -116,7 +120,10 @@ public class Configuration {
 			if (importer.getImporter().equals("shelliesmqtt")) {
 				ShelliesMQTTImporter newImporter = new ShelliesMQTTImporter(importer);
 				Configuration.importers.add(newImporter);
-			} else {
+			} else if (importer.getImporter().equals("mqttimporter")) {
+				MQTTImporter newImporter = new MQTTImporter(importer);
+				Configuration.importers.add(newImporter);
+			} else{
 				Importer newExporter = new Importer(importer);
 				Configuration.importers.add(importer);
 				//System.out.println("Error: Unknown device type: " + exporter.getType());

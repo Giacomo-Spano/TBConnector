@@ -32,10 +32,8 @@ public class ShellyPM extends Shelly {
     }
 
     public void receivePowerMessage(LocalDateTime time, String topic, String message) {
-        LOGGER.info(
-                "\nReceived a Message!" + "\n\tTime:    " + time + "\n\tTopic:   " + topic + "\n\tMessage: "                        + message + "\n");
+        LOGGER.info("receiveMessage - topic:" + topic + ", message:" + message);
         double power = Double.valueOf(message);
-        //tring publishMsg = "{\"power\":\"" + power + "\"}";
         JSONObject json = new JSONObject(/*publishMsg*/);
         json.put("deviceid", getId());
         json.put("name", getName());

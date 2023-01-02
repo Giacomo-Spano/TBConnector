@@ -1,0 +1,19 @@
+name: prova
+mqtthost: giacomocasa.duckdns.org:1883
+mqttuser: giacomo
+mqttpassword: giacomo
+jobs:
+  - name: lane1xxx mqtt sleep
+    jobtype: mqttcommand
+    crontrigger: "0 15 16 1/1 * ? *"
+    topic: "xxx/yyy1"
+    message: sleep
+  - name: lane2xxx run script
+    jobtype: runscriptcommand
+    crontrigger: "0 16 16 1/1 * ? *"
+    script: "cmd /c start d:\\sample\\sample.bat"
+  - name: lane1 wol restart
+    jobtype: wolcommand
+    crontrigger: "0 16 16 1/1 * ? *"
+    macaddress: 00-22-4D-7C-36-F2
+    ipaddress: 192.168.1.209

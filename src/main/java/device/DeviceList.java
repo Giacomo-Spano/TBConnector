@@ -43,7 +43,7 @@ public class DeviceList {
 			Device device = deviceIterator.next();
 			if (device.getId().equals(id)) {
 				LOGGER.info("device " + id + " already registered");
-				return null;
+				return device;
 			}
 		}
 		Device newDevice;
@@ -53,6 +53,10 @@ public class DeviceList {
 
 		} else if (model.equals("SHSW-25")) {
 			newDevice = new Shelly25(json);
+			addDevice(newDevice);
+
+		} else if (model.equals("SHPLG-S")) {
+			newDevice = new Shelly1PM(json);
 			addDevice(newDevice);
 
 		} else if (model.equals("SHSW-PM")) {

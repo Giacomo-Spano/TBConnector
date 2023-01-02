@@ -25,6 +25,7 @@ public class Shelly extends Device {
     }
 
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
+        LOGGER.info("receiveMessage - topic:" + topic + ", message:" + message);
         String command = topic.replace(ShelliesMQTTImporter.prefix, "");
         command = command.replace(getId() + "/", "");
         if (command.equals("announce")) {
@@ -33,7 +34,7 @@ public class Shelly extends Device {
         } else if (command.equals(infoTopic)) {
             receiveInfo(localDateTime, topic, message);
         } else {
-            LOGGER.info("Topic not found");
+            LOGGER.warn("Topic \"" + topic + "\" not found");
         }
     }
 

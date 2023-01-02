@@ -1,0 +1,80 @@
+importers:
+  - importer: shelliesmqtt
+    name: MQTT importer
+    host: giacomocasa.duckdns.org:1883
+    user: "giacomo"
+    password: "giacomo"
+    devices:
+#      - name: desktop-pc
+#        type: laneagent
+#        powertopic: laneagents/statusupdate/lane1
+#      - name: cucina
+#        type: shelly25
+#        powertopic: shellies/shellyswitch25-cucina/relay/0/power
+#      - friendlyname: contatore 1
+#        name: ShellyPro4PM-84CCA87F1660
+#        id: 1
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:1
+#      - name: contatore 2
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:2
+#      - name: contatore 3
+#        type: Shelly4PMPRO
+#        powertopic: ShellyPro4PM-84CCA87F1660/status/switch:3
+#      - friendlyname: computer
+#        name: shelly1pm-box
+#        type: Shelly1PM
+#        token: rFDjl7Fh0fx9PksH6PQJ
+#        powertopic: shellies/shelly1pm-box/relay/0/power
+#  - importer: mqtt
+#    name: MQTT importer
+#    host: 153.77.137.163:8883
+#    user: "smartplug"
+#    password: "pass1"
+#    devices:
+#      - name: shelly 1pm atm
+#        type: Shelly1PMPRO
+#        powertopic: smart-plug/6175/0003/status/switch:0
+#  - importer: mqtt
+#    name: MQTT importer
+#    host: 153.77.136.201:1883
+#    user: ""
+#    password: ""
+#    devices:
+#      - name: plugsncr
+#        type: shellyplugs
+#        powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
+
+
+exporters:
+#  - exporter: postgres
+#    name: postgres exporter
+#    host: 192.168.1.209:5432
+#    port: 5432
+#    DBName: postgres
+#    user: postgres
+#    password: docker
+#  - exporter: thingsboard
+#    name: Thingsboard exporter
+#    host: localhost:1883
+#    topic: v1/devices/me/telemetry
+  - exporter: prometheus
+    name: Prometheus exporter
+    port: 8081
+    namespace: energydashboard
+  - exporter: mqttwebsocket
+    name: MQTT websocket exporter
+    host: giacomocasa.duckdns.org:9001
+    user: giacomo
+    password: giacomo
+
+agents:
+#  - name: lane2
+#    type: lane
+#    host: giacomocasa.duckdns.org:1883
+#    user: giacomo
+#    password: giacomo
+#    topic: laneagents/command
+#    publishtopic: laneagents/statusupdate
+
