@@ -32,7 +32,7 @@ public class ThingsBoardExporter extends Exporter {
         }
     }
 
-    public void publishPowerMetric(String name, String type, String token, LocalDateTime localDateTime, double power) {
+    public void publishTelemetry(String name, String type, String token, LocalDateTime localDateTime, double power) {
 
         try {
             String publishTopic = getTopic();//"v1/devices/me/telemetry";
@@ -50,9 +50,9 @@ public class ThingsBoardExporter extends Exporter {
         }
     }
 
-    public void publishPowerMetric(JSONObject json) {
+    public void publishTelemetry(JSONObject json, String deviceId, String type) {
 
-        String token = json.getString("deviceid");
+        String token = deviceId;//json.getString("deviceid");
         try {
             String publishTopic = getTopic();//"v1/devices/me/telemetry";
 

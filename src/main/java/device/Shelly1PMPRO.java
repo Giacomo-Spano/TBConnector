@@ -29,6 +29,6 @@ public class Shelly1PMPRO extends Device {
         // Last measured current in Amperes (shown if applicable)
         String current = jo.get("current").toString();
 
-        publishPowerMessage(localDateTime, power);
+        publishTelemetryMessage(localDateTime, power);
     }
 }

@@ -2,8 +2,6 @@ package importer;//  aaa
 
 import device.Device;
 import exporter.MQTTExporter;
-import helper.MQTTTopicPublisher;
-import helper.MQTTTopicSubscriber;
 import helper.MQTTWebsocketTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,11 +31,7 @@ public class MQTTImporter extends Importer {
                 // matches any subscription made by the client
                 String msg = new String(message.getPayload());
                 JSONObject json = new JSONObject(msg);
-
-
                 String command = json.getString("command");
-
-
                 LOGGER.info("command: ", command);
                 if (command.equals("pushattributes")) {
                     LOGGER.info("command pushattribute found ");
@@ -51,11 +45,30 @@ public class MQTTImporter extends Importer {
                     }
                 } else if (command.equals("pushtelemetry")) {
                     LOGGER.info("command pushtelemetry found ");
+                    if (!json.has("deviceid")) {
+                        LOGGER.error("cannot find deviceid");
+                        return;
+                    }
                     String deviceid = json.getString("deviceid");
                     LOGGER.info("deviceid: ", deviceid);
                     Device device = getDeviceFromId(deviceid);
+                    if (device == null) {
+                        // if device does not exist create a new one
+                        if (!json.has("type")) {
+                            LOGGER.error("cannot create new device");
+                            return;
+                        }
+                        String type = json.getString("type");
+                        if (json.has("name"));
+                            String name = json.getString("name");
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("mac",deviceid );
+                        jsonObject.put("model",type );
+                        jsonObject.put("name",name );
+                        device = registerNewDevice(jsonObject);
+                    }
                     if (device != null) {
-                        device.publishPowerMessage(json);
+                        device.publishTelemetryMessage(json);
                     }
                 } else {
                     LOGGER.info("command not found ");

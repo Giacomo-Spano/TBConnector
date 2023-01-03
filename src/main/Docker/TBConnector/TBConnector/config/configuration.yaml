@@ -41,10 +41,15 @@ exporters:
 #    name: Prometheus exporter
 #    port: 8081
 #    namespace: energydashboard
+#  - exporter: mqttwebsocket
+#    name: MQTT websocket exporter
+#    host: giacomocasa.duckdns.org:9001
+#    user: giacomo
+#    password: giacomo
   - exporter: mqttwebsocket
     name: MQTT websocket exporter
-    host: giacomocasa.duckdns.org:9001
-    user: giacomo
+    host: maqiatto.com:8883
+    user: giacomo.spano@libero.it
     password: giacomo
 
 agents:

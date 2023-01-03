@@ -57,11 +57,11 @@ public class ShelliesMQTTImporter extends Importer {
                     LOGGER.info("command: ", command);
                     if (command.equals("announce")) {
                         LOGGER.info("command announce found ");
-                        LOGGER.info("receive message topic: " + topic + ", message" + msg);
                         JSONObject json = new JSONObject(msg);
-                        registerNewDevice(json);
+                        Device newDevice = registerNewDevice(json);
+                        if (newDevice != null)
+                            newDevice.publishAttributes(json);
                     }
-
                 }
             }
 
@@ -115,13 +115,11 @@ public class ShelliesMQTTImporter extends Importer {
             LOGGER.error("Cannot create new device");
             return null;
         }
-
-        newDevice.publishAttributes(json);
-
+        //newDevice.publishAttributes(json);
         MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shimporter" + newDevice.getId() + "_", getUser(), getPassword(), "shellies/" + newDevice.getName() + "/#", new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
-
+                LOGGER.error("connectionLost");
             }
 
             @Override

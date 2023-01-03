@@ -16,7 +16,7 @@ public class KafkaProxyAgentExporter extends Exporter {
 
     }
 
-    public void publishPowerMetric(String name, String type, String token, LocalDateTime localDateTime, double power) {
+    public void publishTelemetry(String name, String type, String token, LocalDateTime localDateTime, double power) {
 
     }
 

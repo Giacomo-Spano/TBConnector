@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class MQTTExporter extends Exporter {
     private static final Logger LOGGER = LogManager.getLogger(MQTTExporter.class);
-    public final static String prefix = "update";
+    public final static String prefix = "giacomo.spano@libero.it/update";
     private String topicTelemetryUploadAPI = prefix + "/telemetry";
     private String topicAttribytesAPI = prefix + "/attributes";
     public MQTTExporter(Exporter exporter) {
@@ -34,14 +34,17 @@ public class MQTTExporter extends Exporter {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        LOGGER.info("attributes published");
     }
 
-    public void publishPowerMetric(JSONObject json) {
+    public void publishTelemetry(JSONObject json, String deviceId, String type) {
         LOGGER.info("publish telemetry - json:" + json.toString());
         json.put("command","pushtelemetry");
+        json.put("deviceid", deviceId);
+        json.put("type", type);
         try {
             MQTTWebsocketTopicPublisher publisher = new MQTTWebsocketTopicPublisher();
-            String clientID = "HelloWorldPub_" + UUID.randomUUID().toString().substring(0,8);
+            String clientID = "pubTelemetry_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
                 publisher.publishMessage(topicTelemetryUploadAPI, json.toString());
                 publisher.closeConnection();
@@ -51,5 +54,6 @@ public class MQTTExporter extends Exporter {
             LOGGER.error("failed to publish telemetry" + e.toString());
             e.printStackTrace();
         }
+        LOGGER.info("telemetry published");
     }
 }

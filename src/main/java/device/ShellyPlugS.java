@@ -1,18 +1,26 @@
 package device;
 
+import importer.ShelliesMQTTImporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 
-public class ShellyPlugS extends Device {
+public class ShellyPlugS extends ShellyPM {
     private static final Logger LOGGER = LogManager.getLogger(ShellyPlugS.class);
     public ShellyPlugS(Device device) {
         super(device);
     }
+
+    public ShellyPlugS(JSONObject json) {
+        super(json);
+    }
+
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
-        LOGGER.info("receive message topic: " + topic + ", message" + message);
-        double power = Double.valueOf(message);
-        publishPowerMessage(localDateTime, power);
+        LOGGER.info("receiveMessage - topic:" + topic + ", message:" + message);
+        String command = topic.replace(ShelliesMQTTImporter.prefix, "");
+        command = command.replace(getId() + "/", "");
+        super.receiveMessage(localDateTime, topic, message);
     }
 }
