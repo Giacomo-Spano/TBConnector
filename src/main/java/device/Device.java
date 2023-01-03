@@ -31,11 +31,10 @@
 			} else {
 				this.id = json.getString("mac");
 				this.type = json.getString("model");
-
 			}
 
-			if (json.has("id"))
-				this.name = json.getString("id");
+			if (json.has("name"))
+				this.name = json.getString("name");
 			if (json.has("mac"))
 				this.mac = json.getString("mac");
 			if (json.has("new_fw"))
@@ -164,11 +163,11 @@
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
 
-				json.put("deviceid", getId());
-				json.put("name", getName());
-				json.put("model", getType());
+				//json.put("deviceid", getId());
+				//json.put("name", getName());
+				//json.put("model", getType());
 
-				exporter.publishTelemetry(json);
+				exporter.publishTelemetry(json,getId(),getType());
 			}
 		}
 

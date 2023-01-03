@@ -61,14 +61,14 @@ exporters:
 #    DBName: postgres
 #    user: postgres
 #    password: docker
-#  - exporter: thingsboard
-#    name: Thingsboard exporter
-#    host: localhost:1883
-#    topic: v1/devices/me/telemetry
-#  - exporter: prometheus
-#    name: Prometheus exporter
-#    port: 8081
-#    namespace: energydashboard
+  - exporter: thingsboard
+    name: Thingsboard exporter
+    host: giacomocasa.duckdns.org:1885
+    topic: v1/devices/me/telemetry
+  - exporter: prometheus
+    name: Prometheus exporter
+    port: 8081
+    namespace: energydashboard
 #  - exporter: mqttwebsocket
 #    name: MQTT websocket exporter
 #    host: giacomocasa.duckdns.org:9001

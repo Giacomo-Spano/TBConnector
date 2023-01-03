@@ -45,19 +45,27 @@ public class MQTTImporter extends Importer {
                     }
                 } else if (command.equals("pushtelemetry")) {
                     LOGGER.info("command pushtelemetry found ");
-                    if (!json.has("deviceid") || !json.has("type")) {
-                        LOGGER.error("cannot create new device");
+                    if (!json.has("deviceid")) {
+                        LOGGER.error("cannot find deviceid");
                         return;
                     }
                     String deviceid = json.getString("deviceid");
-                    String type = json.getString("type");
                     LOGGER.info("deviceid: ", deviceid);
                     Device device = getDeviceFromId(deviceid);
                     if (device == null) {
+                        // if device does not exist create a new one
+                        if (!json.has("type")) {
+                            LOGGER.error("cannot create new device");
+                            return;
+                        }
+                        String type = json.getString("type");
+                        if (json.has("name"));
+                            String name = json.getString("name");
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("mac",deviceid );
                         jsonObject.put("model",type );
-                        device = registerNewDevice(json);
+                        jsonObject.put("name",name );
+                        device = registerNewDevice(jsonObject);
                     }
                     if (device != null) {
                         device.publishTelemetryMessage(json);

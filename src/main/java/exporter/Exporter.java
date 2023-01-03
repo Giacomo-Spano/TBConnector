@@ -122,7 +122,7 @@ public class Exporter {
 
     }
 
-    public void publishTelemetry(JSONObject json) {
+    public void publishTelemetry(JSONObject json, String deviceId, String type) {
 
     }
 

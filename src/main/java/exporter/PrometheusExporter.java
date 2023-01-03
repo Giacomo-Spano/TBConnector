@@ -56,10 +56,9 @@ public class PrometheusExporter extends Exporter {
         return min + (Math.random() * (max - min));
     }
 
-    public void publishTelemetry(JSONObject json) {
+    public void publishTelemetry(JSONObject json, String deviceId, String type) {
         LOGGER.info("publishPowerMetric.");
         String name = json.getString("name");
-        String type = json.getString("type");
         Double power = json.getDouble("power");
         LOGGER.info("publishPowerMetric. name: " + name);
         LOGGER.info("publishPowerMetric. type " + type);
