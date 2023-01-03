@@ -116,6 +116,7 @@ public class ShelliesMQTTImporter extends Importer {
             return null;
         }
         //newDevice.publishAttributes(json);
+        LOGGER.info("subscribe to new device messages");
         MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shimporter" + newDevice.getId() + "_", getUser(), getPassword(), "shellies/" + newDevice.getName() + "/#", new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
@@ -141,7 +142,7 @@ public class ShelliesMQTTImporter extends Importer {
         });
         Thread thread = new Thread(ts);
         thread.start();
-
+        LOGGER.info("subscribed to new device messages ");
         return newDevice;
     }
 }
