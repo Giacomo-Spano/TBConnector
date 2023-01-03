@@ -20,7 +20,9 @@ public class MQTTImporter extends Importer {
 
     public void init() {
 
-        MQTTWebsocketTopicSubscriber ts = new MQTTWebsocketTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), MQTTExporter.prefix + "/#", new MqttCallback() {
+        String topicToSSubscribe = MQTTExporter.prefix + "/#";
+        //String topicToSSubscribe = MQTTExporter.prefix + "/update/attributes";
+        MQTTWebsocketTopicSubscriber ts = new MQTTWebsocketTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), topicToSSubscribe, new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
                 LOGGER.error("cconnecttion lost");

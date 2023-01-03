@@ -22,9 +22,10 @@ public class ShellyPM extends Shelly {
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
         String command = topic.replace(ShelliesMQTTImporter.prefix, "");
         command = command.replace(getName() + "/", "");
-
+        LOGGER.info("command:" + command);
         super.receiveMessage(localDateTime, topic, message);
         if (command.equals(powerTopic)) {
+            LOGGER.info("Received power update");
             receivePowerMessage(localDateTime, topic, message);
         } else {
             LOGGER.info("Topic not found");

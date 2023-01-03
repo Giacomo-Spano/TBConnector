@@ -1,5 +1,6 @@
 package helper;
 
+import exporter.MQTTExporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
@@ -88,7 +89,11 @@ public class MQTTWebsocketTopicSubscriber implements Runnable {
 
 			mqttClient.setCallback(callback);
 
-			mqttClient.subscribe(topicToSubscribe, 0);
+			//mqttClient.subscribe(topicToSubscribe, 0);
+			String topic = "giacomo.spano@libero.it/update/attributes";//MQTTExporter.prefix + "/update/attributes";
+			mqttClient.subscribe(topic, 0);
+			topic = MQTTExporter.prefix + "/update/telemetry";
+			mqttClient.subscribe(topic, 0);
 
 		} catch (MqttException me) {
 			LOGGER.error("Exception:   " + me);

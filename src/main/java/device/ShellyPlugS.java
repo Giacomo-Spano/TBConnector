@@ -21,6 +21,7 @@ public class ShellyPlugS extends ShellyPM {
         LOGGER.info("receiveMessage - topic:" + topic + ", message:" + message);
         String command = topic.replace(ShelliesMQTTImporter.prefix, "");
         command = command.replace(getId() + "/", "");
+        LOGGER.info("command:" + command);
         super.receiveMessage(localDateTime, topic, message);
     }
 }

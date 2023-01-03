@@ -125,6 +125,7 @@ public class ShelliesMQTTImporter extends Importer {
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
 
+                LOGGER.info("Message topic: " + topic + " payload: " + mqttMessage.getPayload() +"arrived");
                 LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
                 System.out.println(localDateTime);
 

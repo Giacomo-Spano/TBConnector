@@ -1,14 +1,19 @@
 importers:
-  - importer: shelliesmqtt
-    name: MQTT importer
-    host: giacomocasa.duckdns.org:1883
-    user: "giacomo"
-    password: "giacomo"
-    devices:
+#  - importer: shelliesmqtt
+#    name: MQTT importer
+#    host: giacomocasa.duckdns.org:1883
+#    user: "giacomo"
+#    password: "giacomo"
+#    devices:
+#  - importer: mqttimporter
+#    name: MQTT importer
+#    host: giacomocasa.duckdns.org:9001
+#    user: "giacomo"
+#    password: "giacomo"
   - importer: mqttimporter
     name: MQTT importer
-    host: giacomocasa.duckdns.org:9001
-    user: "giacomo"
+    host: maqiatto.com:8883
+    user: "giacomo.spano@libero.it"
     password: "giacomo"
 #    devices:
 #      - name: desktop-pc
@@ -63,12 +68,13 @@ exporters:
 #    password: docker
   - exporter: thingsboard
     name: Thingsboard exporter
-    host: giacomocasa.duckdns.org:1885
+    #host: giacomocasa.duckdns.org:1885
+    host: localhost:1883
     topic: v1/devices/me/telemetry
-  - exporter: prometheus
-    name: Prometheus exporter
-    port: 8081
-    namespace: energydashboard
+#  - exporter: prometheus
+#    name: Prometheus exporter
+#    port: 8081
+#    namespace: energydashboard
 #  - exporter: mqttwebsocket
 #    name: MQTT websocket exporter
 #    host: giacomocasa.duckdns.org:9001

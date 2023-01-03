@@ -28,6 +28,7 @@ public class Shelly extends Device {
         LOGGER.info("receiveMessage - topic:" + topic + ", message:" + message);
         String command = topic.replace(ShelliesMQTTImporter.prefix, "");
         command = command.replace(getId() + "/", "");
+        LOGGER.info("command:" + command);
         if (command.equals("announce")) {
             JSONObject json = new JSONObject(message);
             receiveAnnounce(json);
