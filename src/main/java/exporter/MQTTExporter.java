@@ -12,10 +12,13 @@ import java.util.UUID;
 public class MQTTExporter extends Exporter {
     private static final Logger LOGGER = LogManager.getLogger(MQTTExporter.class);
     //public final static String prefix = "giacomo.spano@libero.it/update";
-    private String topicTelemetryUploadAPI = getPrefix() + "/telemetry";
-    private String topicAttribytesAPI = getPrefix() + "/attributes";
+    private String topicTelemetryUploadAPI;
+    private String topicAttribytesAPI;
     public MQTTExporter(Exporter exporter) {
         super(exporter);
+        topicTelemetryUploadAPI = getPrefix() + "/telemetry";
+        topicAttribytesAPI = getPrefix() + "/attributes";
+        LOGGER.info("MQTTExporter - topicTelemetryUploadAPI: " + topicTelemetryUploadAPI + ", topicAttribytesAPI:" + topicAttribytesAPI);
     }
 
     public void publishAttributes(String token, JSONObject json) {
