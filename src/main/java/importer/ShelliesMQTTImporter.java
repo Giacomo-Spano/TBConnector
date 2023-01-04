@@ -2,6 +2,7 @@ package importer;//  aaa
 
 import device.Device;
 import device.DeviceList;
+import device.Shelly;
 import helper.MQTTTopicPublisher;
 import helper.MQTTTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
@@ -26,13 +27,25 @@ public class ShelliesMQTTImporter extends Importer {
 
     public static String prefix = "shellies/";
 
+    private String shelliesTopic = "shellies/#";
+
+
+    private MQTTTopicSubscriber ts;
+
     public ShelliesMQTTImporter(Importer importer) {
         super(importer);
     }
 
     public void init() {
 
-        MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shelliesimporter_", getUser(), getPassword(), "shellies/#", new MqttCallback() {
+        ts = new MQTTTopicSubscriber(gethost(), "shelliesimporter_", getUser(), getPassword(), shelliesTopic, new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                if (ts != null) {
+                    ts.subscribe(shelliesTopic);
+                }
+            }
+
             @Override
             public void connectionLost(Throwable throwable) {
 
@@ -112,9 +125,15 @@ public class ShelliesMQTTImporter extends Importer {
             LOGGER.error("Cannot create new device");
             return null;
         }
-        //newDevice.publishAttributes(json);
-        LOGGER.info("subscribe to new device messages");
-        MQTTTopicSubscriber ts = new MQTTTopicSubscriber(gethost(), "shimporter" + newDevice.getId() + "_", getUser(), getPassword(), "shellies/" + newDevice.getName() + "/#", new MqttCallback() {
+        ((Shelly)newDevice).subscribeDeviceMessages(gethost(),getUser(),getPassword());
+        /*LOGGER.info("subscribe to new device messages");
+        String shellyTopic = "shellies/" + newDevice.getName() + "/#";
+        newDevice.mqttTopicSubscriber = new MQTTTopicSubscriber(gethost(), "shimporter" + newDevice.getId() + "_", getUser(), getPassword(), shellyTopic, new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                newDevice.mqttTopicSubscriber.subscribe(shellyTopic);
+            }
+
             @Override
             public void connectionLost(Throwable throwable) {
                 LOGGER.error("connectionLost");
@@ -135,9 +154,9 @@ public class ShelliesMQTTImporter extends Importer {
                 LOGGER.info("deliveryComplete ");
             }
         });
-        Thread thread = new Thread(ts);
+        Thread thread = new Thread(newDevice.mqttTopicSubscriber);
         thread.start();
-        LOGGER.info("subscribed to new device messages ");
+        LOGGER.info("subscribed to new device messages ");*/
         return newDevice;
     }
 }

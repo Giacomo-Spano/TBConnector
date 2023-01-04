@@ -15,6 +15,7 @@ public class Importer {
     private String password;
     private String port;
     private String DBname;
+    private String prefix;
     public DeviceList deviceList = new DeviceList();
 
     public Importer() {
@@ -27,6 +28,7 @@ public class Importer {
         this.host = importer.host;
         this.user = importer.user;
         this.password = importer.password;
+        this.prefix = importer.prefix;
     }
 
     public Importer(String name, String importer) {
@@ -81,6 +83,14 @@ public class Importer {
 
     public void setPort(String port) {
         this.port = port;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public String getDBname() {

@@ -35,7 +35,7 @@ public class ThingsBoardCommandController extends Command implements DeviceList.
     @Override
     public void deviceAdded(Device newDevice) {
         // subscribe to ThingsBoard server to get command request
-        MQTTTopicSubscriber ts = new MQTTTopicSubscriber("localhost:1883", "command_" + newDevice.getId(), newDevice.getId(),"", "v1/devices/me/rpc/request/+", new MqttCallback() {
+        MQTTTopicSubscriber ts = new MQTTTopicSubscriber("tcp://localhost:1883", "command_" + newDevice.getId(), newDevice.getId(),"", "v1/devices/me/rpc/request/+", new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
                 String id = newDevice.getId();

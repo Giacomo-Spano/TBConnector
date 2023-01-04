@@ -1,5 +1,6 @@
 package exporter;
 
+import helper.MQTTTopicPublisher;
 import helper.MQTTTopicSubscriber;
 import helper.MQTTWebsocketTopicPublisher;
 import org.apache.logging.log4j.LogManager;
@@ -10,9 +11,9 @@ import java.util.UUID;
 
 public class MQTTExporter extends Exporter {
     private static final Logger LOGGER = LogManager.getLogger(MQTTExporter.class);
-    public final static String prefix = "giacomo.spano@libero.it/update";
-    private String topicTelemetryUploadAPI = prefix + "/telemetry";
-    private String topicAttribytesAPI = prefix + "/attributes";
+    //public final static String prefix = "giacomo.spano@libero.it/update";
+    private String topicTelemetryUploadAPI = getPrefix() + "/telemetry";
+    private String topicAttribytesAPI = getPrefix() + "/attributes";
     public MQTTExporter(Exporter exporter) {
         super(exporter);
     }
@@ -23,7 +24,7 @@ public class MQTTExporter extends Exporter {
         json.put("command","pushattributes");
         try {
             String publishMsg = json.toString();
-            MQTTWebsocketTopicPublisher publisher = new MQTTWebsocketTopicPublisher();
+            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "MQTTWebsocket_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
                 publisher.publishMessage(topicAttribytesAPI, publishMsg);
@@ -43,7 +44,7 @@ public class MQTTExporter extends Exporter {
         json.put("deviceid", deviceId);
         json.put("type", type);
         try {
-            MQTTWebsocketTopicPublisher publisher = new MQTTWebsocketTopicPublisher();
+            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "pubTelemetry_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
                 publisher.publishMessage(topicTelemetryUploadAPI, json.toString());

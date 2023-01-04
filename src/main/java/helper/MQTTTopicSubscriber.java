@@ -26,6 +26,7 @@ public class MQTTTopicSubscriber implements Runnable {
 	private String topicToSubscribe;
 	private MqttCallback callback;
 	private boolean started = false;
+	MqttClient mqttClient;
 	public boolean getStarted() {
 		synchronized (this) {
 			return started;
@@ -53,7 +54,7 @@ public class MQTTTopicSubscriber implements Runnable {
 	}
 	@Override
 	public void run() {
-		String host =  "tcp://" + this.host;
+		String host =  /*"tcp://" + */this.host;
 		String username = this.username;
 		String password = this.password;
 		String clientId = this.clientId + "_" +  UUID.randomUUID().toString().substring(0,8);;
@@ -67,7 +68,7 @@ public class MQTTTopicSubscriber implements Runnable {
 
 		try {
 			// Create an Mqtt client
-			MqttClient mqttClient = new MqttClient(host,clientId );
+			/*MqttClient*/ mqttClient = new MqttClient(host,clientId );
 			MqttConnectOptions connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 			connOpts.setUserName(username);
@@ -113,6 +114,20 @@ public class MQTTTopicSubscriber implements Runnable {
 			me.printStackTrace();
 		}
 	}
-	public  void init()  {
+	public  void subscribe(String topicToSubscribe)  {
+		LOGGER.info("Subscribe to topic: " + topicToSubscribe);
+		try{
+			if (mqttClient != null)
+				mqttClient.subscribe(topicToSubscribe, 0);
+			else
+				LOGGER.error("mqttClient is null");
+		} catch (MqttException me) {
+			LOGGER.error("Exception:   " + me);
+			LOGGER.error("Reason Code: " + me.getReasonCode());
+			LOGGER.error("Message:     " + me.getMessage());
+			if (me.getCause() != null)
+				LOGGER.error("Cause:       " + me.getCause());
+			me.printStackTrace();
+		}
 	}
 }

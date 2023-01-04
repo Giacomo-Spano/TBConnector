@@ -24,7 +24,7 @@ public class MQTTTopicPublisher {
 
         try {
             // Create an Mqtt client
-            mqttClient = new MqttClient("tcp://" + host, clientId);
+            mqttClient = new MqttClient(/*"tcp://" + */host, clientId);
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
             connOpts.setUserName(user);

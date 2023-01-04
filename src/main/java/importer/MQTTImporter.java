@@ -2,6 +2,7 @@ package importer;//  aaa
 
 import device.Device;
 import exporter.MQTTExporter;
+import helper.MQTTTopicSubscriber;
 import helper.MQTTWebsocketTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,11 +19,22 @@ public class MQTTImporter extends Importer {
         super(importer);
     }
 
+    private MQTTTopicSubscriber ts;
+
     public void init() {
 
-        String topicToSSubscribe = MQTTExporter.prefix + "/#";
-        //String topicToSSubscribe = MQTTExporter.prefix + "/update/attributes";
-        MQTTWebsocketTopicSubscriber ts = new MQTTWebsocketTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), topicToSSubscribe, new MqttCallback() {
+        String telemetryTopic = getPrefix() + "/attributes";//MQTTExporter.prefix + "/update/attributes";
+        String attributesTopic = getPrefix() + "/telemetry";
+        ts = new MQTTTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), attributesTopic, new MqttCallbackExtended() {
+
+            @Override
+            public void connectComplete(boolean b, String s) {
+                if (ts != null) {
+                    ts.subscribe(telemetryTopic);
+                    ts.subscribe(attributesTopic);
+                }
+            }
+
             @Override
             public void connectionLost(Throwable throwable) {
                 LOGGER.error("cconnecttion lost");
@@ -43,6 +55,9 @@ public class MQTTImporter extends Importer {
                     if (device == null)
                         device = registerNewDevice(json);
                     if (device != null) {
+                        //JSONObject js = new JSONObject(json);
+                        if (json.has("command"))
+                            json.remove("command");
                         device.publishAttributes(json);
                     }
                 } else if (command.equals("pushtelemetry")) {
@@ -62,14 +77,23 @@ public class MQTTImporter extends Importer {
                         }
                         String type = json.getString("type");
                         if (json.has("name"));
-                            String name = json.getString("name");
+                            String id = json.getString("name");
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("mac",deviceid );
                         jsonObject.put("model",type );
-                        jsonObject.put("name",name );
+                        jsonObject.put("id",id );
                         device = registerNewDevice(jsonObject);
                     }
                     if (device != null) {
+                        //JSONObject js = new JSONObject(json);
+                        if (json.has("command"))
+                            json.remove("command");
+                        if (json.has("deviceid"))
+                            json.remove("deviceid");
+                        if (json.has("type"))
+                            json.remove("type");
+                        if (json.has("name"))
+                            json.remove("name");
                         device.publishTelemetryMessage(json);
                     }
                 } else {
@@ -83,6 +107,9 @@ public class MQTTImporter extends Importer {
 
             }
         });
+
+        ts.subscribe(telemetryTopic);
+
         Thread thread = new Thread(ts);
         thread.start();
 

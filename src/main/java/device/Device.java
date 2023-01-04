@@ -3,6 +3,7 @@
 	import config.Configuration;
 	import exporter.Exporter;
 	//import exporter.PrometheusPublisher;
+	import helper.MQTTTopicSubscriber;
 	import org.apache.logging.log4j.LogManager;
 	import org.apache.logging.log4j.Logger;
 	import org.eclipse.paho.client.mqttv3.*;
@@ -12,6 +13,8 @@
 	import java.util.Iterator;
 
 	public class Device {
+
+		public MQTTTopicSubscriber mqttTopicSubscriber;
 		private static final Logger LOGGER = LogManager.getLogger(Device.class);
 		private String id = "";
 		private String fw_ver = "";

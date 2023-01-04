@@ -47,7 +47,7 @@ public class MQTTWebsocketTopicSubscriber implements Runnable {
 		System.out.println("TopicSubscriber initializing...");
 		LOGGER.info("host:" + this.host);
 		LOGGER.info("username:" + this.username);
-		LOGGER.info("password:" + this.host);
+		LOGGER.info("password:" + this.password);
 
 		String host =  "ws://" + this.host;
 		String username = this.username;
@@ -92,10 +92,10 @@ public class MQTTWebsocketTopicSubscriber implements Runnable {
 			mqttClient.setCallback(callback);
 
 			//mqttClient.subscribe(topicToSubscribe, 0);
-			String topic = "giacomo.spano@libero.it/update/attributes";//MQTTExporter.prefix + "/update/attributes";
-			mqttClient.subscribe(topic, 0);
-			topic = MQTTExporter.prefix + "/update/telemetry";
-			mqttClient.subscribe(topic, 0);
+			//String topic = MQTTExporter.prefix + "/attributes";//MQTTExporter.prefix + "/update/attributes";
+			mqttClient.subscribe(topicToSubscribe, 0);
+			//topic = MQTTExporter.prefix + "/telemetry";
+			//mqttClient.subscribe(topic, 0);
 
 		} catch (MqttException me) {
 			LOGGER.error("Exception:   " + me);

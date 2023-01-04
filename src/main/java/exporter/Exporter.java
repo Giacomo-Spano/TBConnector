@@ -18,6 +18,8 @@ public class Exporter {
     private String DBname;
     private String topic;
 
+    private String prefix;
+
     public Exporter() {
 
     }
@@ -30,6 +32,7 @@ public class Exporter {
         this.password = exporter.password;
         this.namespace = exporter.namespace;
         this.topic = exporter.topic;
+        this.prefix = exporter.prefix;
     }
 
     public Exporter(String name, String exporter) {
@@ -85,6 +88,13 @@ public class Exporter {
 
     public void setPort(String port) {
         this.port = port;
+    }
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public String getDBname() {

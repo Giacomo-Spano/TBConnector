@@ -1,12 +1,18 @@
 package device;
 
+import helper.MQTTTopicSubscriber;
 import importer.ShelliesMQTTImporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class Shelly extends Device {
     private static final Logger LOGGER = LogManager.getLogger(Shelly.class);
@@ -18,10 +24,43 @@ public class Shelly extends Device {
 
     public Shelly(JSONObject json) {
         super(json);
+
     }
 
-    public void subscribeTopics(MqttClient mqttClient) {
+    public void subscribeDeviceMessages(String host,String user,String password) {
         LOGGER.info("subscribeTopics");
+
+        LOGGER.info("subscribe to new device messages");
+        String shellyTopic = "shellies/" + this.getName() + "/#";
+        this.mqttTopicSubscriber = new MQTTTopicSubscriber(host, "shimporter" + this.getId() + "_",user, password, shellyTopic, new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                mqttTopicSubscriber.subscribe(shellyTopic);
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {
+                LOGGER.error("connectionLost");
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+
+                LOGGER.info("Message topic: " + topic + " payload: " + mqttMessage.getPayload() +"arrived");
+                LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
+                System.out.println(localDateTime);
+                String time = new Timestamp(System.currentTimeMillis()).toString();
+                receiveMessage(localDateTime, topic, new String(mqttMessage.getPayload()));
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+                LOGGER.info("deliveryComplete ");
+            }
+        });
+        Thread thread = new Thread(mqttTopicSubscriber);
+        thread.start();
+        LOGGER.info("subscribed to new device messages ");
     }
 
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {

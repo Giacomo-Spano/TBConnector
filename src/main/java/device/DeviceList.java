@@ -33,7 +33,7 @@ public class DeviceList {
 	public Device registerNewDevice(JSONObject json) {
 		LOGGER.info("registerNewDevice:" + json.toString());
 		if (!json.has("mac")) {
-			LOGGER.error("missing id - cannot create device");
+			LOGGER.error("missing mac - cannot create device");
 			return null;
 		}
 		if (!json.has("model")) {
