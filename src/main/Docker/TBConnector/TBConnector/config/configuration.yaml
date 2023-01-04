@@ -4,7 +4,6 @@ importers:
     host: tcp://153.77.136.201:1883
     user: ""
     password: ""
-    prefix: giacomo.spano@libero.it/update
     devices:
 #  - importer: mqtt
 #    name: MQTT importer
@@ -52,6 +51,7 @@ exporters:
     host: ws://maqiatto.com:8883
     user: giacomo.spano@libero.it
     password: giacomo
+    prefix: giacomo.spano@libero.it/update
 
 agents:
 #  - name: lane2
