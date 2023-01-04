@@ -26,7 +26,7 @@ public class Main {
     public static void main(String[] args) {
 
         LOGGER.info("");
-        LOGGER.info("** VERSION .081");
+        LOGGER.info("** VERSION .082");
         LOGGER.info("");
         LOGGER.debug("This is a debug message");
         LOGGER.info("This is an info message");
