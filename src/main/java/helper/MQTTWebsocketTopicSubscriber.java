@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
 
+import java.util.UUID;
+
 /**
  * A Mqtt topic subscriber
  *
@@ -53,7 +55,7 @@ public class MQTTWebsocketTopicSubscriber implements Runnable {
 
 		try {
 			// Create an Mqtt client
-			MqttClient mqttClient = new MqttClient(host,clientId + "_" + username);
+			MqttClient mqttClient = new MqttClient(host,clientId + "_" + UUID.randomUUID().toString().substring(0,8));
 			MqttConnectOptions connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 			connOpts.setUserName(username);

@@ -137,7 +137,7 @@ public class ShelliesMQTTImporter extends Importer {
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
+                LOGGER.info("deliveryComplete ");
             }
         });
         Thread thread = new Thread(ts);

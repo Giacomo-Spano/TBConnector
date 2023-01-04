@@ -37,28 +37,37 @@ public class MQTTTopicSubscriber implements Runnable {
 		}
 	}
 	public MQTTTopicSubscriber(String host, String clientId, String username, String password, String topic, MqttCallback callback) {
+		LOGGER.info("MQTTTopicSubscriber constructor");
 		this.host = host;
 		this.username = username;
 		this.password = password;
 		this.topicToSubscribe = topic;
 		this.callback = callback;
 		this.clientId = clientId;
+
+		LOGGER.info("host:" + this.host);
+		LOGGER.info("username:" + this.username);
+		LOGGER.info("password:" + this.password);
+		LOGGER.info("topicToSubscribe:" + this.topicToSubscribe);
+		LOGGER.info("clientId:" + this.clientId);
 	}
 	@Override
 	public void run() {
-
-		LOGGER.info("TopicSubscriber run...");
-		LOGGER.info("host:" + this.host);
-		LOGGER.info("username:" + this.username);
-		LOGGER.info("password:" + this.host);
-
 		String host =  "tcp://" + this.host;
 		String username = this.username;
 		String password = this.password;
+		String clientId = this.clientId + "_" +  UUID.randomUUID().toString().substring(0,8);;
+
+		LOGGER.info("TopicSubscriber run...");
+		LOGGER.info("host:" + host);
+		LOGGER.info("username:" + username);
+		LOGGER.info("password:" + password);
+		LOGGER.info("topicToSubscribe:" + this.topicToSubscribe);
+		LOGGER.info("clientId:" + clientId);
 
 		try {
 			// Create an Mqtt client
-			MqttClient mqttClient = new MqttClient(host,clientId + "_" + username);
+			MqttClient mqttClient = new MqttClient(host,clientId );
 			MqttConnectOptions connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 			connOpts.setUserName(username);
