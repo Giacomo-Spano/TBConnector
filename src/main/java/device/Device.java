@@ -122,7 +122,7 @@
 		}
 
 		public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
-
+			LOGGER.info("receiveMessage");
 		}
 
 		public void subscribeTopics(MqttClient mqttClient) {
@@ -140,8 +140,10 @@
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
+				LOGGER.info("publish attributes to exporter" + exporter.getName());
 				exporter.publishAttributes(mac,json);
 			}
+			LOGGER.info("Attributes published");
 		}
 
 		public void publishTelemetryMessage(LocalDateTime localDateTime, double power) {
@@ -149,8 +151,10 @@
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
+				LOGGER.info("publish telemetry to exporter" + exporter.getName());
 				exporter.publishTelemetry(name, type, getId(), localDateTime, power);
 			}
+			LOGGER.info("Telemetry published");
 		}
 
 		public void publishTelemetryMessage(JSONObject json) {
@@ -158,22 +162,21 @@
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
-
-				//json.put("deviceid", getId());
-				//json.put("name", getName());
-				//json.put("model", getType());
-
+				LOGGER.info("publish telemetry to exporter" + exporter.getName());
 				exporter.publishTelemetry(json,getId(),getType());
 			}
+			LOGGER.info("Telemetry published");
 		}
 
 		public void publishStatusMessage(LocalDateTime localDateTime, double status) {
-
+			LOGGER.info("publishStatusMessage");
 			Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
 			while (exporterIterator.hasNext()) {
 				Exporter exporter = exporterIterator.next();
+				LOGGER.info("publish Status to exporter" + exporter.getName());
 				exporter.publishStatusMetric(name, type, localDateTime, status);
 			}
+			LOGGER.info("Status published");
 		}
 
 		public void receiveExternalCommand(JSONObject json) {

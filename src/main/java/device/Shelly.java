@@ -35,7 +35,7 @@ public class Shelly extends Device {
         } else if (command.equals(infoTopic)) {
             receiveInfo(localDateTime, topic, message);
         } else {
-            LOGGER.warn("Topic \"" + topic + "\" not found");
+            super.receiveMessage(localDateTime, topic, message);
         }
     }
 

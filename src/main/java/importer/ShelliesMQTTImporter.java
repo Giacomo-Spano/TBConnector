@@ -42,10 +42,8 @@ public class ShelliesMQTTImporter extends Importer {
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 // Called when a message arrives from the server that
                 // matches any subscription made by the client
-                LOGGER.info("Shellies, command received ");
-                LOGGER.info("topic: " + topic);
                 String msg = new String(message.getPayload());
-                LOGGER.info("message: " + msg);
+                LOGGER.info("Message command received -  topic: " + topic + "message: " + msg);
 
                 String str = topic.replace(prefix, "");
                 int index = str.indexOf("/");
@@ -53,8 +51,7 @@ public class ShelliesMQTTImporter extends Importer {
                 if (index != -1) {
                     deviceid = str.substring(0, index);
                     String command = str.replace(deviceid + "/", "");
-
-                    LOGGER.info("command: ", command);
+                    LOGGER.info("deviceid: ", deviceid + "command: ", command);
                     if (command.equals("announce")) {
                         LOGGER.info("command announce found ");
                         JSONObject json = new JSONObject(msg);
@@ -129,9 +126,7 @@ public class ShelliesMQTTImporter extends Importer {
                 LOGGER.info("Message topic: " + topic + " payload: " + mqttMessage.getPayload() +"arrived");
                 LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
                 System.out.println(localDateTime);
-
                 String time = new Timestamp(System.currentTimeMillis()).toString();
-
                 newDevice.receiveMessage(localDateTime, topic, new String(mqttMessage.getPayload()));
             }
 
