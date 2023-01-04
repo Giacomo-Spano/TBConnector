@@ -15,14 +15,11 @@
 		private static final Logger LOGGER = LogManager.getLogger(Device.class);
 		private String id = "";
 		private String fw_ver = "";
-		//private String model = "";
 		private String mac = "";
 		private boolean new_fw = false;
 		private String name;
 		private String friendlyname;
 		private String type;
-
-		//private String token;
 		private String powertopic;
 
 		public Device(JSONObject json) {
@@ -32,9 +29,8 @@
 				this.id = json.getString("mac");
 				this.type = json.getString("model");
 			}
-
-			if (json.has("name"))
-				this.name = json.getString("name");
+			if (json.has("id"))
+				this.name = json.getString("id");
 			if (json.has("mac"))
 				this.mac = json.getString("mac");
 			if (json.has("new_fw"))

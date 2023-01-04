@@ -18,7 +18,6 @@ public class ShellyPM extends Shelly {
         super(json);
     }
 
-
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
         String command = topic.replace(ShelliesMQTTImporter.prefix, "");
         command = command.replace(getName() + "/", "");

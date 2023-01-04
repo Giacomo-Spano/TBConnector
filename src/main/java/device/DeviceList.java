@@ -31,6 +31,7 @@ public class DeviceList {
 	public void init() {
 	}
 	public Device registerNewDevice(JSONObject json) {
+		LOGGER.info("registerNewDevice:" + json.toString());
 		if (!json.has("mac")) {
 			LOGGER.error("missing id - cannot create device");
 			return null;
@@ -40,7 +41,9 @@ public class DeviceList {
 			return null;
 		}
 		String id = json.getString("mac");
+		LOGGER.info("id:" + id);
 		String model = json.getString("model");
+		LOGGER.info("model:" + model);
 		Iterator<Device> deviceIterator = devices.iterator();
 		while (deviceIterator.hasNext()) {
 			Device device = deviceIterator.next();
@@ -67,6 +70,9 @@ public class DeviceList {
 			return null;
 		}
 		LOGGER.info("device created");
+		LOGGER.info("id:" + newDevice.getId());
+		LOGGER.info("type:" + newDevice.getType());
+		LOGGER.info("name:" + newDevice.getName());
 		return newDevice;
 	}
 
