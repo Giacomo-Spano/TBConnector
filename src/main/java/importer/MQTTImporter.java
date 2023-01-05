@@ -53,10 +53,10 @@ public class MQTTImporter extends Importer {
                     if (device == null)
                         device = registerNewDevice(json);
                     if (device != null) {
-                        //JSONObject js = new JSONObject(json);
-                        if (json.has("command"))
-                            json.remove("command");
-                        device.publishAttributes(json);
+                        if (json.has("data")) {
+                            JSONObject jData = json.getJSONObject("data");
+                            device.publishAttributes(jData);
+                        }
                     }
                 } else if (command.equals("pushtelemetry")) {
                     LOGGER.info("command pushtelemetry found ");
@@ -74,25 +74,30 @@ public class MQTTImporter extends Importer {
                             return;
                         }
                         String type = json.getString("type");
-                        if (json.has("name"));
-                            String id = json.getString("name");
+                        String id = "";
+                        if (json.has("name"))
+                            id = json.getString("name");
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("mac",deviceid );
                         jsonObject.put("model",type );
-                        jsonObject.put("id",id );
+                        jsonObject.put("id",id);
                         device = registerNewDevice(jsonObject);
                     }
                     if (device != null) {
                         //JSONObject js = new JSONObject(json);
-                        if (json.has("command"))
+                        /*if (json.has("command"))
                             json.remove("command");
                         if (json.has("deviceid"))
                             json.remove("deviceid");
                         if (json.has("type"))
                             json.remove("type");
                         if (json.has("name"))
-                            json.remove("name");
-                        device.publishTelemetryMessage(json);
+                            json.remove("name");*/
+                        if (json.has("data")) {
+                            JSONObject jData = json.getJSONObject("data");
+                            //device.publishAttributes(jData);
+                            device.publishTelemetryMessage(jData);
+                        }
                     }
                 } else {
                     LOGGER.info("command not found ");
