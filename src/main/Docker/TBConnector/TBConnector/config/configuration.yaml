@@ -5,53 +5,21 @@ importers:
     user: ""
     password: ""
     prefix: shellies/
-#  - importer: mqtt
-#    name: MQTT importer
-#    host: 153.77.137.163:8883
-#    user: "smartplug"
-#    password: "pass1"
-#    devices:
-#      - name: shelly 1pm atm
-#        type: Shelly1PMPRO
-#        powertopic: smart-plug/6175/0003/status/switch:0
-#  - importer: mqtt
-#    name: MQTT importer
-#    host: 153.77.136.201:1883
-#    user: ""
-#    password: ""
-#    devices:
-#      - name: plugsncr
-#        type: shellyplugs
-#        powertopic: shellies/shellyplug-s-4022D8890872/relay/0/power
-
-
 exporters:
-#  - exporter: postgres
-#    name: postgres exporter
-#    host: 192.168.1.209:5432
-#    port: 5432
-#    DBName: postgres
-#    user: postgres
-#    password: docker
-#  - exporter: thingsboard
-#    name: Thingsboard exporter
-#    host: localhost:1883
-#    topic: v1/devices/me/telemetry
-#  - exporter: prometheus
-#    name: Prometheus exporter
-#    port: 8081
-#    namespace: energydashboard
-#  - exporter: mqttwebsocket
-#    name: MQTT websocket exporter
-#    host: giacomocasa.duckdns.org:9001
-#    user: giacomo
-#    password: giacomo
   - exporter: mqttwebsocket
     name: MQTT websocket exporter
     host: ws://maqiatto.com:8883
     user: giacomo.spano@libero.it
     password: giacomo
     prefix: giacomo.spano@libero.it/update
+controllers:
+  - controller: mqttcontroller
+    name: MQTT controller
+    host: ws://maqiatto.com:8883
+    user: "giacomo.spano@libero.it"
+    password: "giacomo"
+    prefix: giacomo.spano@libero.it
+    topic: /controller/command
 agents:
 #  - name: lane2
 #    type: lane
