@@ -22,9 +22,11 @@ public class MQTTExporter extends Exporter {
     public void publishAttributes(String token, JSONObject json) {
 
         LOGGER.info("publish atttributes - token: " + token + ", json:" + json.toString());
-        json.put("command","pushattributes");
+        JSONObject jsonPacket = new JSONObject();
+        jsonPacket.put("data", json);
+        jsonPacket.put("command","pushattributes");
         try {
-            String publishMsg = json.toString();
+            String publishMsg = jsonPacket.toString();
             MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "MQTTWebsocket_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
@@ -41,14 +43,17 @@ public class MQTTExporter extends Exporter {
 
     public void publishTelemetry(JSONObject json, String deviceId, String type) {
         LOGGER.info("publish telemetry - json:" + json.toString());
-        json.put("command","pushtelemetry");
-        json.put("deviceid", deviceId);
-        json.put("type", type);
+
+        JSONObject jsonPacket = new JSONObject();
+        jsonPacket.put("data", json);
+        jsonPacket.put("command","pushtelemetry");
+        jsonPacket.put("deviceid", deviceId);
+        jsonPacket.put("type", type);
         try {
             MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "pubTelemetry_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
-                publisher.publishMessage(topicTelemetryUploadAPI, json.toString());
+                publisher.publishMessage(topicTelemetryUploadAPI, jsonPacket.toString());
                 publisher.closeConnection();
             }
         } catch (Exception e) {

@@ -63,26 +63,29 @@ public class MQTTCommandController extends CommandController implements DeviceLi
             public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
                 String topic = s;
                 String message = new String(mqttMessage.getPayload());
+                LOGGER.info("messageArrived - topic: " + topic + "message: " + message);
                 JSONObject json;
                 try {
                     json = new JSONObject(message);
-
-                if (json.has("deviceid") && json.has("command")) {
-                    String deviceid = json.getString("deviceid");
-                    String command = json.getString("command");
-                    JSONObject param = null;
-                    if (json.has("param")) {
-                        param = json.getJSONObject("param");
+                    if (json.has("deviceid") && json.has("command")) {
+                        String deviceid = json.getString("deviceid");
+                        LOGGER.error("device id: " + deviceid);
+                        String command = json.getString("command");
+                        LOGGER.error("command: " + command);
+                        JSONObject param = null;
+                        if (json.has("param")) {
+                            param = json.getJSONObject("param");
+                            LOGGER.error("param: " + param.toString());
+                        }
+                        sendCommand(deviceid, command, param);
+                    } else {
+                        LOGGER.error("device id or command not found");
                     }
-                    sendCommand(deviceid,command,param);
-                }
                 } catch (Exception e) {
                     LOGGER.error("JSON error");
                     return;
                 }
-
             }
-
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 

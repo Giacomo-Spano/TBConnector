@@ -110,9 +110,7 @@ public class Shelly extends Device {
         if (command.equals("announce")) {
             sendAnnounceCommand();
         }
-
     }
-
     public void sendAnnounceCommand() {
         LOGGER.info("sendAnnounceCommand");
         try {
