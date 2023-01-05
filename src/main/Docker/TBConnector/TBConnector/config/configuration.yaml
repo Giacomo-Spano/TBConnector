@@ -11,7 +11,7 @@ exporters:
     host: ws://maqiatto.com:8883
     user: giacomo.spano@libero.it
     password: giacomo
-    prefix: giacomo.spano@libero.it/update
+    prefix: giacomo.spano@libero.it/
 controllers:
   - controller: mqttcontroller
     name: MQTT controller

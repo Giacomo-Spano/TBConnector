@@ -22,20 +22,21 @@ public class MQTTImporter extends Importer {
     public void init() {
 
         String telemetryTopic = getPrefix() + "/attributes";
-        String attributesTopic = getPrefix() + "/telemetry";
-        ts = new MQTTTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), attributesTopic, new MqttCallbackExtended() {
+        //String attributesTopic = getPrefix() + "/telemetry";
+        ts = new MQTTTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), telemetryTopic, new MqttCallbackExtended() {
 
             @Override
             public void connectComplete(boolean b, String s) {
                 if (ts != null) {
                     ts.subscribe(telemetryTopic);
-                    ts.subscribe(attributesTopic);
+                    //ts.subscribe(attributesTopic);
                 }
             }
 
             @Override
             public void connectionLost(Throwable throwable) {
                 LOGGER.error("cconnecttion lost");
+
             }
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
@@ -111,7 +112,8 @@ public class MQTTImporter extends Importer {
             }
         });
 
-        ts.subscribe(telemetryTopic);
+        //ts.subscribe(telemetryTopic);
+        //ts.subscribe(attributesTopic);
 
         Thread thread = new Thread(ts);
         thread.start();

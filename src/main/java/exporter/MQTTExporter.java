@@ -9,14 +9,11 @@ import java.util.UUID;
 
 public class MQTTExporter extends Exporter {
     private static final Logger LOGGER = LogManager.getLogger(MQTTExporter.class);
-    //public final static String prefix = "giacomo.spano@libero.it/update";
-    private String topicTelemetryUploadAPI;
-    private String topicAttribytesAPI;
+    private String topicUpdate;
     public MQTTExporter(Exporter exporter) {
         super(exporter);
-        topicTelemetryUploadAPI = getPrefix() + "/telemetry";
-        topicAttribytesAPI = getPrefix() + "/attributes";
-        LOGGER.info("MQTTExporter - topicTelemetryUploadAPI: " + topicTelemetryUploadAPI + ", topicAttribytesAPI:" + topicAttribytesAPI);
+        topicUpdate = getPrefix() + "update";
+        LOGGER.info("MQTTExporter - topicTelemetryUploadAPI: " + topicUpdate);
     }
 
     public void publishAttributes(String token, JSONObject json) {
@@ -30,7 +27,7 @@ public class MQTTExporter extends Exporter {
             MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "MQTTWebsocket_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
-                publisher.publishMessage(topicAttribytesAPI, publishMsg);
+                publisher.publishMessage(topicUpdate, publishMsg);
                 publisher.closeConnection();
             }
         } catch (Exception e) {
@@ -53,7 +50,7 @@ public class MQTTExporter extends Exporter {
             MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "pubTelemetry_" + UUID.randomUUID().toString().substring(0,8);
             if (publisher.createConnection(gethost(), clientID, getUser(), getPassword())) {
-                publisher.publishMessage(topicTelemetryUploadAPI, jsonPacket.toString());
+                publisher.publishMessage(topicUpdate, jsonPacket.toString());
                 publisher.closeConnection();
             }
         } catch (Exception e) {
