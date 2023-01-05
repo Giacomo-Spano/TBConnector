@@ -4,7 +4,7 @@ importers:
     host: tcp://153.77.136.201:1883
     user: ""
     password: ""
-    devices:
+    prefix: shellies/
 #  - importer: mqtt
 #    name: MQTT importer
 #    host: 153.77.137.163:8883
@@ -52,7 +52,6 @@ exporters:
     user: giacomo.spano@libero.it
     password: giacomo
     prefix: giacomo.spano@libero.it/update
-
 agents:
 #  - name: lane2
 #    type: lane
