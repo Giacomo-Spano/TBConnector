@@ -3,6 +3,7 @@ package CommandControllers;
 
 import command.*;
 import config.Configuration;
+import device.Device;
 import device.DeviceList;
 import importer.Importer;
 import kafka.SimpleProducer;
@@ -15,11 +16,23 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-public class HTTPCommandController extends CommandController {
+public class HTTPCommandController extends CommandController implements DeviceList.DeviceListener {
     private static final Logger LOGGER = LogManager.getLogger(HTTPCommandController.class);
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+
+    /*public HTTPCommandController(CommandController controller) {
+        super(controller);
+
+        if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
+            Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
+            while (importerIterator.hasNext()) {
+                Importer importer = importerIterator.next();
+                importer.getDevicesList().addListener(this);
+            }
+        }
+    }*/
 
 
     @GetMapping("/greeting")
@@ -70,6 +83,11 @@ public class HTTPCommandController extends CommandController {
 
         CommandResult returnValue = new CommandResult(1,"success");
         return returnValue;
+    }
+
+    @Override
+    public void deviceAdded(Device newDevice) {
+
     }
 }
 

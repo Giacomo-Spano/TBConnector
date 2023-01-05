@@ -1,5 +1,6 @@
 package device;
 
+import helper.MQTTTopicPublisher;
 import helper.MQTTTopicSubscriber;
 import importer.ShelliesMQTTImporter;
 import org.apache.logging.log4j.LogManager;
@@ -13,9 +14,15 @@ import org.json.JSONObject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
 
 public class Shelly extends Device {
     private static final Logger LOGGER = LogManager.getLogger(Shelly.class);
+
+    String host;
+    String prefix;
+    String user;
+    String password;
 
     private String infoTopic = "info";
     public Shelly(Device device) {
@@ -27,11 +34,20 @@ public class Shelly extends Device {
 
     }
 
-    public void subscribeDeviceMessages(String host,String user,String password) {
-        LOGGER.info("subscribeTopics");
+    public void setMQTTdata(String host,String prefix, String user,String password) {
+        LOGGER.info("setMQTTdata");
+        this.host = host;
+        this.prefix = prefix;
+        this.user = user;
+        this.password = password;
+    }
+
+    public void subscribeDeviceMessages(String host,String prefix,String user,String password) {
+        LOGGER.info("subscribeDeviceMessages");
 
         LOGGER.info("subscribe to new device messages");
-        String shellyTopic = "shellies/" + this.getName() + "/#";
+        //String shellyTopic = "shellies/" + this.getName() + "/#";
+        String shellyTopic = prefix + this.getName() + "/#";
         this.mqttTopicSubscriber = new MQTTTopicSubscriber(host, "shimporter" + this.getId() + "_",user, password, shellyTopic, new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
@@ -85,5 +101,33 @@ public class Shelly extends Device {
     public void receiveInfo(LocalDateTime time, String topic, String message) {
         LOGGER.info(
                 "\nReceived info Message!" + "\n\tTime:    " + time + "\n\tTopic:   " + topic + "\n\tMessage: "                        + message + "\n");
+    }
+
+    public void sendCommand(String command, JSONObject param) {
+        LOGGER.info("sendCommand");
+        if (param != null)
+            LOGGER.info("param: " + param.toString());
+        if (command.equals("announce")) {
+            sendAnnounceCommand();
+        }
+
+    }
+
+    public void sendAnnounceCommand() {
+        LOGGER.info("sendAnnounceCommand");
+        try {
+            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
+            String clientID = "announcecommand_" + UUID.randomUUID().toString().substring(0,8);
+            if (publisher.createConnection(host, clientID, user, password)) {
+                String topic = prefix + getId() + "/command";
+                publisher.publishMessage(topic, "announce");
+                publisher.closeConnection();
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            LOGGER.error("failed to publish telemetry" + e.toString());
+            e.printStackTrace();
+        }
+        LOGGER.info("telemetry published");
     }
 }

@@ -1,3 +1,11 @@
+controllers:
+  - controller: mqttcontroller
+    name: MQTT controller
+    host: ws://maqiatto.com:8883
+    user: "giacomo.spano@libero.it"
+    password: "giacomo"
+    prefix: giacomo.spano@libero.it
+    topic: /controller/command
 importers:
 #  - importer: shelliesmqtt
 #    name: MQTT importer

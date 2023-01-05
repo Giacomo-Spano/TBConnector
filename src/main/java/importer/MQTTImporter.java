@@ -1,9 +1,7 @@
 package importer;//  aaa
 
 import device.Device;
-import exporter.MQTTExporter;
 import helper.MQTTTopicSubscriber;
-import helper.MQTTWebsocketTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
@@ -23,7 +21,7 @@ public class MQTTImporter extends Importer {
 
     public void init() {
 
-        String telemetryTopic = getPrefix() + "/attributes";//MQTTExporter.prefix + "/update/attributes";
+        String telemetryTopic = getPrefix() + "/attributes";
         String attributesTopic = getPrefix() + "/telemetry";
         ts = new MQTTTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), attributesTopic, new MqttCallbackExtended() {
 

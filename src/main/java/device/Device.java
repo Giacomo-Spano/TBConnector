@@ -182,7 +182,7 @@
 			LOGGER.info("Status published");
 		}
 
-		public void receiveExternalCommand(JSONObject json) {
+		public void sendCommand(String command, JSONObject param) {
 
 		}
 	}

@@ -125,38 +125,9 @@ public class ShelliesMQTTImporter extends Importer {
             LOGGER.error("Cannot create new device");
             return null;
         }
-        ((Shelly)newDevice).subscribeDeviceMessages(gethost(),getUser(),getPassword());
-        /*LOGGER.info("subscribe to new device messages");
-        String shellyTopic = "shellies/" + newDevice.getName() + "/#";
-        newDevice.mqttTopicSubscriber = new MQTTTopicSubscriber(gethost(), "shimporter" + newDevice.getId() + "_", getUser(), getPassword(), shellyTopic, new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean b, String s) {
-                newDevice.mqttTopicSubscriber.subscribe(shellyTopic);
-            }
+        ((Shelly)newDevice).setMQTTdata(gethost(),getPrefix(),getUser(),getPassword());
+        ((Shelly)newDevice).subscribeDeviceMessages(gethost(),getPrefix(),getUser(),getPassword());
 
-            @Override
-            public void connectionLost(Throwable throwable) {
-                LOGGER.error("connectionLost");
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-
-                LOGGER.info("Message topic: " + topic + " payload: " + mqttMessage.getPayload() +"arrived");
-                LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Europe/Rome"));
-                System.out.println(localDateTime);
-                String time = new Timestamp(System.currentTimeMillis()).toString();
-                newDevice.receiveMessage(localDateTime, topic, new String(mqttMessage.getPayload()));
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-                LOGGER.info("deliveryComplete ");
-            }
-        });
-        Thread thread = new Thread(newDevice.mqttTopicSubscriber);
-        thread.start();
-        LOGGER.info("subscribed to new device messages ");*/
         return newDevice;
     }
 }

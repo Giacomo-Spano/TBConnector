@@ -1,6 +1,8 @@
 package config;//package com.baeldung.jackson.yaml; XXXXXX
 
 import CommandControllers.CommandController;
+import CommandControllers.HTTPCommandController;
+import CommandControllers.MQTTCommandController;
 import agent.Agent;
 import agent.LaneAgent;
 import device.*;
@@ -8,12 +10,16 @@ import exporter.*;
 import importer.Importer;
 import importer.MQTTImporter;
 import importer.ShelliesMQTTImporter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Configuration {
+
+	private static final Logger LOGGER = LogManager.getLogger(Configuration.class);
 
     // device.Devices settings
 	private static List<Device> devices;
@@ -94,9 +100,7 @@ public class Configuration {
 				MQTTExporter newExporter = new MQTTExporter(exporter);
 				Configuration.exporters.add(newExporter);
 			} else {
-				Exporter newExporter = new Exporter(exporter);
-				Configuration.exporters.add(newExporter);
-				//System.out.println("Error: Unknown device type: " + exporter.getType());
+				LOGGER.info("Error: Unknown exporter type: " + exporter.getExporter());
 			}
 		}
 	}
@@ -124,9 +128,33 @@ public class Configuration {
 				MQTTImporter newImporter = new MQTTImporter(importer);
 				Configuration.importers.add(newImporter);
 			} else{
-				Importer newExporter = new Importer(importer);
-				Configuration.importers.add(importer);
-				//System.out.println("Error: Unknown device type: " + exporter.getType());
+				LOGGER.info("Error: Unknown importer type: " + importer.getImporter());
+			}
+		}
+	}
+	public static List<CommandController> getControllers() {
+		if (controllers == null) {
+			controllers = new ArrayList<>();
+		}
+		return controllers;
+	}
+	public void setControllers(List<CommandController> controllers) {
+		if (controllers == null) {
+			controllers = new ArrayList<>();
+		}
+		Configuration.controllers = new ArrayList<>();
+		Iterator<CommandController> importerIterator = controllers.iterator();
+		while (importerIterator.hasNext()) {
+			CommandController controller = importerIterator.next();
+
+			if (controller.getController().equals("mqttcontroller")) {
+				MQTTCommandController newCommandController = new MQTTCommandController(controller);
+				Configuration.controllers.add(newCommandController);
+			} /*else if (controller.getController().equals("httpcontroller")) {
+				HTTPCommandController newCommandController = new HTTPCommandController(controller);
+				Configuration.controllers.add(newCommandController);
+			} */else{
+				LOGGER.info("Error: Unknown command controller type: " + controller.getController());
 			}
 		}
 	}

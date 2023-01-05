@@ -1,3 +1,4 @@
+import CommandControllers.CommandController;
 import agent.Agent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +27,7 @@ public class Main {
     public static void main(String[] args) {
 
         LOGGER.info("");
-        LOGGER.info("** VERSION .082");
+        LOGGER.info("** VERSION .083");
         LOGGER.info("");
         LOGGER.debug("This is a debug message");
         LOGGER.info("This is an info message");
@@ -62,12 +63,11 @@ public class Main {
             }
         }
 
-        // start scheduler
+        // load scheduler
         JobScheduler jobScheduler = new JobScheduler();
         jobScheduler.init();
 
-
-        // start importer
+        // load exporters
         if (Configuration.getExporters() != null && Configuration.getExporters().size() > 0) {
             Iterator<Exporter> exporterIterator = Configuration.getExporters().iterator();
             while (exporterIterator.hasNext()) {
@@ -76,7 +76,10 @@ public class Main {
             }
         }
 
-        //start exporter
+        // load mmand controllers
+
+
+        // load impoorters
         if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
             Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
             while (importerIterator.hasNext()) {
@@ -85,7 +88,18 @@ public class Main {
             }
         }
 
+        if (Configuration.getControllers() != null && Configuration.getControllers().size() > 0) {
+            Iterator<CommandController> commandControllerIteratorIterator = Configuration.getControllers().iterator();
+            while (commandControllerIteratorIterator.hasNext()) {
+                CommandController controller = commandControllerIteratorIterator.next();
+                controller.init();
+            }
+        }
+
+
+
         SpringApplication.run(HTTPCommandApplication.class, args);
+
 
 
 
