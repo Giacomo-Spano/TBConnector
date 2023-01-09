@@ -1,3 +1,17 @@
+importers:
+  - importer: shelliesmqtt
+    name: MQTT importer
+    host: tcp://153.77.136.201:1883
+    user: ""
+    password: ""
+    prefix: shellies/
+exporters:
+  - exporter: mqttwebsocket
+    name: MQTT websocket exporter
+    host: ws://maqiatto.com:8883
+    user: giacomo.spano@libero.it
+    password: giacomo
+    prefix: giacomo.spano@libero.it/
 controllers:
   - controller: mqttcontroller
     name: MQTT controller
@@ -6,21 +20,6 @@ controllers:
     password: "giacomo"
     prefix: giacomo.spano@libero.it
     topic: /controller/command
-importers:
-  - importer: mqttimporter
-    name: MQTT importer
-    host: ws://maqiatto.com:8883
-    user: "giacomo.spano@libero.it"
-    password: "giacomo"
-    prefix: giacomo.spano@libero.it
-
-exporters:
-  - exporter: thingsboard
-    name: Thingsboard exporter
-    host: tcp://192.168.1.206:1883
-    topic: v1/devices/me/telemetry
-    prefix: giacomo.spano@libero.it/update
-
 agents:
 #  - name: lane2
 #    type: lane

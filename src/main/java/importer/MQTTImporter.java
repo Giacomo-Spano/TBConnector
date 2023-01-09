@@ -21,7 +21,7 @@ public class MQTTImporter extends Importer {
 
     public void init() {
 
-        String telemetryTopic = getPrefix() + "/attributes";
+        String telemetryTopic = getPrefix() + "/update";
         //String attributesTopic = getPrefix() + "/telemetry";
         ts = new MQTTTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), telemetryTopic, new MqttCallbackExtended() {
 
@@ -48,14 +48,14 @@ public class MQTTImporter extends Importer {
                 LOGGER.info("command: ", command);
                 if (command.equals("pushattributes")) {
                     LOGGER.info("command pushattribute found ");
-                    String deviceid = json.getString("mac");
+                    JSONObject jData = json.getJSONObject("data");
+                    String deviceid = jData.getString("mac");
                     LOGGER.info("deviceid: ", deviceid);
                     Device device = getDeviceFromId(deviceid);
                     if (device == null)
                         device = registerNewDevice(json);
                     if (device != null) {
                         if (json.has("data")) {
-                            JSONObject jData = json.getJSONObject("data");
                             device.publishAttributes(jData);
                         }
                     }
