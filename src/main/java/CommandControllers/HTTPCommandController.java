@@ -16,14 +16,14 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-public class HTTPCommandController extends CommandController implements DeviceList.DeviceListener {
+public class HTTPCommandController /*extends CommandController */implements DeviceList.DeviceListener {
     private static final Logger LOGGER = LogManager.getLogger(HTTPCommandController.class);
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    /*public HTTPCommandController(CommandController controller) {
-        super(controller);
+    public HTTPCommandController(CommandController controller) {
+        //super(controller);
 
         if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
             Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
@@ -32,8 +32,7 @@ public class HTTPCommandController extends CommandController implements DeviceLi
                 importer.getDevicesList().addListener(this);
             }
         }
-    }*/
-
+    }
 
     @GetMapping("/greeting")
     public CommandResult greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
