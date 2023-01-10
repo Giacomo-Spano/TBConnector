@@ -23,7 +23,7 @@ importers:
     host: ws://maqiatto.com:8883
     user: "giacomo.spano@libero.it"
     password: "giacomo"
-    prefix: giacomo.spano@libero.it/update
+    prefix: giacomo.spano@libero.it
 #    devices:
 #      - name: desktop-pc
 #        type: laneagent
@@ -78,7 +78,7 @@ exporters:
   - exporter: thingsboard
     name: Thingsboard exporter
     #host: giacomocasa.duckdns.org:1885
-    host: tcp://localhost:1883
+    host: tcp://192.168.1.206:1883
     topic: v1/devices/me/telemetry
     prefix: giacomo.spano@libero.it/update
 #  - exporter: prometheus
