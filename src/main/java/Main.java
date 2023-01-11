@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import config.Configuration;
 
+import emulator.ShellyEmulator;
 import exporter.Exporter;
 import importer.Importer;
 
@@ -34,6 +35,8 @@ public class Main {
         LOGGER.warn("This is a warn message");
         LOGGER.error("This is an error message");
         LOGGER.fatal("This is a fatal message");
+
+
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         // configuring the objectMapper to ignore the error in case we have some
@@ -96,6 +99,9 @@ public class Main {
             }
         }
 
+        for (int id = 1; id < 6; id++) {
+            ShellyEmulator e = new ShellyEmulator("e" + id,"emulator"+id);
+        }
 
 
         SpringApplication.run(HTTPCommandApplication.class, args);

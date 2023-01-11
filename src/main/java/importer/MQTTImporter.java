@@ -53,7 +53,7 @@ public class MQTTImporter extends Importer {
                     LOGGER.info("deviceid: ", deviceid);
                     Device device = getDeviceFromId(deviceid);
                     if (device == null)
-                        device = registerNewDevice(json);
+                        device = registerNewDevice(jData);
                     if (device != null) {
                         if (json.has("data")) {
                             device.publishAttributes(jData);
