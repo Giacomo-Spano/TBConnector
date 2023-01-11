@@ -1,27 +1,25 @@
 controllers:
-  - controller: mqttcontroller
-    name: MQTT controller
-    host: ws://maqiatto.com:8883
-    user: "giacomo.spano@libero.it"
-    password: "giacomo"
-    prefix: giacomo.spano@libero.it
-    topic: /controller/command
+#  - controller: mqttcontroller
+#    name: MQTT controller
+#    host: ws://maqiatto.com:8883
+#    user: "giacomo.spano@libero.it"
+#    password: "giacomo"
+#    prefix: giacomo.spano@libero.it
+#    topic: /controller/command
 importers:
-  - importer: mqttimporter
+  - importer: shelliesmqtt
     name: MQTT importer
-    host: ws://maqiatto.com:8883
-    user: "giacomo.spano@libero.it"
-    password: "giacomo"
-    prefix: giacomo.spano@libero.it
-
+    host: tcp://153.77.136.201:1883
+    user: ""
+    password: ""
+    prefix: shellies/
 exporters:
-  - exporter: thingsboard
-    name: Thingsboard exporter
-#    host: tcp://192.168.1.206:1883
-    host: tcp://153.77.139.183:1883
-    topic: v1/devices/me/telemetry
-    prefix: giacomo.spano@libero.it
-
+  - exporter: mqttwebsocket
+    name: MQTT websocket exporter
+    host: ws://maqiatto.com:8883
+    user: giacomo.spano@libero.it
+    password: giacomo
+    prefix: giacomo.spano@libero.it/
 agents:
 #  - name: lane2
 #    type: lane
