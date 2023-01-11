@@ -1,3 +1,20 @@
+<<<<<<< Updated upstream
+=======
+importers:
+  - importer: shelliesmqtt
+    name: MQTT importer
+    host: tcp://153.77.136.201:1883
+    user: "giacomo"
+    password: "giacomo"
+    prefix: shellies/
+exporters:
+  - exporter: mqttwebsocket
+    name: MQTT websocket exporter
+    host: ws://maqiatto.com:8883
+    user: giacomo.spano@libero.it
+    password: giacomo
+    prefix: giacomo.spano@libero.it/
+>>>>>>> Stashed changes
 controllers:
 #  - controller: mqttcontroller
 #    name: MQTT controller
