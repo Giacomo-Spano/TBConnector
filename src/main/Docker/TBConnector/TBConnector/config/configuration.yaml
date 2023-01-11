@@ -13,6 +13,7 @@ importers:
     user: "giacomo"
     password: "giacomo"
     prefix: shellies/
+
 exporters:
   - exporter: mqttwebsocket
     name: MQTT websocket exporter
