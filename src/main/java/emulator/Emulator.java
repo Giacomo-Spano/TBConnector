@@ -16,13 +16,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Emulator {
     private static final Logger LOGGER = LogManager.getLogger(Emulator.class);
-    private String host = "tcp://153.77.136.201:1883";
-    private String user = "giacomo";
-    private String password = "giacomo";
-    private String prefix = "shellies/";
-    private String name = "emulator";
-    private String model = "SHPLG-S";
-    private String id = "12345";
+    private String host;
+    private String user;
+    private String password;
+    private String prefix;
+    private String name;
+    private String model;
+    private String id;
     private String emulator;
 
     private String telemetryTopic = "shellies/";
@@ -42,6 +42,40 @@ public class Emulator {
         this.name = name;
         init();
     }
+    public String gethost() {
+        return host;
+    }
+
+    public void setThost(String host) {
+        this.host = host;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPrefix() {
+        if (prefix == null)
+            prefix = "";
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     private void init() {
 
         subscribeDeviceMessages();

@@ -18,23 +18,11 @@ import java.util.Iterator;
 public class MQTTCommandController extends CommandController implements DeviceList.DeviceListener {
     private static final Logger LOGGER = LogManager.getLogger(MQTTCommandController.class);
 
-    /*public MQTTCommandController() {
-
-        if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
-            Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
-            while (importerIterator.hasNext()) {
-                Importer importer = importerIterator.next();
-                importer.getDevicesList().addListener(this);
-            }
-        }
-    }*/
-
     public MQTTCommandController(CommandController controller) {
         super(controller);
     }
 
     public void execute(JSONObject json) {
-
     }
 
     @Override
@@ -63,7 +51,7 @@ public class MQTTCommandController extends CommandController implements DeviceLi
             public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
                 String topic = s;
                 String message = new String(mqttMessage.getPayload());
-                LOGGER.info("messageArrived - topic: " + topic + "message: " + message);
+                LOGGER.info("messageArrived - topic: " + topic + "message: " + message + ", " + host + ", " + clientId + ", " + user + ", " + password);
                 JSONObject json;
                 try {
                     json = new JSONObject(message);
@@ -96,8 +84,6 @@ public class MQTTCommandController extends CommandController implements DeviceLi
     }
 
     public void init() {
-
-
         if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
             Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
             while (importerIterator.hasNext()) {

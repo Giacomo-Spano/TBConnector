@@ -54,7 +54,7 @@ public class MQTTTopicSubscriber implements Runnable {
 	}
 	@Override
 	public void run() {
-		String host =  /*"tcp://" + */this.host;
+		String host =  this.host;
 		String username = this.username;
 		String password = this.password;
 		String clientId = this.clientId + "_" +  UUID.randomUUID().toString().substring(0,8);;
@@ -68,14 +68,14 @@ public class MQTTTopicSubscriber implements Runnable {
 
 		try {
 			// Create an Mqtt client
-			/*MqttClient*/ mqttClient = new MqttClient(host,clientId );
+			mqttClient = new MqttClient(host,clientId );
 			MqttConnectOptions connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 			connOpts.setUserName(username);
 			connOpts.setPassword(password.toCharArray());
 			connOpts.setAutomaticReconnect(true);
 			// Connect the client
-			LOGGER.info("Connecting to DeviceMQTT messaging at " + host);
+			LOGGER.info("Connecting to " + host + ", " + clientId + ", " + username + ", " + password);
 			try{
 				mqttClient.connect(connOpts);
 			} catch(MqttSecurityException e) {
@@ -98,12 +98,11 @@ public class MQTTTopicSubscriber implements Runnable {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			};
-			LOGGER.info("Connected");
+			LOGGER.info("Connected to " + host + ", " + clientId + ", " + username + ", " + password);
 			setStarted();
 
 			mqttClient.setCallback(callback);
-
-			mqttClient.subscribe(topicToSubscribe, 0);
+			subscribe(topicToSubscribe, 0);
 
 		} catch (MqttException me) {
 			LOGGER.error("Exception:   " + me);
@@ -114,13 +113,15 @@ public class MQTTTopicSubscriber implements Runnable {
 			me.printStackTrace();
 		}
 	}
-	public  void subscribe(String topicToSubscribe)  {
-		LOGGER.info("Subscribe to topic: " + topicToSubscribe);
+	public  void subscribe(String topicToSubscribe, int qos)  {
+		LOGGER.info("Subscribing to topic: " + topicToSubscribe);
 		try{
-			if (mqttClient != null)
+			if (mqttClient != null) {
 				mqttClient.subscribe(topicToSubscribe, 0);
-			else
-				LOGGER.error("mqttClient is null");
+				mqttClient.subscribe(topicToSubscribe, 0);
+			} else {
+				LOGGER.info("Subscribed to topic: " + topicToSubscribe + ", " + host + ", " + clientId + ", " + username + ", " + password);
+			}
 		} catch (MqttException me) {
 			LOGGER.error("Exception:   " + me);
 			LOGGER.error("Reason Code: " + me.getReasonCode());

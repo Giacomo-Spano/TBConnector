@@ -42,7 +42,7 @@ public class ShelliesMQTTImporter extends Importer {
             @Override
             public void connectComplete(boolean b, String s) {
                 if (ts != null) {
-                    ts.subscribe(shelliesTopic);
+                    ts.subscribe(shelliesTopic,0);
                 }
             }
 

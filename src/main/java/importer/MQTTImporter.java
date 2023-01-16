@@ -28,7 +28,7 @@ public class MQTTImporter extends Importer {
             @Override
             public void connectComplete(boolean b, String s) {
                 if (ts != null) {
-                    ts.subscribe(telemetryTopic);
+                    ts.subscribe(telemetryTopic,0);
                     //ts.subscribe(attributesTopic);
                 }
             }

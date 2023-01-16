@@ -53,7 +53,7 @@ public class Shelly extends Device {
         this.mqttTopicSubscriber = new MQTTTopicSubscriber(host, "shimporter" + this.getId() + "_",user, password, shellyTopic, new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                mqttTopicSubscriber.subscribe(shellyTopic);
+                mqttTopicSubscriber.subscribe(shellyTopic,0);
             }
 
             @Override

@@ -55,13 +55,14 @@ public class MQTTTopicPublisher {
 	            // Here we are using QoS of 0 (equivalent to Direct Messaging in Solace)
 	            message.setQos(0);
 
-                LOGGER.info("Publishing message. topic: " + topic + " Mesessage:" + message);
+                LOGGER.info("Publishing message. topic: " + topic + " Message:" + message);
 	            
 	            // Publish the message
 	            try {
 					mqttClient.publish(topic, message);
 				} catch (MqttPersistenceException e1) {
 					// TODO Auto-generated catch block
+                    LOGGER.error("Error publishing message: " + topic + ", " + message + "");
 					e1.printStackTrace();
                     LOGGER.error(e1.toString());
 				} catch (MqttException e1) {

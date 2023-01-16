@@ -17,7 +17,7 @@ controllers:
 emulators:
   - emulator: shellyemulator
     name: "ShellyEmulator1"
-    host: ws://giacomocasa.duckdns.org:9001
+    host: "ws://giacomocasa.duckdns.org:9001"
     user: "giacomo"
     password: "giacomo"
     prefix: "shellies/"
