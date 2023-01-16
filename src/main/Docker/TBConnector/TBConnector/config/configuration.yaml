@@ -3,8 +3,8 @@ importers:
   - importer: shelliesmqtt
     name: MQTT importer
     host: tcp://153.77.136.201:1883
-    user: ""
-    password: ""
+    user: "giacomo"
+    password: "giacomo"
     prefix: shellies/
 exporters:
   - exporter: mqttwebsocket
