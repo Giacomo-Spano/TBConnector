@@ -37,16 +37,18 @@ public class Shelly extends Device {
     public void setMQTTdata(String host,String prefix, String user,String password) {
         LOGGER.info("setMQTTdata");
         this.host = host;
+        if (prefix == null) {
+            LOGGER.warn("prefix is null");
+            prefix = "";
+        }
         this.prefix = prefix;
         this.user = user;
         this.password = password;
     }
 
-    public void subscribeDeviceMessages(String host,String prefix,String user,String password) {
+    public void subscribeDeviceMessages() {
         LOGGER.info("subscribeDeviceMessages");
-
         LOGGER.info("subscribe to new device messages");
-        //String shellyTopic = "shellies/" + this.getName() + "/#";
         String shellyTopic = prefix + this.getName() + "/#";
         this.mqttTopicSubscriber = new MQTTTopicSubscriber(host, "shimporter" + this.getId() + "_",user, password, shellyTopic, new MqttCallbackExtended() {
             @Override

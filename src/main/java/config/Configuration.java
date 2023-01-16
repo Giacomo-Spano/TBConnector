@@ -1,11 +1,11 @@
 package config;//package com.baeldung.jackson.yaml; XXXXXX
 
 import CommandControllers.CommandController;
-import CommandControllers.HTTPCommandController;
 import CommandControllers.MQTTCommandController;
 import agent.Agent;
 import agent.LaneAgent;
 import device.*;
+import emulator.Emulator;
 import exporter.*;
 import importer.Importer;
 import importer.MQTTImporter;
@@ -32,6 +32,7 @@ public class Configuration {
 
 	private static List<CommandController> controllers;
 
+	private static List<Emulator> emulators;
 
     public Configuration() {
 
@@ -155,6 +156,33 @@ public class Configuration {
 				Configuration.controllers.add(newCommandController);
 			} */else{
 				LOGGER.info("Error: Unknown command controller type: " + controller.getController());
+			}
+		}
+	}
+
+	public static List<Emulator> getEmulators() {
+		if (emulators == null) {
+			emulators = new ArrayList<>();
+		}
+		return emulators;
+	}
+	public void setEmulators(List<Emulator> emulators) {
+		if (emulators == null) {
+			emulators = new ArrayList<>();
+		}
+		Configuration.emulators = new ArrayList<>();
+		Iterator<Emulator> importerIterator = emulators.iterator();
+		while (importerIterator.hasNext()) {
+			Emulator emulator = importerIterator.next();
+
+			if (emulator.getEmulator().equals("shellyemulator")) {
+				Emulator newShellyEmulator = new Emulator(emulator);
+				Configuration.emulators.add(newShellyEmulator);
+			} /*else if (controller.getController().equals("httpcontroller")) {
+				HTTPCommandController newCommandController = new HTTPCommandController(controller);
+				Configuration.controllers.add(newCommandController);
+			} */else{
+				LOGGER.info("Error: Unknown emulator type: " + emulator.getEmulator());
 			}
 		}
 	}

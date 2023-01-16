@@ -126,7 +126,7 @@ public class ShelliesMQTTImporter extends Importer {
             return null;
         }
         ((Shelly)newDevice).setMQTTdata(gethost(),getPrefix(),getUser(),getPassword());
-        ((Shelly)newDevice).subscribeDeviceMessages(gethost(),getPrefix(),getUser(),getPassword());
+        ((Shelly)newDevice).subscribeDeviceMessages();
 
         return newDevice;
     }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import config.Configuration;
 
-import emulator.ShellyEmulator;
+import emulator.Emulator;
 import exporter.Exporter;
 import importer.Importer;
 
@@ -78,10 +78,6 @@ public class Main {
                 exporter.init();
             }
         }
-
-        // load mmand controllers
-
-
         // load impoorters
         if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
             Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
@@ -99,9 +95,17 @@ public class Main {
             }
         }
 
-        for (int id = 1; id < 6; id++) {
-            ShellyEmulator e = new ShellyEmulator("e" + id,"emulator"+id);
+        if (Configuration.getEmulators() != null && Configuration.getEmulators().size() > 0) {
+            Iterator<Emulator> emulatorIterator = Configuration.getEmulators().iterator();
+            while (emulatorIterator.hasNext()) {
+                Emulator emulator = emulatorIterator.next();
+                //emulator.init();
+            }
         }
+
+        /*for (int id = 1; id < 6; id++) {
+            ShellyEmulator e = new ShellyEmulator("e" + id,"emulator"+id);
+        }*/
 
 
         SpringApplication.run(HTTPCommandApplication.class, args);

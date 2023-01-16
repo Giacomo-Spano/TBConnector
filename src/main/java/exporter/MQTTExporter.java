@@ -12,7 +12,7 @@ public class MQTTExporter extends Exporter {
     private String topicUpdate;
     public MQTTExporter(Exporter exporter) {
         super(exporter);
-        topicUpdate = getPrefix() + "update";
+        topicUpdate = getPrefix() + "/update";
         LOGGER.info("MQTTExporter - topicTelemetryUploadAPI: " + topicUpdate);
     }
 

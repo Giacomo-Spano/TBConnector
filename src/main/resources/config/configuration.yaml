@@ -14,6 +14,15 @@ controllers:
 #    prefix: giacomo.spano@libero.it
 #    topic: /controller/command
 
+emulators:
+  - emulator: shellyemulator
+    name: "ShellyEmulator1"
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: "shellies/"
+    model:  "SHPLG-S"
+
 importers:
   - importer: mqttimporter
     name: MQTT importer
@@ -27,6 +36,7 @@ importers:
     host: tcp://giacomocasa.duckdns.org:1883
     user: "giacomo"
     password: "giacomo"
+    prefix: "shellies/"
 #    devices:
 #  - importer: mqttimporter
 #    name: MQTT importer

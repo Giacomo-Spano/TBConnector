@@ -86,6 +86,8 @@ public class Importer {
     }
 
     public String getPrefix() {
+        if (prefix == null)
+            prefix = "";
         return prefix;
     }
 

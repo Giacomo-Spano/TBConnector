@@ -9,28 +9,35 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ShellyEmulator {
-    private static final Logger LOGGER = LogManager.getLogger(ShellyEmulator.class);
+public class Emulator {
+    private static final Logger LOGGER = LogManager.getLogger(Emulator.class);
     private String host = "tcp://153.77.136.201:1883";
     private String user = "giacomo";
     private String password = "giacomo";
-
+    private String prefix = "shellies/";
     private String name = "emulator";
     private String model = "SHPLG-S";
     private String id = "12345";
-
+    private String emulator;
 
     private String telemetryTopic = "shellies/";
 
-    public ShellyEmulator(String id, String name) {
+    public Emulator(Emulator emulator) {
+        this.name = emulator.name;
+        this.emulator = emulator.emulator;
+        this.host = emulator.host;
+        this.user = emulator.user;
+        this.password = emulator.password;
+        this.prefix = emulator.prefix;
+
+    }
+
+    public Emulator(String id, String name) {
         this.id = id;
         this.name = name;
         init();
@@ -42,6 +49,13 @@ public class ShellyEmulator {
 
         new Timer().schedule(new SendTelemetryTask(), 0, 5000);
 
+    }
+
+    public String getEmulator() {
+        return emulator;
+    }
+    public void setEmulator(String emulator) {
+        this.emulator = emulator;
     }
 
     private class SendTelemetryTask extends TimerTask {
