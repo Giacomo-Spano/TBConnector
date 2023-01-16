@@ -1,26 +1,26 @@
-controllers:
-#  - controller: mqttcontroller
-#    name: MQTT controller
-#    host: ws://maqiatto.com:8883
-#    user: "giacomo.spano@libero.it"
-#    password: "giacomo"
-#    prefix: giacomo.spano@libero.it
-#    topic: /controller/command
+# client ncr
 importers:
   - importer: shelliesmqtt
     name: MQTT importer
     host: tcp://153.77.136.201:1883
-    user: "giacomo"
-    password: "giacomo"
+    user: ""
+    password: ""
     prefix: shellies/
-
 exporters:
   - exporter: mqttwebsocket
     name: MQTT websocket exporter
-    host: ws://maqiatto.com:8883
-    user: giacomo.spano@libero.it
-    password: giacomo
-    prefix: giacomo.spano@libero.it/
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: update
+controllers:
+  - controller: mqttcontroller
+    name: MQTT controller
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: ""
+    topic: /controller/command
 agents:
 #  - name: lane2
 #    type: lane
