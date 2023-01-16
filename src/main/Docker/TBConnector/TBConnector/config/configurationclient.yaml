@@ -8,17 +8,17 @@ importers:
 exporters:
   - exporter: mqttwebsocket
     name: MQTT websocket exporter
-    host: ws://maqiatto.com:8883
-    user: giacomo.spano@libero.it
-    password: giacomo
-    prefix: giacomo.spano@libero.it/
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: update
 controllers:
   - controller: mqttcontroller
     name: MQTT controller
-    host: ws://maqiatto.com:8883
-    user: "giacomo.spano@libero.it"
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
     password: "giacomo"
-    prefix: giacomo.spano@libero.it
+    prefix: ""
     topic: /controller/command
 agents:
 #  - name: lane2

@@ -1,4 +1,11 @@
 controllers:
+  - controller: mqttcontroller
+    name: MQTT controller
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: ""
+    topic: /controller/command
 #  - controller: mqttcontroller
 #    name: MQTT controller
 #    host: ws://maqiatto.com:8883
@@ -6,30 +13,32 @@ controllers:
 #    password: "giacomo"
 #    prefix: giacomo.spano@libero.it
 #    topic: /controller/command
+
 importers:
-#  - importer: shelliesmqtt
-#    name: MQTT importer
-#    host: tcp://153.77.136.201:1883
-#    user: "giacomo"
-#    password: "giacomo"
-#    prefix: shellies/
-#  - importer: shelliesmqtt
-#    name: MQTT importer
-#    host: tcp://giacomocasa.duckdns.org:1883
-#    user: "giacomo"
-#    password: "giacomo"
+  - importer: mqttimporter
+    name: MQTT importer
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: "update"
+
+  - importer: shelliesmqtt
+    name: MQTT importer
+    host: tcp://giacomocasa.duckdns.org:1883
+    user: "giacomo"
+    password: "giacomo"
 #    devices:
 #  - importer: mqttimporter
 #    name: MQTT importer
 #    host: tcp://giacomocasa.duckdns.org:9001
 #    user: "giacomo"
 #    password: "giacomo"
-  - importer: mqttimporter
-    name: MQTT importer
-    host: ws://maqiatto.com:8883
-    user: "giacomo.spano@libero.it"
-    password: "giacomo"
-    prefix: giacomo.spano@libero.it
+#  - importer: mqttimporter
+#    name: MQTT importer
+#    host: ws://maqiatto.com:8883
+#    user: "giacomo.spano@libero.it"
+#    password: "giacomo"
+#    prefix: giacomo.spano@libero.it
 #    devices:
 #      - name: desktop-pc
 #        type: laneagent
@@ -74,12 +83,6 @@ importers:
 
 
 exporters:
-  - exporter: mqttwebsocket
-    name: MQTT websocket exporter
-    host: ws://maqiatto.com:8883
-    user: giacomo.spano@libero.it
-    password: giacomo
-    prefix: giacomo.spano@libero.it/
 #  - exporter: postgres
 #    name: postgres exporter
 #    host: 192.168.1.209:5432
@@ -87,12 +90,11 @@ exporters:
 #    DBName: postgres
 #    user: postgres
 #    password: docker
-#  - exporter: thingsboard
-#    name: Thingsboard exporter
-    #host: giacomocasa.duckdns.org:1885
-#    host: tcp://192.168.1.206:1883
-#    topic: v1/devices/me/telemetry
-#    prefix: giacomo.spano@libero.it/update
+  - exporter: thingsboard
+    name: Thingsboard exporter
+    host: tcp://192.168.1.188:1883
+    topic: v1/devices/me/telemetry
+    prefix: giacomo.spano@libero.it/update
 #  - exporter: prometheus
 #    name: Prometheus exporter
 #    port: 8081
