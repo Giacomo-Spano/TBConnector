@@ -3,6 +3,7 @@ package importer;//  aaa
 import device.Device;
 import device.DeviceList;
 import device.Shelly;
+import emulator.Emulator;
 import helper.MQTTTopicPublisher;
 import helper.MQTTTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +15,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -56,7 +60,7 @@ public class ShelliesMQTTImporter extends Importer {
                 // Called when a message arrives from the server that
                 // matches any subscription made by the client
                 String msg = new String(message.getPayload());
-                LOGGER.info("Message command received -  topic: " + topic + "message: " + msg);
+                LOGGER.info("Message CommandReceiver.command received -  topic: " + topic + "message: " + msg);
 
                 String str = topic.replace(prefix, "");
                 int index = str.indexOf("/");
@@ -64,7 +68,7 @@ public class ShelliesMQTTImporter extends Importer {
                 if (index != -1) {
                     deviceid = str.substring(0, index);
                     String command = str.replace(deviceid + "/", "");
-                    LOGGER.info("deviceid: ", deviceid + "command: ", command);
+                    LOGGER.info("deviceid: ", deviceid + "CommandReceiver.command: ", command);
                     if (command.equals("announce")) {
                         LOGGER.info("command announce found ");
                         JSONObject json = new JSONObject(msg);
@@ -89,7 +93,17 @@ public class ShelliesMQTTImporter extends Importer {
             throw new RuntimeException(e);
         }
 
-        publishAnnounce();
+        //publishAnnounce();
+        new Timer().schedule(new SendAnnounceTask(), 10000, 5000); // delay 10 sec
+    }
+
+    private class SendAnnounceTask extends TimerTask {
+        @Override
+        public void run() {
+
+            publishAnnounce();
+            cancel();
+        }
     }
 
     public void subscribeShelliesTopic(MqttClient mqttClient) {
@@ -129,5 +143,13 @@ public class ShelliesMQTTImporter extends Importer {
         ((Shelly)newDevice).subscribeDeviceMessages();
 
         return newDevice;
+    }
+
+    public void sendCommand(String deviceid, String command, JSONObject param) {
+        Shelly device = (Shelly) getDeviceFromId(deviceid);
+        if (device == null)
+            return;
+        device.sendCommand(command, param);
+
     }
 }

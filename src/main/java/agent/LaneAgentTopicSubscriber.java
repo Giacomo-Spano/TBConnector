@@ -77,7 +77,7 @@ public class LaneAgentTopicSubscriber implements Runnable {
 					String strMessage = new String(message.getPayload());
 
 					if (strMessage.equals("sleep")) {
-						LOGGER.info("received command sleep");
+						LOGGER.info("received CommandReceiver.command sleep");
 						Runtime r=Runtime.getRuntime();
 						Runtime.getRuntime().exec("Rundll32.exe powrprof.dll,SetSuspendState Sleep");
 
@@ -88,7 +88,7 @@ public class LaneAgentTopicSubscriber implements Runnable {
 					} else if (message.equals("restart")) {
 
 					} else {
-						LOGGER.error("received unknown command");
+						LOGGER.error("received unknown CommandReceiver.command");
 					}
 					// Create Runtime object
 					//Runtime r=Runtime.getRuntime();

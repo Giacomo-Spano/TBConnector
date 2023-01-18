@@ -1,4 +1,4 @@
-import CommandControllers.CommandController;
+
 import agent.Agent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,8 +13,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.springframework.boot.SpringApplication;
-import CommandControllers.HTTPCommandApplication;
+import CommandApplication.CommandApplication;
 import scheduler.JobScheduler;
+
+import CommandReceiver.Receiver;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +37,8 @@ public class Main {
         LOGGER.warn("This is a warn message");
         LOGGER.error("This is an error message");
         LOGGER.fatal("This is a fatal message");
+
+        //SpringApplication.run(HTTPCommandApplication.class, args);
 
 
 
@@ -86,15 +90,15 @@ public class Main {
                 importer.init();
             }
         }
-
-        if (Configuration.getControllers() != null && Configuration.getControllers().size() > 0) {
-            Iterator<CommandController> commandControllerIteratorIterator = Configuration.getControllers().iterator();
-            while (commandControllerIteratorIterator.hasNext()) {
-                CommandController controller = commandControllerIteratorIterator.next();
-                controller.init();
+        // load receiver
+        if (Configuration.getReceivers() != null && Configuration.getReceivers().size() > 0) {
+            Iterator<Receiver> commandReceiverIterator = Configuration.getReceivers().iterator();
+            while (commandReceiverIterator.hasNext()) {
+                Receiver receiver = commandReceiverIterator.next();
+                receiver.init();
             }
         }
-
+        // load emulator
         if (Configuration.getEmulators() != null && Configuration.getEmulators().size() > 0) {
             Iterator<Emulator> emulatorIterator = Configuration.getEmulators().iterator();
             while (emulatorIterator.hasNext()) {
@@ -103,14 +107,7 @@ public class Main {
             }
         }
 
-        /*for (int id = 1; id < 6; id++) {
-            ShellyEmulator e = new ShellyEmulator("e" + id,"emulator"+id);
-        }*/
-
-
-        SpringApplication.run(HTTPCommandApplication.class, args);
-
-
+        SpringApplication.run(CommandApplication.class, args);
 
 
         //MyKafkaProducer s = new MyKafkaProducer();

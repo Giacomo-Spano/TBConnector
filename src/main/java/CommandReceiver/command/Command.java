@@ -1,4 +1,4 @@
-package command;
+package CommandReceiver.command;
 
 import org.json.JSONObject;
 

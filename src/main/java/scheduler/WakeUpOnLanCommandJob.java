@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.quartz.*;
 import org.quartz.Job;
-import command.WakeUpOnLanCommand;
+import CommandReceiver.command.WakeUpOnLanCommand;
 
 import static org.quartz.JobBuilder.newJob;
 

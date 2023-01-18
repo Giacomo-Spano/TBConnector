@@ -1,6 +1,6 @@
-package CommandControllers;
+package CommandReceiver;
 
-import command.Command;
+import CommandReceiver.command.Command;
 import config.Configuration;
 import device.Device;
 import device.DeviceList;
@@ -15,10 +15,10 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-public class ThingsBoardCommandController extends Command implements DeviceList.DeviceListener {
-    private static final Logger LOGGER = LogManager.getLogger(ThingsBoardCommandController.class);
+public class ThingsBoardCommandReceivererTOBECOMPLETED extends Command implements DeviceList.DeviceListener {
+    private static final Logger LOGGER = LogManager.getLogger(ThingsBoardCommandReceivererTOBECOMPLETED.class);
 
-    public ThingsBoardCommandController() {
+    public ThingsBoardCommandReceivererTOBECOMPLETED() {
 
         if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
             Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
@@ -34,7 +34,7 @@ public class ThingsBoardCommandController extends Command implements DeviceList.
     }
     @Override
     public void deviceAdded(Device newDevice) {
-        // subscribe to ThingsBoard server to get command request
+        // subscribe to ThingsBoard server to get CommandReceiver.command request
         MQTTTopicSubscriber ts = new MQTTTopicSubscriber("tcp://localhost:1883", "command_" + newDevice.getId(), newDevice.getId(),"", "v1/devices/me/rpc/request/+", new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Importer {
+public class Importer implements ImporterInterface {
     private String name;
     private String importer;
     private String host;
@@ -126,4 +126,6 @@ public class Importer {
 
     public void init() {
     }
+
+
 }

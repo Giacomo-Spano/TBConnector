@@ -7,7 +7,7 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import command.MQTTCommand;
+import CommandReceiver.command.MQTTCommand;
 
 public class MQTTCommandJob implements Job {
     private static final Logger LOGGER = LogManager.getLogger(MQTTCommandJob.class);

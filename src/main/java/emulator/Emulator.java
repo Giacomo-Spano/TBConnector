@@ -25,22 +25,26 @@ public class Emulator {
     private String id;
     private String emulator;
 
-    private String telemetryTopic = "shellies/";
-
     public Emulator(Emulator emulator) {
+        this.id = emulator.id;
         this.name = emulator.name;
+        this.model = emulator.model;
         this.emulator = emulator.emulator;
         this.host = emulator.host;
         this.user = emulator.user;
         this.password = emulator.password;
         this.prefix = emulator.prefix;
-
     }
 
-    public Emulator(String id, String name) {
+    public Emulator(String id, String name, String emulator, String model, String host, String user, String password, String prefix) {
         this.id = id;
         this.name = name;
-        init();
+        this.model = model;
+        this.emulator = emulator;
+        this.host = host;
+        this.user = user;
+        this.password = password;
+        this.prefix = prefix;
     }
     public String gethost() {
         return host;
@@ -56,6 +60,22 @@ public class Emulator {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String user) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

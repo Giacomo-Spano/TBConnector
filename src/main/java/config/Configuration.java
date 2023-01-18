@@ -1,14 +1,17 @@
 package config;//package com.baeldung.jackson.yaml; XXXXXX
 
-import CommandControllers.CommandController;
-import CommandControllers.MQTTCommandController;
+import CommandReceiver.MQTTProxyReceiver;
+import CommandReceiver.MQTTThingsBoardReceiver;
+import CommandReceiver.Receiver;
+import CommandReceiver.MQTTReceiver;
+
 import agent.Agent;
 import agent.LaneAgent;
 import device.*;
 import emulator.Emulator;
 import exporter.*;
 import importer.Importer;
-import importer.MQTTImporter;
+import importer.MQTTProxyImporter;
 import importer.ShelliesMQTTImporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,20 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Configuration {
-
 	private static final Logger LOGGER = LogManager.getLogger(Configuration.class);
-
-    // device.Devices settings
 	private static List<Device> devices;
-
 	private static List<Agent> agents;
-
 	private static List<Exporter> exporters;
-
 	private static List<Importer> importers;
-
-	private static List<CommandController> controllers;
-
+	private static List<Receiver> receivers;
 	private static List<Emulator> emulators;
 
     public Configuration() {
@@ -50,6 +45,8 @@ public class Configuration {
 		}
 		return agents;
 	}
+
+
 
 	public void setAgents(List<Agent> agents) {
 		if (agents == null) {
@@ -98,7 +95,7 @@ public class Configuration {
 				PrometheusExporter newExporter = new PrometheusExporter(exporter);
 				Configuration.exporters.add(newExporter);
 			} else if (exporter.getExporter().equals("mqttwebsocket")) {
-				MQTTExporter newExporter = new MQTTExporter(exporter);
+				MQTTProxyExporter newExporter = new MQTTProxyExporter(exporter);
 				Configuration.exporters.add(newExporter);
 			} else {
 				LOGGER.info("Error: Unknown exporter type: " + exporter.getExporter());
@@ -113,6 +110,8 @@ public class Configuration {
 		return importers;
 	}
 
+
+
 	public void setImporters(List<Importer> importers) {
 		if (importers == null) {
 			importers = new ArrayList<>();
@@ -126,36 +125,39 @@ public class Configuration {
 				ShelliesMQTTImporter newImporter = new ShelliesMQTTImporter(importer);
 				Configuration.importers.add(newImporter);
 			} else if (importer.getImporter().equals("mqttimporter")) {
-				MQTTImporter newImporter = new MQTTImporter(importer);
+				MQTTProxyImporter newImporter = new MQTTProxyImporter(importer);
 				Configuration.importers.add(newImporter);
 			} else{
 				LOGGER.info("Error: Unknown importer type: " + importer.getImporter());
 			}
 		}
 	}
-	public static List<CommandController> getControllers() {
-		if (controllers == null) {
-			controllers = new ArrayList<>();
+	public static List<Receiver> getReceivers() {
+		if (receivers == null) {
+			receivers = new ArrayList<>();
 		}
-		return controllers;
+		return receivers;
 	}
-	public void setControllers(List<CommandController> controllers) {
-		if (controllers == null) {
-			controllers = new ArrayList<>();
+	public void setReceivers(List<Receiver> receivers) {
+		if (receivers == null) {
+			receivers = new ArrayList<>();
 		}
-		Configuration.controllers = new ArrayList<>();
-		Iterator<CommandController> importerIterator = controllers.iterator();
+		Configuration.receivers = new ArrayList<>();
+		Iterator<Receiver> importerIterator = receivers.iterator();
 		while (importerIterator.hasNext()) {
-			CommandController controller = importerIterator.next();
+			Receiver receiver = importerIterator.next();
 
-			if (controller.getController().equals("mqttcontroller")) {
-				MQTTCommandController newCommandController = new MQTTCommandController(controller);
-				Configuration.controllers.add(newCommandController);
-			} /*else if (controller.getController().equals("httpcontroller")) {
-				HTTPCommandController newCommandController = new HTTPCommandController(controller);
-				Configuration.controllers.add(newCommandController);
-			} */else{
-				LOGGER.info("Error: Unknown command controller type: " + controller.getController());
+			if (receiver.getReceiver().equals("mqttreceiver")) {
+				MQTTReceiver newReceiver = new MQTTReceiver(receiver);
+				Configuration.receivers.add(newReceiver);
+			} else if (receiver.getReceiver().equals("mqttproxyreceiver")) {
+				MQTTProxyReceiver newReceiver = new MQTTProxyReceiver(receiver);
+				Configuration.receivers.add(newReceiver);
+			} else if (receiver.getReceiver().equals("mqttthingsboardreceiver")) {
+				MQTTThingsBoardReceiver newReceiver = new MQTTThingsBoardReceiver(receiver);
+				Configuration.receivers.add(newReceiver);
+			} else{
+				LOGGER.info("Error: Unknown Receiver.command " + receiver.getReceiver());
 			}
 		}
 	}

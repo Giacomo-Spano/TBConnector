@@ -77,6 +77,6 @@ agents:
     host: giacomocasa.duckdns.org:1883
     user: giacomo
     password: giacomo
-    topic: laneagents/command
+    topic: laneagents/CommandReceiver.command
     publishtopic: laneagents/statusupdate
 

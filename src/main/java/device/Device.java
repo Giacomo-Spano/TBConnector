@@ -3,6 +3,7 @@
 	import config.Configuration;
 	import exporter.Exporter;
 	//import exporter.PrometheusPublisher;
+	import helper.MQTTTopicSubPub;
 	import helper.MQTTTopicSubscriber;
 	import org.apache.logging.log4j.LogManager;
 	import org.apache.logging.log4j.Logger;
@@ -14,7 +15,7 @@
 
 	public class Device {
 
-		public MQTTTopicSubscriber mqttTopicSubscriber;
+		public MQTTTopicSubPub mqttTopicSubscriber;
 		private static final Logger LOGGER = LogManager.getLogger(Device.class);
 		private String id = "";
 		private String fw_ver = "";

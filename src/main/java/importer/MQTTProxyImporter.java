@@ -1,29 +1,32 @@
 package importer;//  aaa
 
 import device.Device;
+import helper.MQTTTopicSubPub;
 import helper.MQTTTopicSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
 import org.json.JSONObject;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class MQTTImporter extends Importer {
+public class MQTTProxyImporter extends Importer implements ImporterInterface {
 
-    private static final Logger LOGGER = LogManager.getLogger(MQTTImporter.class);
+    private static final Logger LOGGER = LogManager.getLogger(MQTTProxyImporter.class);
 
-    public MQTTImporter(Importer importer) {
+    public MQTTProxyImporter(Importer importer) {
         super(importer);
     }
 
-    private MQTTTopicSubscriber ts;
+    private MQTTTopicSubPub ts;
+    String telemetryTopic, commandTopic;
 
     public void init() {
 
-        String telemetryTopic = getPrefix() + "/update";
-        //String attributesTopic = getPrefix() + "/telemetry";
-        ts = new MQTTTopicSubscriber(gethost(), "mqttimporter_", getUser(), getPassword(), telemetryTopic, new MqttCallbackExtended() {
+        telemetryTopic = getPrefix() + "/update";
+        commandTopic = getPrefix() + "/command";
+        ts = new MQTTTopicSubPub(gethost(), "mqttimporter_", getUser(), getPassword(), telemetryTopic, new MqttCallbackExtended() {
 
             @Override
             public void connectComplete(boolean b, String s) {
@@ -45,9 +48,9 @@ public class MQTTImporter extends Importer {
                 String msg = new String(message.getPayload());
                 JSONObject json = new JSONObject(msg);
                 String command = json.getString("command");
-                LOGGER.info("command: ", command);
+                LOGGER.info("CommandReceiver.command: ", command);
                 if (command.equals("pushattributes")) {
-                    LOGGER.info("command pushattribute found ");
+                    LOGGER.info("CommandReceiver.command pushattribute found ");
                     JSONObject jData = json.getJSONObject("data");
                     String deviceid = jData.getString("mac");
                     LOGGER.info("deviceid: ", deviceid);
@@ -60,7 +63,7 @@ public class MQTTImporter extends Importer {
                         }
                     }
                 } else if (command.equals("pushtelemetry")) {
-                    LOGGER.info("command pushtelemetry found ");
+                    LOGGER.info("CommandReceiver.command pushtelemetry found ");
                     if (!json.has("deviceid")) {
                         LOGGER.error("cannot find deviceid");
                         return;
@@ -86,8 +89,8 @@ public class MQTTImporter extends Importer {
                     }
                     if (device != null) {
                         //JSONObject js = new JSONObject(json);
-                        /*if (json.has("command"))
-                            json.remove("command");
+                        /*if (json.has("CommandReceiver.command"))
+                            json.remove("CommandReceiver.command");
                         if (json.has("deviceid"))
                             json.remove("deviceid");
                         if (json.has("type"))
@@ -101,7 +104,7 @@ public class MQTTImporter extends Importer {
                         }
                     }
                 } else {
-                    LOGGER.info("command not found ");
+                    LOGGER.info("CommandReceiver.command not found ");
                     registerNewDevice(json);
                 }
             }
@@ -131,5 +134,25 @@ public class MQTTImporter extends Importer {
             return null;
         }
         return newDevice;
+    }
+
+    @Override
+    public void sendCommand(String deviceid, String command, JSONObject param) {
+        // send command back to proxyexporter
+        LOGGER.info("sendCommand: deviceid " + deviceid + ", command:" + command + ", param: " + param.toString());
+        JSONObject jsonPacket = new JSONObject();
+        jsonPacket.put("deviceid", deviceid);
+        jsonPacket.put("command", command);
+        jsonPacket.put("param", param);
+        jsonPacket.put("command","pushattributes");
+        try {
+            String publishMsg = jsonPacket.toString();
+            ts.publishMessage(commandTopic, publishMsg);
+        } catch (Exception e) {
+            LOGGER.error("failed to publish attributes" + e.toString());
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        LOGGER.info("commandsent");
     }
 }

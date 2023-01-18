@@ -1,27 +1,45 @@
-controllers:
-  - controller: mqttcontroller
-    name: MQTT controller
+receivers:
+#  - receiver: mqttreceiver
+#    name: MQTT receiver
+#    host: tcp://192.168.1.188:183
+#    user: "giacomo"
+#    password: "giacomo"
+#    prefix:
+#    topic: command
+  - receiver: mqttproxyreceiver
+    name: MQTT receiver
     host: ws://giacomocasa.duckdns.org:9001
     user: "giacomo"
     password: "giacomo"
-    prefix: ""
-    topic: /controller/command
+    prefix: proxyreceiver/
+    topic: command
+  - receiver: mqttthingsboardreceiver
+    name: MQTT thingsBoard receiver
+    host: tcp://192.168.1.188:1883
+    user: ""
+    password: ""
+##    user:    --- device id
+##    password: ""
+    prefix: receiver/
+    topic: v1/devices/me/rpc/request/+
+
 #  - controller: mqttcontroller
+
 #    name: MQTT controller
 #    host: ws://maqiatto.com:8883
 #    user: "giacomo.spano@libero.it"
 #    password: "giacomo"
 #    prefix: giacomo.spano@libero.it
-#    topic: /controller/command
 
 emulators:
   - emulator: shellyemulator
-    name: "ShellyEmulator1"
-    host: "ws://giacomocasa.duckdns.org:9001"
+    name: "ShellyEmulator1x"
+    id : "00001"
+    host: ws://giacomocasa.duckdns.org:9001
     user: "giacomo"
     password: "giacomo"
-    prefix: "shellies/"
-    model:  "SHPLG-S"
+    prefix: shellies/
+    model: "SHPLG-S"
 
 importers:
   - importer: mqttimporter
@@ -36,7 +54,7 @@ importers:
     host: tcp://giacomocasa.duckdns.org:1883
     user: "giacomo"
     password: "giacomo"
-    prefix: "shellies/"
+    prefix: shellies/
 #    devices:
 #  - importer: mqttimporter
 #    name: MQTT importer
@@ -100,6 +118,12 @@ exporters:
 #    DBName: postgres
 #    user: postgres
 #    password: docker
+  - exporter: mqttwebsocket
+    name: MQTT websocket exporter
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: update
   - exporter: thingsboard
     name: Thingsboard exporter
     host: tcp://192.168.1.188:1883
@@ -121,6 +145,6 @@ agents:
 #    host: giacomocasa.duckdns.org:1883
 #    user: giacomo
 #    password: giacomo
-#    topic: laneagents/command
+#    topic: laneagents/CommandReceiver.command
 #    publishtopic: laneagents/statusupdate
 

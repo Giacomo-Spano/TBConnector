@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.quartz.*;
 import org.quartz.Job;
-import command.RunScriptCommand;
+import CommandReceiver.command.RunScriptCommand;
 
 import static org.quartz.JobBuilder.newJob;
 

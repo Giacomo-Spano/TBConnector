@@ -14,7 +14,7 @@
 [INFO ] 2022-11-23 10:32:36.518 [Thread-5] MQTTImporterTopicSubscriber - Connected
 [INFO ] 2022-11-23 10:32:36.518 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 10:32:36.520 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
-[INFO ] 2022-11-23 10:32:36.520 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 10:32:36.520 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 10:32:36.521 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 10:32:36.548 [Timer] JobScheduler - Message alive sent
 [INFO ] 2022-11-23 10:32:36.553 [Thread-5] MQTTImporterTopicSubscriber - device: cucina
@@ -349,7 +349,7 @@ Received a Message!
 [INFO ] 2022-11-23 10:35:08.975 [Thread-5] MQTTImporterTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 10:35:09.515 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 10:35:09.515 [Thread-5] MQTTImporterTopicSubscriber - Connected
-[INFO ] 2022-11-23 10:35:09.517 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 10:35:09.517 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 10:35:09.518 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
 [INFO ] 2022-11-23 10:35:09.518 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 10:35:09.557 [Thread-5] MQTTImporterTopicSubscriber - device: cucina
@@ -4542,7 +4542,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:06:26.185 [Timer] PrometheusExporter - Publish status metric: name=desktop-pc status=0.0
 [INFO ] 2022-11-23 11:06:26.234 [Thread-1] LaneAgentTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:06:26.836 [Thread-1] LaneAgentTopicSubscriber - Connected
-[INFO ] 2022-11-23 11:06:26.837 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:06:26.837 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:06:26.857 [Timer] LaneAgent - Message alive sent
 [INFO ] 2022-11-23 11:06:26.867 [Thread-1] LaneAgentTopicSubscriber - Lane agent Subscribed. Wait for the message to be received
 [INFO ] 2022-11-23 11:34:32.396 [main] Main - 
@@ -4569,7 +4569,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:34:59.476 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:34:59.476 [Thread-5] MQTTImporterTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:34:59.479 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
-[INFO ] 2022-11-23 11:34:59.479 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:34:59.479 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:34:59.479 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 11:34:59.512 [Thread-5] MQTTImporterTopicSubscriber - device: cucina
 [INFO ] 2022-11-23 11:34:59.512 [Thread-1] LaneAgentTopicSubscriber - Lane agent Subscribed. Wait for the message to be received
@@ -4682,7 +4682,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:35:57.142 [Thread-5] MQTTImporterTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:35:57.541 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:35:57.541 [Thread-5] MQTTImporterTopicSubscriber - Connected
-[INFO ] 2022-11-23 11:35:57.544 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:35:57.544 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:35:57.545 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
 [INFO ] 2022-11-23 11:35:57.546 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 11:35:57.576 [Thread-5] MQTTImporterTopicSubscriber - device: cucina
@@ -5066,7 +5066,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:36:45.887 [Thread-1] LaneAgentTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:37:03.492 [Thread-11] MQTTImporterTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:37:03.681 [Thread-1] LaneAgentTopicSubscriber - Connected
-[INFO ] 2022-11-23 11:37:03.683 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:37:03.683 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:37:03.701 [Timer] LaneAgent - Message alive sent
 [INFO ] 2022-11-23 11:37:03.713 [Thread-1] LaneAgentTopicSubscriber - Lane agent Subscribed. Wait for the message to be received
 [INFO ] 2022-11-23 11:37:03.887 [Thread-11] MQTTImporterTopicSubscriber - Connected
@@ -5218,7 +5218,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:37:39.938 [Thread-5] MQTTImporterTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:37:40.452 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:37:40.452 [Thread-5] MQTTImporterTopicSubscriber - Connected
-[INFO ] 2022-11-23 11:37:40.455 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:37:40.455 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:37:40.456 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
 [INFO ] 2022-11-23 11:37:40.456 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 11:37:40.480 [Timer] LaneAgent - Message alive sent
@@ -5633,7 +5633,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:40:12.628 [Thread-1] LaneAgentTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:40:22.823 [Thread-7] MQTTImporterTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:40:23.191 [Thread-1] LaneAgentTopicSubscriber - Connected
-[INFO ] 2022-11-23 11:40:23.192 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:40:23.192 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:40:23.205 [Thread-7] MQTTImporterTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:40:23.208 [Thread-7] MQTTImporterTopicSubscriber - device: desktop-pc
 [INFO ] 2022-11-23 11:40:23.208 [Thread-7] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
@@ -5956,7 +5956,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:42:31.174 [Thread-5] MQTTImporterTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:42:31.174 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:42:31.176 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
-[INFO ] 2022-11-23 11:42:31.177 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:42:31.177 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:42:31.177 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 11:42:31.204 [Timer] LaneAgent - Message alive sent
 [INFO ] 2022-11-23 11:42:31.214 [Thread-5] MQTTImporterTopicSubscriber - device: cucina
@@ -6576,7 +6576,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:44:23.596 [Thread-5] MQTTImporterTopicSubscriber - Connecting to DeviceMQTT messaging at tcp://giacomocasa.duckdns.org:1883
 [INFO ] 2022-11-23 11:44:24.115 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:44:24.115 [Thread-5] MQTTImporterTopicSubscriber - Connected
-[INFO ] 2022-11-23 11:44:24.117 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:44:24.117 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:44:24.117 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
 [INFO ] 2022-11-23 11:44:24.119 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 11:44:24.156 [Thread-1] LaneAgentTopicSubscriber - Lane agent Subscribed. Wait for the message to be received
@@ -6643,7 +6643,7 @@ Received a Message!
 [INFO ] 2022-11-23 11:45:34.972 [Thread-1] LaneAgentTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:45:34.972 [Thread-5] MQTTImporterTopicSubscriber - Connected
 [INFO ] 2022-11-23 11:45:34.975 [Thread-5] MQTTImporterTopicSubscriber - device: desktop-pc
-[INFO ] 2022-11-23 11:45:34.975 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/command/lane2
+[INFO ] 2022-11-23 11:45:34.975 [Thread-1] LaneAgentTopicSubscriber - Subscribing client to topic: laneagents/CommandReceiver.command/lane2
 [INFO ] 2022-11-23 11:45:34.975 [Thread-5] MQTTImporterTopicSubscriber - Subscribing client to topic: laneagents/statusupdate/lane1
 [INFO ] 2022-11-23 11:45:35.007 [Thread-1] LaneAgentTopicSubscriber - Lane agent Subscribed. Wait for the message to be received
 [INFO ] 2022-11-23 11:45:35.009 [Thread-5] MQTTImporterTopicSubscriber - device: cucina

@@ -1,4 +1,4 @@
-package command;
+package CommandReceiver.command;
 
 import helper.MQTTTopicPublisher;
 import org.apache.logging.log4j.LogManager;

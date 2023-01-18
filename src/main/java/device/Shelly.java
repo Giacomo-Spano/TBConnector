@@ -1,13 +1,13 @@
 package device;
 
 import helper.MQTTTopicPublisher;
+import helper.MQTTTopicSubPub;
 import helper.MQTTTopicSubscriber;
 import importer.ShelliesMQTTImporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
 
@@ -18,12 +18,10 @@ import java.util.UUID;
 
 public class Shelly extends Device {
     private static final Logger LOGGER = LogManager.getLogger(Shelly.class);
-
     String host;
     String prefix;
     String user;
     String password;
-
     private String infoTopic = "info";
     public Shelly(Device device) {
         super(device);
@@ -31,7 +29,6 @@ public class Shelly extends Device {
 
     public Shelly(JSONObject json) {
         super(json);
-
     }
 
     public void setMQTTdata(String host,String prefix, String user,String password) {
@@ -50,7 +47,7 @@ public class Shelly extends Device {
         LOGGER.info("subscribeDeviceMessages");
         LOGGER.info("subscribe to new device messages");
         String shellyTopic = prefix + this.getName() + "/#";
-        this.mqttTopicSubscriber = new MQTTTopicSubscriber(host, "shimporter" + this.getId() + "_",user, password, shellyTopic, new MqttCallbackExtended() {
+        this.mqttTopicSubscriber = new MQTTTopicSubPub(host, "shimporter" + this.getId() + "_",user, password, shellyTopic, new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
                 mqttTopicSubscriber.subscribe(shellyTopic,0);
@@ -111,18 +108,17 @@ public class Shelly extends Device {
             LOGGER.info("param: " + param.toString());
         if (command.equals("announce")) {
             sendAnnounceCommand();
+        } else {
+            LOGGER.info("command not found");
         }
     }
     public void sendAnnounceCommand() {
         LOGGER.info("sendAnnounceCommand");
         try {
-            MQTTTopicPublisher publisher = new MQTTTopicPublisher();
+            //MQTTTopicPublisher publisher = new MQTTTopicPublisher();
             String clientID = "announcecommand_" + UUID.randomUUID().toString().substring(0,8);
-            if (publisher.createConnection(host, clientID, user, password)) {
-                String topic = prefix + getId() + "/command";
-                publisher.publishMessage(topic, "announce");
-                publisher.closeConnection();
-            }
+            String topic = prefix + getId() + "/command";
+            String message = "announce";
         } catch (Exception e) {
             // TODO Auto-generated catch block
             LOGGER.error("failed to publish telemetry" + e.toString());

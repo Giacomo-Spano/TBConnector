@@ -2,7 +2,8 @@
 importers:
   - importer: shelliesmqtt
     name: MQTT importer
-    host: tcp://153.77.136.201:1883
+#    host: tcp://153.77.136.201:1883
+    host: tcp://192.168.1.143:1883
     user: "giacomo"
     password: "giacomo"
     prefix: shellies/
@@ -13,20 +14,36 @@ exporters:
     user: "giacomo"
     password: "giacomo"
     prefix: update
-controllers:
-  - controller: mqttcontroller
-    name: MQTT controller
+receivers:
+  - receiver: mqttreceiver
+    name: MQTT receiver
     host: ws://giacomocasa.duckdns.org:9001
     user: "giacomo"
     password: "giacomo"
-    prefix: ""
-    topic: /controller/command
+    prefix: receiver/
+  - receiver: mqttproxyreceiver
+    name: MQTT receiver
+    host: ws://giacomocasa.duckdns.org:9001
+    user: "giacomo"
+    password: "giacomo"
+    prefix: proxyreceiver/
+    topic: command
+emulators:
+  - emulator: shellyemulator
+    name: "ShellyEmulator1x"
+    id : "00001"
+    host: tcp://192.168.1.143:1883
+#    host: tcp://192.168.1.143:1883
+    user: "giacomo"
+    password: "giacomo"
+    prefix: shellies/
+    model: "SHPLG-S"
 agents:
 #  - name: lane2
 #    type: lane
 #    host: giacomocasa.duckdns.org:1883
 #    user: giacomo
 #    password: giacomo
-#    topic: laneagents/command
+#    topic: laneagents/CommandReceiver.command
 #    publishtopic: laneagents/statusupdate
 

@@ -1,4 +1,4 @@
-package command;
+package CommandReceiver.command;
 
 
 public class CommandResult {

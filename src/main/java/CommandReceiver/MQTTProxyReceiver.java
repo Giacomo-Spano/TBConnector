@@ -1,11 +1,8 @@
-package CommandControllers;
+package CommandReceiver;
 
-import command.Command;
-import config.Configuration;
 import device.Device;
 import device.DeviceList;
 import helper.MQTTTopicSubscriber;
-import importer.Importer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -13,12 +10,12 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
 
-import java.util.Iterator;
+import java.util.UUID;
 
-public class MQTTCommandController extends CommandController implements DeviceList.DeviceListener {
-    private static final Logger LOGGER = LogManager.getLogger(MQTTCommandController.class);
+public class MQTTProxyReceiver extends Receiver implements DeviceList.DeviceListener {
+    private static final Logger LOGGER = LogManager.getLogger(MQTTProxyReceiver.class);
 
-    public MQTTCommandController(CommandController controller) {
+    public MQTTProxyReceiver(Receiver controller) {
         super(controller);
     }
 
@@ -27,10 +24,14 @@ public class MQTTCommandController extends CommandController implements DeviceLi
 
     @Override
     public void deviceAdded(Device newDevice) {
-        // subscribe to MQTT  to receive command request sent to devices
+        // subscribe to MQTT  to receive CommandReceiver.command request sent to devices
+
+    }
+
+    public void init() {
         String host = gethost();
         LOGGER.info("host: " + host);
-        String clientId = "mqttcontroller_" + newDevice.getId();
+        String clientId = "mqttproxyreceiver_" + "_" +  UUID.randomUUID().toString().substring(0,8);
         LOGGER.info("clientId: " + clientId);
         String user = getUser();
         LOGGER.info("user: " + user);
@@ -43,31 +44,29 @@ public class MQTTCommandController extends CommandController implements DeviceLi
         MQTTTopicSubscriber ts = new MQTTTopicSubscriber(host, clientId, user, password, topic, new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
-                String id = newDevice.getId();
-                LOGGER.error("connection lost " + newDevice.getId());
+
+                LOGGER.error("connection lost");
             }
 
             @Override
             public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-                String topic = s;
                 String message = new String(mqttMessage.getPayload());
                 LOGGER.info("messageArrived - topic: " + topic + "message: " + message + ", " + host + ", " + clientId + ", " + user + ", " + password);
-                JSONObject json;
                 try {
-                    json = new JSONObject(message);
+                    JSONObject json = new JSONObject(message);
                     if (json.has("deviceid") && json.has("command")) {
                         String deviceid = json.getString("deviceid");
-                        LOGGER.error("device id: " + deviceid);
+                        LOGGER.info("device id: " + deviceid);
                         String command = json.getString("command");
-                        LOGGER.error("command: " + command);
+                        LOGGER.info("CommandReceiver.command: " + command);
                         JSONObject param = null;
                         if (json.has("param")) {
                             param = json.getJSONObject("param");
-                            LOGGER.error("param: " + param.toString());
+                            LOGGER.info("param: " + param.toString());
                         }
                         sendCommand(deviceid, command, param);
                     } else {
-                        LOGGER.error("device id or command not found");
+                        LOGGER.error("device id or CommandReceiver.command not found");
                     }
                 } catch (Exception e) {
                     LOGGER.error("JSON error");
@@ -81,15 +80,5 @@ public class MQTTCommandController extends CommandController implements DeviceLi
         });
         Thread thread = new Thread(ts);
         thread.start();
-    }
-
-    public void init() {
-        if (Configuration.getImporters() != null && Configuration.getImporters().size() > 0) {
-            Iterator<Importer> importerIterator = Configuration.getImporters().iterator();
-            while (importerIterator.hasNext()) {
-                Importer importer = importerIterator.next();
-                importer.getDevicesList().addListener(this);
-            }
-        }
     }
 }

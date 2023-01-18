@@ -20,13 +20,13 @@ controllers:
     user: "giacomo"
     password: "giacomo"
     prefix: ""
-    topic: /controller/command
+    topic: /controller/CommandReceiver.command
 agents:
 #  - name: lane2
 #    type: lane
 #    host: giacomocasa.duckdns.org:1883
 #    user: giacomo
 #    password: giacomo
-#    topic: laneagents/command
+#    topic: laneagents/CommandReceiver.command
 #    publishtopic: laneagents/statusupdate
 

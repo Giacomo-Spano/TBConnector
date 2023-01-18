@@ -21,7 +21,7 @@ public class ShellyPM extends Shelly {
     public void receiveMessage(LocalDateTime localDateTime, String topic, String message) {
         String command = topic.replace(ShelliesMQTTImporter.prefix, "");
         command = command.replace(getName() + "/", "");
-        LOGGER.info("command:" + command);
+        LOGGER.info("CommandReceiver.command:" + command);
 
         if (command.equals(powerTopic)) {
             LOGGER.info("Received power update");
