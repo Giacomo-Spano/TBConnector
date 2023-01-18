@@ -13,15 +13,15 @@ receivers:
     password: "giacomo"
     prefix: proxyreceiver/
     topic: command
-  - receiver: mqttthingsboardreceiver
-    name: MQTT thingsBoard receiver
-    host: tcp://192.168.1.188:1883
-    user: ""
-    password: ""
+#  - receiver: mqttthingsboardreceiver
+#    name: MQTT thingsBoard receiver
+#    host: tcp://192.168.1.188:1883
+#    user: ""
+#    password: ""
 ##    user:    --- device id
 ##    password: ""
-    prefix: receiver/
-    topic: v1/devices/me/rpc/request/+
+ #   prefix: receiver/
+ #   topic: v1/devices/me/rpc/request/+
 
 #  - controller: mqttcontroller
 
@@ -49,12 +49,12 @@ importers:
     password: "giacomo"
     prefix: "update"
 
-  - importer: shelliesmqtt
-    name: MQTT importer
-    host: tcp://giacomocasa.duckdns.org:1883
-    user: "giacomo"
-    password: "giacomo"
-    prefix: shellies/
+#  - importer: shelliesmqtt
+#    name: MQTT importer
+#    host: tcp://giacomocasa.duckdns.org:1883
+#    user: "giacomo"
+#    password: "giacomo"
+#    prefix: shellies/
 #    devices:
 #  - importer: mqttimporter
 #    name: MQTT importer
@@ -118,17 +118,19 @@ exporters:
 #    DBName: postgres
 #    user: postgres
 #    password: docker
-  - exporter: mqttwebsocket
-    name: MQTT websocket exporter
-    host: ws://giacomocasa.duckdns.org:9001
-    user: "giacomo"
-    password: "giacomo"
-    prefix: update
+#  - exporter: mqttwebsocket
+#    name: MQTT websocket exporter
+#    host: ws://giacomocasa.duckdns.org:9001
+#    user: "giacomo"
+#    password: "giacomo"
+#    prefix: update
   - exporter: thingsboard
     name: Thingsboard exporter
     host: tcp://192.168.1.188:1883
+    user: ""
+    password: ""
     topic: v1/devices/me/telemetry
-    prefix: giacomo.spano@libero.it/update
+    prefix: ""
 #  - exporter: prometheus
 #    name: Prometheus exporter
 #    port: 8081

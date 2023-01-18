@@ -10,6 +10,8 @@ import kafka.SimpleProducer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -57,6 +59,27 @@ public class CommandController /*extends CommandController implements DeviceList
             }
         }
         return new CommandResult(counter.incrementAndGet(), String.format(template, name));
+    }
+
+
+    @RequestMapping(value = "/emulators")
+    public String emulators(Model model) {
+
+        // add `message` attribute
+        model.addAttribute("message", "Thank you for visiting.");
+
+        // return view name
+        return "emulators";
+    }
+
+    @GetMapping("/")
+    public String index(Model model) {
+
+        // add `message` attribute
+        model.addAttribute("message", "Thank you for visiting.");
+
+        // return view name
+        return "index";
     }
 
 
